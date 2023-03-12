@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:med_o_care/View/Auth/login.dart';
-
+import 'View/Auth/sign_up.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -11,11 +10,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Med-O-Care',
+      title: 'MedOCare',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const LoginScreen(),
+      home: const SignUpScreen(),
     );
   }
 }

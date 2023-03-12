@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:med_o_care/View/Auth/otp.dart';
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({super.key});
@@ -42,22 +41,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
             const SizedBox(
               height: 30,
             ),
-            InkWell(
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const Otp()));
-              },
-              child: Container(
-                height: 50,
-                decoration: BoxDecoration(
-                  color: const Color(0xFF537FE7),
-                  borderRadius: BorderRadius.circular(50),
-                ),
-                child: const Center(
-                  child: Text("Send OTP"),
-                ),
-              ),
-            ),
+          
           ]))),
     ));
   }
