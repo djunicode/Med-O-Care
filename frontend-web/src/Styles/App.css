@@ -5,6 +5,7 @@
 body {
     background-color: #E9F8F9;
 }
+
 main{
     min-height: 100vh;
     display: flex;
