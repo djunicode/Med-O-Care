@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:form_field_validator/form_field_validator.dart';
+import 'package:med_o_care/Constant/constants.dart';
 import 'package:med_o_care/View/Auth/forgot_password.dart';
 import 'package:med_o_care/View/Auth/sign_up.dart';
 
@@ -12,137 +14,166 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailcontroller = TextEditingController();
   TextEditingController passcontroller = TextEditingController();
-  bool passToggle = true;
+  bool pass = true;
   bool rememberMe = false;
+  final _formkey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: SingleChildScrollView(
-            child: Form(
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-              Image.asset(
-                "D:\\Flutter_projects\\Med-O-Care\\med_o_care\\assets\\med-o-care_logofont_wobg.png",
-                height: 250,
-                width: 250,
-                alignment: Alignment.center,
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              TextFormField(
-                keyboardType: TextInputType.emailAddress,
-                controller: emailcontroller,
-                decoration: const InputDecoration(
-                  labelText: "Email",
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(50))),
-                  prefixIcon: Icon(Icons.email),
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: SingleChildScrollView(
+          child: Form(
+              key: _formkey,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              child:
+                  Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+                Image.asset(
+                  logoname,
+                  height: 250,
+                  width: 250,
+                  alignment: Alignment.center,
                 ),
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              TextFormField(
-                obscuringCharacter: '*',
-                keyboardType: TextInputType.text,
-                controller: passcontroller,
-                decoration: InputDecoration(
+                const SizedBox(
+                  height: 30,
+                ),
+                TextFormField(
+                  keyboardType: TextInputType.emailAddress,
+                  controller: emailcontroller,
+                  decoration: const InputDecoration(
+                    labelText: "Email",
+                    hintText: 'Enter your email',border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(50))),
+                    prefixIcon: Icon(Icons.email),
+                    fillColor: Colors.white,
+                    filled: true,
+                  ),
+                  validator: MultiValidator([
+                    EmailValidator(
+                        errorText: "  " 'Please enter a valid email address'),
+                    RequiredValidator(errorText: "    " '*Required')
+                  ]),
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                TextFormField(
+                  obscureText: pass,
+                  keyboardType: TextInputType.text,
+                  controller: passcontroller,
+                  decoration: InputDecoration(
                     labelText: "Password",
+                    hintText: 'Enter your password',
                     border: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(50))),
                     prefixIcon: const Icon(Icons.lock),
-                    suffix: InkWell(
+                    fillColor: Colors.white,
+                    filled: true,
+                    suffixIcon: GestureDetector(
                       onTap: () {
                         setState(() {
-                          passToggle = !passToggle;
+                          pass = !pass;
                         });
                       },
                       child: Icon(
-                          passToggle ? Icons.visibility : Icons.visibility_off),
-                    )),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Checkbox(
-                          value: rememberMe,
-                          onChanged: (bool? value) {
-                            setState(() {
-                              rememberMe = value!;
-                            });
-                          }),
-                      const Text("Remember Me"),
-                    ],
+                        pass ? Icons.visibility : Icons.visibility_off,
+                        color: Colors.black,
+                      ),
+                    ),
                   ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const ForgotPassword()));
-                    },
-                    child: const Text("Forgot Password?"),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              InkWell(
-                onTap: () {},
-                child: Container(
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF537FE7),
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                  child: const Center(
-                    child: Text("Log In"),
-                  ),
+                  validator: RequiredValidator(errorText: "   " '*Required'),
                 ),
-              ),
-              const Divider(),
-              InkWell(
-                onTap: () {},
-                child: Container(
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: const Color(0xffffffff),
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                  child: Row(children: [
-                    const Text("LogIn With GOOGLE"),
-                    Image.asset(
-                      'google.png',
-                      height: 25,
-                      width: 25,
-                    )
-                  ]),
+                const SizedBox(
+                  height: 20,
                 ),
-              ),
-              Row(
-                children: [
-                  const Text("Don't have an account?"),
-                  TextButton(
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Checkbox(
+                            value: rememberMe,
+                            onChanged: (bool? value) {
+                              setState(() {
+                                rememberMe = value!;
+                              });
+                            }),
+                        const Text("Remember Me"),
+                      ],
+                    ),
+                    TextButton(
                       onPressed: () {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const SignUpScreen()));
+                                builder: (context) => const ForgotPassword()));
                       },
-                      child: const Text("Sign UP!"))
-                ],
-              )
-            ]))),
+                      child: const Text("Forgot Password?",
+                          style: TextStyle(
+                            color: Colors.red,
+                          )),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                InkWell(
+                  onTap: () {},
+                  child: Container(
+                    height: 55,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF537FE7),
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    child: const Center(
+                      child:
+                          Text("Log In", style: TextStyle(color: Colors.white,fontSize: 20)),
+                    ),
+                  ),
+                ),
+                const Divider(),
+                Container(
+                  height: 55,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      color: Colors.white),
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(50),
+                    highlightColor: Colors.white,
+                    onTap: () {},
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text("LogIn With GOOGLE"),
+                          Image.asset(
+                            'assets/images/google.png',
+                            height: 35,
+                          )
+                        ]),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text("Don't have an account?"),
+                      TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const SignUpScreen()));
+                          },
+                          child: const Text("Signup"))
+                    ],
+                  ),
+                )
+              ])),
+        ),
       ),
     );
   }

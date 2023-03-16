@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:med_o_care/Constant/constants.dart';
 import 'package:med_o_care/View/Auth/reset_password.dart';
 
 class Otp extends StatelessWidget {
@@ -7,128 +7,52 @@ class Otp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: SingleChildScrollView(
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: SingleChildScrollView(
           child: Form(
               child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Image.asset(
-                "D:\\Flutter_projects\\Med-O-Care\\med_o_care\\assets\\med-o-care_logofont_wobg.png",
+                logoname,
                 height: 250,
                 width: 250,
                 alignment: Alignment.center,
               ),
               const SizedBox(
-                height: 30,
+                height: 10,
               ),
-              const Text("Reset Password"),
-              const Text("Enter the OTP recieved on your email address."),
+              const Text(
+                "Reset Password",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 200),
+                  child: const Text(
+                    "Enter the OTP recieved on your email address.",
+                    textAlign: TextAlign.center,
+                  )),
+              const SizedBox(
+                height: 20,
+              ),const Text(
+                "Enter OTP",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 10,),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SizedBox(
-                    height: 50,
-                    width: 24,
-                    child: TextFormField(
-                      onChanged: (value) {
-                        if (value.length == 1) {
-                          FocusScope.of(context).nextFocus();
-                        }
-                      },
-                      keyboardType: TextInputType.number,
-                      textAlign: TextAlign.center,
-                      inputFormatters: [
-                        LengthLimitingTextInputFormatter(1),
-                        FilteringTextInputFormatter.digitsOnly,
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 50,
-                    width: 24,
-                    child: TextField(
-                      onChanged: (value) {
-                        if (value.length == 1) {
-                          FocusScope.of(context).nextFocus();
-                        }
-                      },
-                      keyboardType: TextInputType.number,
-                      textAlign: TextAlign.center,
-                      inputFormatters: [
-                        LengthLimitingTextInputFormatter(1),
-                        FilteringTextInputFormatter.digitsOnly,
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 50,
-                    width: 24,
-                    child: TextField(
-                      onChanged: (value) {
-                        if (value.length == 1) {
-                          FocusScope.of(context).nextFocus();
-                        }
-                      },
-                      keyboardType: TextInputType.number,
-                      textAlign: TextAlign.center,
-                      inputFormatters: [
-                        LengthLimitingTextInputFormatter(1),
-                        FilteringTextInputFormatter.digitsOnly,
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 50,
-                    width: 24,
-                    child: TextField(
-                      onChanged: (value) {
-                        if (value.length == 1) {
-                          FocusScope.of(context).nextFocus();
-                        }
-                      },
-                      keyboardType: TextInputType.number,
-                      textAlign: TextAlign.center,
-                      inputFormatters: [
-                        LengthLimitingTextInputFormatter(1),
-                        FilteringTextInputFormatter.digitsOnly,
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 50,
-                    width: 24,
-                    child: TextField(
-                      onChanged: (value) {
-                        if (value.length == 1) {
-                          FocusScope.of(context).nextFocus();
-                        }
-                      },
-                      keyboardType: TextInputType.number,
-                      textAlign: TextAlign.center,
-                      inputFormatters: [
-                        LengthLimitingTextInputFormatter(1),
-                        FilteringTextInputFormatter.digitsOnly,
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 50,
-                    width: 24,
-                    child: TextField(
-                      onChanged: (value) {
-                        if (value.length == 1) {
-                          FocusScope.of(context).nextFocus();
-                        }
-                      },
-                      keyboardType: TextInputType.number,
-                      textAlign: TextAlign.center,
-                      inputFormatters: [
-                        LengthLimitingTextInputFormatter(1),
-                        FilteringTextInputFormatter.digitsOnly,
-                      ],
-                    ),
-                  ),
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: const [
+                  OtpFielf(),
+                  OtpFielf(),
+                  OtpFielf(),
+                  OtpFielf(),
+                  OtpFielf(),
+                  OtpFielf(),
                 ],
               ),
               Row(
@@ -142,8 +66,10 @@ class Otp extends StatelessWidget {
               ),
               InkWell(
                 onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const ResetPassword()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ResetPassword()));
                 },
                 child: Container(
                   height: 50,
@@ -152,7 +78,7 @@ class Otp extends StatelessWidget {
                     borderRadius: BorderRadius.circular(50),
                   ),
                   child: const Center(
-                    child: Text("Confirm OTP"),
+                    child: Text("Confirm OTP",style: TextStyle(color: Colors.white,fontSize: 20),),
                   ),
                 ),
               ),

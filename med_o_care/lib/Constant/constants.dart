@@ -1,19 +1,20 @@
 // ignore_for_file: unnecessary_string_escapes
-
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-String logoname = "med_o_care\assets\med-o-care_logofont_wobg.png";
-String logo = "med_o_care\assets\med-o-care1_wobg.png";
-String text = "med_o_care\assets\med-o-care font_wobg.png";
+String logoname = 'assets/images/med-o-care_logofont_wobg.png';
+String logo = 'assets/images/med-o-care1_wobg.png';
+String text = 'assets/images/med-o-care font_wobg.png';
+String google = 'assets/images/google.png';
 
-const COLOR_PRIMARY = Color(0xFF537FE7);
-const COLOR_ACCENT = Color(0xFF06283D);
+const colorPrimary = Color(0xFF537FE7);
+const colorAccent = Color(0xFF06283D);
 
 ThemeData lightTheme = ThemeData(
     brightness: Brightness.light,
-    primaryColor: COLOR_PRIMARY,
+    primaryColor: colorPrimary,
     floatingActionButtonTheme:
-        const FloatingActionButtonThemeData(backgroundColor: COLOR_ACCENT),
+        const FloatingActionButtonThemeData(backgroundColor: colorAccent),
     elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
             padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
@@ -21,7 +22,7 @@ ThemeData lightTheme = ThemeData(
             shape: MaterialStateProperty.all<OutlinedBorder>(
                 RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.0))),
-            backgroundColor: MaterialStateProperty.all<Color>(COLOR_ACCENT))),
+            backgroundColor: MaterialStateProperty.all<Color>(colorAccent))),
     inputDecorationTheme: InputDecorationTheme(
         border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(20.0),
@@ -53,3 +54,37 @@ ThemeData darkTheme = ThemeData(
           overlayColor: MaterialStateProperty.all<Color>(Colors.black26))),
   colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.white),
 );
+
+class OtpFielf extends StatelessWidget {
+  const OtpFielf({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 40,
+      width: 45,
+      child: TextFormField(
+        textAlignVertical: TextAlignVertical.top,
+        onChanged: (value) {
+          if (value.length == 1) {
+            FocusScope.of(context).nextFocus();
+          } else {
+            FocusScope.of(context).previousFocus();
+          }
+        },
+        decoration: const InputDecoration(
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(15))),
+          fillColor: Colors.white,
+          filled: true,
+        ),
+        keyboardType: TextInputType.number,
+        textAlign: TextAlign.center,
+        inputFormatters: [
+          LengthLimitingTextInputFormatter(1),
+          FilteringTextInputFormatter.digitsOnly,
+        ],
+      ),
+    );
+  }
+}
