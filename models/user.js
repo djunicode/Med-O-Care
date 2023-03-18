@@ -58,11 +58,11 @@ const userSchema = new Schema({
         type: Number,
         default: 0
     },
-    height: Number,  // Just either m or inch
+    height: Number,  // only meters
     weight: Number,  // unit is Kg
     health_score: Number,
-    peiod_lastDay: Date, // not sure
-    priod_how_long: Number,
+    period_lastDay: Date, // not sure
+    period_how_long: Number,
     period_mc_duration: Number,
     period_dates: [{
         type: Date // unsure
@@ -78,7 +78,7 @@ const userSchema = new Schema({
 userSchema.pre("save", async function(next) {
     try{
         const salt = await bcrypt.genSalt(10)
-        const hashedPass = await bcrypt.hash(this.password, salt)
+        const hashedPass = bcrypt.hash(this.password, salt)
         this.password = hashedPass
         next()
     }catch(error){
