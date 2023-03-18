@@ -15,7 +15,7 @@ async function verifyToken(req, res, next) {
     
         const decode = JWT.verify(token, process.env.SECRET_KEY);
         console.log(decode);
-        req.user = await UserSchema.findById({ _id: decode.id }, { password: 0 });
+        req.user = await UserSchema.findById({ _id: decode.id });
 
         if (!req.user)
         {
