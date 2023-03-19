@@ -5,7 +5,16 @@ const bcrypt = require("bcryptjs");
 require('dotenv').config();
 
 const userSchema = new Schema({
-    name: {
+    fName: {
+        type: String,
+        required: true,
+        validate(value){
+            if (!(/^[A-Za-z\s]*$/.test(value))) {
+                throw new Error("Name should contain only alphabets and spaces");
+            }
+        }
+    },
+    lName: {
         type: String,
         required: true,
         validate(value){
@@ -70,7 +79,10 @@ const userSchema = new Schema({
     pill_reminder: [{
         name: Date,
         duration: Number
-    }]
+    }],
+    OTP: {
+        type : Number,
+    }
 }, {timestamps: true});
 
 
