@@ -18,6 +18,7 @@ const router = createBrowserRouter(
       <Route path="signup" element={<SignupPage />} />
       <Route path="login" element={<LoginPage />} />
       <Route path="forgotpassword" element={<ForgotPasswordPage />} />
+      <Route path="/otp" element={<OTPPage />} />
     </Route>
   )
 )
