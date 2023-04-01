@@ -3,7 +3,7 @@ const signAccessToken = require('../middlewares/auth').signAccessToken;
 const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
 const otpGenerator = require("otp-generator")
-
+const multer = require("multer");
 const fs = require('fs');
 
 // let mailTransporter = nodemailer.createTransport({
@@ -222,11 +222,72 @@ const updateUser = async (req, res) => {
     }
   };
 
+
+//upload medical records
+
+const uploadMedical = async(req,res) => {
+    try{
+    const userEmail = req.user.email
+
+    const buffer = req.files
+      const arrOfPosts = []
+      var fileCount = 0
+      for (var i = 0; i < buffer.length; i++) {
+        arrOfPosts[i] = buffer[i].buffer
+        fileCount++
+      }
+
+    await UserSchema.findOne({ email : userEmail}, {medicalFiles: arrOfPosts, medicalFileCount: fileCount})
+
+    res.status(201).json({
+        success: true,
+        message: "Record uploaded succedfully!",
+      })
+    }catch(err){
+        res.status(500).json({
+            success: false,
+            message: err.message,
+          })
+    }
+}
+
+//upload insurance records
+
+const uploadInsurance = async(req,res) => {
+    try{
+        const userEmail = req.user.email
+
+    const buffer = req.files
+      const arrOfPosts = []
+      var fileCount = 0
+      for (var i = 0; i < buffer.length; i++) {
+        arrOfPosts[i] = buffer[i].buffer
+        fileCount++
+      }
+    
+      
+
+    await UserSchema.findOne({ email : userEmail}, {insuranceFiles: arrOfPosts, insuranceFileCount: fileCount})
+    res.status(201).json({
+        success: true,
+        message: "Record uploaded succedfully!",
+      });
+    }catch(err){
+        res.status(500).json({
+            success: false,
+            message: err.message,
+          })
+    }
+
+}
+
 module.exports = {
     createUser,
     loginUser,
     profile,
     forgotPSWD,
     verifyOTP,
-    updateUser
+    updateUser,
+    uploadMedical,
+    uploadInsurance
 }

@@ -25,6 +25,7 @@ const userSchema = new Schema({
     },
     role: {
         type: String,
+        enum: ["user","doctor"],
         default: "user"
     },
     pfp: {
@@ -59,11 +60,19 @@ const userSchema = new Schema({
         min: 100000000000,  // Coz 12 digits
         max: 999999999999
     },
-    files: [{
+    medicalFiles: [{
         name: String,
-        file: Buffer
+        type: Buffer
     }],
-    fileCount: {
+    medicalFileCount: {
+        type: Number,
+        default: 0
+    },
+    insuranceFiles: [{
+        name: String,
+        type: Buffer
+    }],
+    insuranceFileCount: {
         type: Number,
         default: 0
     },
