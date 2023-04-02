@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Box, Grid, TextField, Typography, Button } from '@mui/material';
-import logo from '../Components/images/logo.png';
-import doctor from '../Components/images/doctor.png';
+import logo from '../Assets/logo.png';
+import doctor from '../Assets/doctor.png';
 import InputAdornment from '@mui/material/InputAdornment';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
