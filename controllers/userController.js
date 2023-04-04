@@ -1,10 +1,11 @@
-const UserSchema = require('../models/user');
-const signAccessToken = require('../middlewares/auth').signAccessToken;
-const bcrypt = require('bcrypt');
-const nodemailer = require('nodemailer');
-const otpGenerator = require("otp-generator")
+const UserSchema = require("../models/user");
+const signAccessToken = require("../middlewares/auth").signAccessToken;
+const bcrypt = require("bcrypt");
+const nodemailer = require("nodemailer");
+const otpGenerator = require("otp-generator");
 const multer = require("multer");
-const fs = require('fs');
+const fs = require("fs");
+const axios = require("axios");
 
 // let mailTransporter = nodemailer.createTransport({
 //     service: "gmail",
@@ -13,281 +14,358 @@ const fs = require('fs');
 //       pass: process.env.PASSWORD,
 //     },
 //     port: 4,
-//   }); 
+//   });
 
 // New user
 const createUser = async (req, res) => {
-    try {
-        let userData = new UserSchema(req.body);
-        let savedUserData = await userData.save();
-        let id = savedUserData._id;
-        let userMail = savedUserData.email;
-        
-        // mailTransporter.sendMail({
-        //     from: process.env.EMAIL,
-        //     to: userMail,
-        //     subject: "Thank you for creating an account with us" + savedUserData.fName,
-        //     text: "We hope you have a good time with our app.",
-        // }); 
-        
-        let pass = await UserSchema.findById( { _id: id }, {password: 0} ); //to hide hashed pswd
-  
-        const accessToken = await signAccessToken(savedUserData._id);
-        res.status(201).json({
-            success: true,
-            data: pass,
-            token: accessToken,
-        });
-    } catch (error) {
-      res.status(500).json({
-        success: false,
-        error: error.message,
-        });
-    }
-  };
+  try {
+    let userData = new UserSchema(req.body);
+    let savedUserData = await userData.save();
+    let id = savedUserData._id;
+    let userMail = savedUserData.email;
 
+    // mailTransporter.sendMail({
+    //     from: process.env.EMAIL,
+    //     to: userMail,
+    //     subject: "Thank you for creating an account with us" + savedUserData.fName,
+    //     text: "We hope you have a good time with our app.",
+    // });
+
+    let pass = await UserSchema.findById({ _id: id }, { password: 0 }); //to hide hashed pswd
+
+    const accessToken = await signAccessToken(savedUserData._id);
+    res.status(201).json({
+      success: true,
+      data: pass,
+      token: accessToken,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: error.message,
+    });
+  }
+};
 
 // Login
 const loginUser = async (req, res) => {
-    try {
-        const email = req.body.email;
-        const password = req.body.password;
-        const user = await UserSchema.findOne({ email: email });
-    
-        if (!user) {
-            return res.status(400).json({
-                error: "User does not exist"
-            });
-        }
-    
-        const withoutPswd = await UserSchema.findOne({ email: email }, {password: 0} );
-    
-        if (await bcrypt.compare(password, user.password)) {
-            const token = await signAccessToken(user._id);
-            res.status(200).json({
-                success: true,
-                data: withoutPswd,
-                token: token,
-            });
-        } else {
-            res.status(400).json({
-                success: false,
-                error: "Wrong password",
-            });
-        }
-    } catch (error) {
-        res.status(500).json({
-            success: false,
-            error: error.message,
-        });
+  try {
+    const email = req.body.email;
+    const password = req.body.password;
+    const user = await UserSchema.findOne({ email: email });
+
+    if (!user) {
+      return res.status(400).json({
+        error: "User does not exist",
+      });
     }
+
+    const withoutPswd = await UserSchema.findOne(
+      { email: email },
+      { password: 0 }
+    );
+
+    if (await bcrypt.compare(password, user.password)) {
+      const token = await signAccessToken(user._id);
+      res.status(200).json({
+        success: true,
+        data: withoutPswd,
+        token: token,
+      });
+    } else {
+      res.status(400).json({
+        success: false,
+        error: "Wrong password",
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: error.message,
+    });
+  }
 };
 
 // Get account details
-const profile = async(req, res) => {
-    try {
-        
-        res.status(200).json({
-            success: true,
-            data: req.user
-        })
-    } catch (error) {
-        res.status(500).json({
-            success: false,
-            error: error.message,
-        });
-    }
-}
-
-//forgot password 
-
-const forgotPSWD = async (req,res) => {
-    try{
-    const email = req.body.email
-    const user = await UserSchema.findOne({email : email})
-
-    if(!user){
-        res.status(404).json({
-            success: false,
-            message: "User not found"
-        })
-
-    const token = await signAccessToken(user._id)
-
-    const otp = otpGenerator.generate(6, {
-      lowerCaseAlphabets: false,
-      upperCaseAlphabets: false,
-      specialChars: false,
+const profile = async (req, res) => {
+  try {
+    res.status(200).json({
+      success: true,
+      data: req.user,
     });
-    await UserSchema.findOneAndUpdate({ email: email }, { OTP: otp })
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: error.message,
+    });
+  }
+};
 
-    mailTransporter.sendMail({
+//forgot password
+
+const forgotPSWD = async (req, res) => {
+  try {
+    const email = req.body.email;
+    const user = await UserSchema.findOne({ email: email });
+
+    if (!user) {
+      res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+
+      const token = await signAccessToken(user._id);
+
+      const otp = otpGenerator.generate(6, {
+        lowerCaseAlphabets: false,
+        upperCaseAlphabets: false,
+        specialChars: false,
+      });
+      await UserSchema.findOneAndUpdate({ email: email }, { OTP: otp });
+
+      mailTransporter.sendMail({
         from: process.env.EMAIL,
         to: user.email,
         subject: "Forgot Password",
         text: "Enter the following OTP to reset password " + otp,
       });
 
-    res.status(200).json({
-        success : true,
+      res.status(200).json({
+        success: true,
         message: "OTP sent via mail",
-        token : token
-    })
-  
-
-    }}catch(err){
-        res.status(500).json({
-            success: false,
-            message: err.message
-        })
+        token: token,
+      });
     }
-}
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
+  }
+};
 
 //enter otp for pswd reset
 
-const verifyOTP = async(req,res) => {
+const verifyOTP = async (req, res) => {
+  try {
+    const otp = req.body.otp;
+    const user = await UserSchema.find({ email: req.user.email });
 
-    try{
-    const otp = req.body.otp
-    const user = await UserSchema.find({email : req.user.email})
+    if (user.OTP == otp) {
+      await UserSchema.findOneAndUpdate(
+        { email: req.user.email },
+        { $set: { OTP: null } }
+      );
 
-    if(user.OTP == otp){
-        await UserSchema.findOneAndUpdate({email : req.user.email}, { $set : {OTP : null}})
+      const token = await signAccessToken(user._id);
 
-        const token = await signAccessToken(user._id)
-
-        res.status(200).json({
-            success : true,
-            message: "OTP verified",
-            token : token
-        })
-    }else{
-        res.status(400).json({
-            success : true,
-            message: "Wrong OTP entered",
-        })
+      res.status(200).json({
+        success: true,
+        message: "OTP verified",
+        token: token,
+      });
+    } else {
+      res.status(400).json({
+        success: true,
+        message: "Wrong OTP entered",
+      });
     }
-}catch(err){
-        res.status(500).json({
-            success: false,
-            message: err.message
-        })
-    }
-
-}
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
+  }
+};
 
 //edit user info
 
 const updateUser = async (req, res) => {
-    let email = req.user.email;
-  
-    const updates = Object.keys(req.body);
-    const allowedUpdates = ["fname", "lname", "number", "password", "email"];
-    const isValidOperation = updates.every((update) =>
-      allowedUpdates.includes(update)
-    );
-  
-    if (!isValidOperation) {
-      return res.status(400).json({ message: "Invalid Updates!" });
-    }
-  
-    let user = await UserSchema.findOne({ email: email });
-  
-    if (!user) {
-      res.status(404).json({
-        success: false,
-        message: "User not found",
-      });
-    } else {
-      try {
-        await UserSchema.findOneAndUpdate({ email: email },{ $set: req.body })
-  
-        if(req.body.password){
+  let email = req.user.email;
+
+  const updates = Object.keys(req.body);
+  const allowedUpdates = ["fname", "lname", "number", "password", "email"];
+  const isValidOperation = updates.every((update) =>
+    allowedUpdates.includes(update)
+  );
+
+  if (!isValidOperation) {
+    return res.status(400).json({ message: "Invalid Updates!" });
+  }
+
+  let user = await UserSchema.findOne({ email: email });
+
+  if (!user) {
+    res.status(404).json({
+      success: false,
+      message: "User not found",
+    });
+  } else {
+    try {
+      await UserSchema.findOneAndUpdate({ email: email }, { $set: req.body });
+
+      if (req.body.password) {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(req.body.password, salt);
-        let newPswd = await UserSchema.findOneAndUpdate({ email: email },{ password: hashedPassword })
-        }
-  
-        
-        res.status(201).json({
-          success: true,
-          data: req.body,
-        });
-      } catch (err) {
-        res.status(500).json({
-          success: false,
-          message: err.message,
-        });
+        let newPswd = await UserSchema.findOneAndUpdate(
+          { email: email },
+          { password: hashedPassword }
+        );
       }
-    }
-  };
 
+      res.status(201).json({
+        success: true,
+        data: req.body,
+      });
+    } catch (err) {
+      res.status(500).json({
+        success: false,
+        message: err.message,
+      });
+    }
+  }
+};
 
 //upload medical records
 
-const uploadMedical = async(req,res) => {
-    try{
-    const userEmail = req.user.email
+const uploadMedical = async (req, res) => {
+  try {
+    const userEmail = req.user.email;
 
-    const buffer = req.files
-      const arrOfPosts = []
-      var fileCount = 0
-      for (var i = 0; i < buffer.length; i++) {
-        arrOfPosts[i] = buffer[i].buffer
-        fileCount++
-      }
+    const buffer = req.files;
+    const arrOfPosts = [];
+    var fileCount = 0;
+    for (var i = 0; i < buffer.length; i++) {
+      arrOfPosts[i] = buffer[i].buffer;
+      fileCount++;
+    }
 
-    await UserSchema.findOne({ email : userEmail}, {medicalFiles: arrOfPosts, medicalFileCount: fileCount})
+    await UserSchema.findOne(
+      { email: userEmail },
+      { medicalFiles: arrOfPosts, medicalFileCount: fileCount }
+    );
 
     res.status(201).json({
-        success: true,
-        message: "Record uploaded succedfully!",
-      })
-    }catch(err){
-        res.status(500).json({
-            success: false,
-            message: err.message,
-          })
-    }
-}
+      success: true,
+      message: "Record uploaded succedfully!",
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
+  }
+};
 
 //upload insurance records
 
-const uploadInsurance = async(req,res) => {
-    try{
-        const userEmail = req.user.email
+const uploadInsurance = async (req, res) => {
+  try {
+    const userEmail = req.user.email;
 
-    const buffer = req.files
-      const arrOfPosts = []
-      var fileCount = 0
-      for (var i = 0; i < buffer.length; i++) {
-        arrOfPosts[i] = buffer[i].buffer
-        fileCount++
-      }
-    
-      
-
-    await UserSchema.findOne({ email : userEmail}, {insuranceFiles: arrOfPosts, insuranceFileCount: fileCount})
-    res.status(201).json({
-        success: true,
-        message: "Record uploaded succedfully!",
-      });
-    }catch(err){
-        res.status(500).json({
-            success: false,
-            message: err.message,
-          })
+    const buffer = req.files;
+    const arrOfPosts = [];
+    var fileCount = 0;
+    for (var i = 0; i < buffer.length; i++) {
+      arrOfPosts[i] = buffer[i].buffer;
+      fileCount++;
     }
 
-}
+    await UserSchema.findOne(
+      { email: userEmail },
+      { insuranceFiles: arrOfPosts, insuranceFileCount: fileCount }
+    );
+    res.status(201).json({
+      success: true,
+      message: "Record uploaded succedfully!",
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
+  }
+};
+
+//all exercise list
+
+const allExercises = async (req, res) => {
+  try {
+    const options = {
+      method: "GET",
+      url: "https://exercisedb.p.rapidapi.com/exercises",
+      headers: {
+        "X-RapidAPI-Key": "a16a9a5eb5mshea867fe9416d5d9p19682bjsn2c1aa50b5729",
+        "X-RapidAPI-Host": "exercisedb.p.rapidapi.com",
+      },
+    };
+
+    const response = await axios.request(options);
+
+    if (!response) {
+      res.status(501).json({
+        success: false,
+        message: err.message,
+      });
+    } else {
+      res.status(200).json({
+        success: true,
+        data: response.data,
+      });
+    }
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
+  }
+};
+
+//get exercise by body part
+
+const specificExercise = async (req, res) => {
+  try {
+    const bodyPart = req.body.bodyPart;
+
+    const options = {
+      method: "GET",
+      url: "https://exercisedb.p.rapidapi.com/exercises/bodyPart/" + bodyPart,
+      headers: {
+        "X-RapidAPI-Key": "a16a9a5eb5mshea867fe9416d5d9p19682bjsn2c1aa50b5729",
+        "X-RapidAPI-Host": "exercisedb.p.rapidapi.com",
+      },
+    };
+
+    const response = await axios.request(options);
+
+    if (!response) {
+      res.status(501).json({
+        success: false,
+        message: err.message,
+      });
+    } else {
+      res.status(200).json({
+        success: true,
+        data: response.data,
+      });
+    }
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
+  }
+};
 
 module.exports = {
-    createUser,
-    loginUser,
-    profile,
-    forgotPSWD,
-    verifyOTP,
-    updateUser,
-    uploadMedical,
-    uploadInsurance
-}
+  createUser,
+  loginUser,
+  profile,
+  forgotPSWD,
+  verifyOTP,
+  updateUser,
+  uploadMedical,
+  uploadInsurance,
+  allExercises,
+  specificExercise
+};

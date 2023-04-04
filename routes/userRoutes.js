@@ -21,12 +21,19 @@ router.get("/forgotPSWD", userC.forgotPSWD)
 router.get("/verifyOTP", auth.verifyToken, userC.verifyOTP)   //then hit edit user api details to reset password
 
 //edit user details
-router.post("/editUserInfo", auth.verifyToken, userC.updateUser)
+router.put("/editUserInfo", auth.verifyToken, userC.updateUser)
 
 //upload medical records
 router.post("/uploadMedical", auth.verifyToken, fileVerify.fileVerifyPfp.array('files'), userC.uploadMedical)
 
 //upload insurance records
 router.post("/uploadInsurance", auth.verifyToken, fileVerify.fileVerifyPfp.array('files'), userC.uploadInsurance)
+
+//get list of all exercises that can be performed
+router.get("/allExercises", auth.verifyToken, userC.allExercises)
+
+//get specific exercise
+router.get("/specificExercises", auth.verifyToken, userC.specificExercise)
+
 
 module.exports = router;
