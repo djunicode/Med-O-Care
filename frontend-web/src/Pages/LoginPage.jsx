@@ -2,8 +2,8 @@ import React from 'react';
 import './LoginPage.css';
 import { Button, TextField, InputAdornment } from '@mui/material';
 import { EmailOutlined, LockOutlined, VisibilityOffOutlined, Google } from '@mui/icons-material';
-import doctor from '../Components/doctor.svg';
-import logo from '../Components/logo.png';
+import doctor from '../Assets/doctor.png';
+import logo from '../Assets/logo.png';
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
@@ -117,7 +117,7 @@ export const LoginPage = () => {
                         Remember me
                     </div>
                     <div id='fp'>
-                        <Link to='/forgotpassword'>Forgot Password?</Link>
+                        <Link to='forgotpassword'>Forgot Password?</Link>
                     </div>
                 </div>
                 <Button variant="contained" type="submit" id="submit" onClick={submitForm}

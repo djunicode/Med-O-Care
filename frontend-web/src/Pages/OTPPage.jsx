@@ -1,6 +1,6 @@
 import React from 'react';
-import doctor from '../Components/doctor.svg';
-import logo from '../Components/logo.png';
+import doctor from '../Assets/doctor.png';
+import logo from '../Assets/logo.png';
 import { Button, TextField } from '@mui/material';
 import './OTPPage.css';
 // import { color } from '@mui/system';
