@@ -13,6 +13,8 @@ import ForgotPasswordPage from "./Pages/ForgotPasswordPage";
 import UploadRecords from "./Pages/UploadRecords";
 import Healthscore from "./Pages/Healthscore";
 import PeriodTracker from "./Pages/PeriodTracker";
+import OTPPage from "./Pages/OTPPage";
+import History from "./Pages/History";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -27,7 +29,8 @@ const router = createBrowserRouter(
         <Route path="periodtracker" element={<PeriodTracker />} />
         <Route path="forgotpassword" element={<ForgotPasswordPage />} />
         <Route path="forgotpassword" element={<ForgotPasswordPage />} />
-        <Route path="/otp" element={<OTPPage />} />
+        <Route path="otp" element={<OTPPage />} />
+        <Route path ="history" element={<History />} />
       </Route>
       
     </Route>
