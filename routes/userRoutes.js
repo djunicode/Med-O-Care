@@ -29,11 +29,5 @@ router.post("/uploadMedical", auth.verifyToken, fileVerify.fileVerifyPfp.array('
 //upload insurance records
 router.post("/uploadInsurance", auth.verifyToken, fileVerify.fileVerifyPfp.array('files'), userC.uploadInsurance)
 
-//get list of all exercises that can be performed
-router.get("/allExercises", auth.verifyToken, userC.allExercises)
-
-//get specific exercise
-router.get("/specificExercises", auth.verifyToken, userC.specificExercise)
-
 
 module.exports = router;

@@ -287,76 +287,6 @@ const uploadInsurance = async (req, res) => {
   }
 };
 
-//all exercise list
-
-const allExercises = async (req, res) => {
-  try {
-    const options = {
-      method: "GET",
-      url: "https://exercisedb.p.rapidapi.com/exercises",
-      headers: {
-        "X-RapidAPI-Key": "a16a9a5eb5mshea867fe9416d5d9p19682bjsn2c1aa50b5729",
-        "X-RapidAPI-Host": "exercisedb.p.rapidapi.com",
-      },
-    };
-
-    const response = await axios.request(options);
-
-    if (!response) {
-      res.status(501).json({
-        success: false,
-        message: err.message,
-      });
-    } else {
-      res.status(200).json({
-        success: true,
-        data: response.data,
-      });
-    }
-  } catch (err) {
-    res.status(500).json({
-      success: false,
-      message: err.message,
-    });
-  }
-};
-
-//get exercise by body part
-
-const specificExercise = async (req, res) => {
-  try {
-    const bodyPart = req.body.bodyPart;
-
-    const options = {
-      method: "GET",
-      url: "https://exercisedb.p.rapidapi.com/exercises/bodyPart/" + bodyPart,
-      headers: {
-        "X-RapidAPI-Key": "a16a9a5eb5mshea867fe9416d5d9p19682bjsn2c1aa50b5729",
-        "X-RapidAPI-Host": "exercisedb.p.rapidapi.com",
-      },
-    };
-
-    const response = await axios.request(options);
-
-    if (!response) {
-      res.status(501).json({
-        success: false,
-        message: err.message,
-      });
-    } else {
-      res.status(200).json({
-        success: true,
-        data: response.data,
-      });
-    }
-  } catch (err) {
-    res.status(500).json({
-      success: false,
-      message: err.message,
-    });
-  }
-};
-
 module.exports = {
   createUser,
   loginUser,
@@ -366,6 +296,4 @@ module.exports = {
   updateUser,
   uploadMedical,
   uploadInsurance,
-  allExercises,
-  specificExercise
 };
