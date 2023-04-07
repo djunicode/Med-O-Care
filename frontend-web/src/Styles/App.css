@@ -1,12 +1,13 @@
-*{
-    font-family: 'Poppins', sans-serif;
+* {
+    font-family: "Poppins", sans-serif;
+    box-sizing: border-box;
 }
 
 body {
-    background-color: #E9F8F9;
+    background-color: #e9f8f9;
 }
 
-main{
+main {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
