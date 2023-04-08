@@ -5,6 +5,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 
 const userRoutes = require("./routes/userRoutes");
+const exerciseRoutes = require("./routes/exerciseRoutes");
 
 const app = express();
 app.use(bodyParser.json());
@@ -27,6 +28,9 @@ if (process.env.NODE_ENV === "development") {
 // user
 app.use("/user", userRoutes);
 
+//exercises
+app.use("/exercise", exerciseRoutes);
+
 app.listen(process.env.PORT || 3001, () =>
-    console.log(`Listening on port 3001`)
+    console.log(`Listening on port 3001`)
 );
