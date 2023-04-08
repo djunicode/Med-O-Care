@@ -12,10 +12,10 @@ router.get("/allExercises", exerciseC.allExercises)
 //get specific exercise
 router.post("/specificExercises", exerciseC.specificExercise)
 
-//list of target muscle
+//list of target muscles in body
 router.get("/targetMuscle", exerciseC.listOfTargetMuscle)
 
-//get exercise for target muscle
+//get exercise for specific target muscle mentioned
 router.post("/targetMuscleExercise", exerciseC.targetMuscleExercise)
 
 module.exports = router;
