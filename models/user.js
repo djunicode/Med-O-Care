@@ -16,7 +16,6 @@ const userSchema = new Schema({
     },
     lName: {
         type: String,
-        required: true,
         validate(value){
             if (!(/^[A-Za-z\s]*$/.test(value))) {
                 throw new Error("Name should contain only alphabets and spaces");
@@ -99,7 +98,7 @@ const userSchema = new Schema({
 userSchema.pre("save", async function(next) {
     try{
         const salt = await bcrypt.genSalt(10)
-        const hashedPass = bcrypt.hash(this.password, salt)
+        const hashedPass = await bcrypt.hash(this.password, salt)
         this.password = hashedPass
         next()
     }catch(error){
