@@ -7,14 +7,14 @@ const multer = require("multer");
 const fs = require("fs");
 const axios = require("axios");
 
-// let mailTransporter = nodemailer.createTransport({
-//     service: "gmail",
-//     auth: {
-//       user: process.env.EMAIL,
-//       pass: process.env.PASSWORD,
-//     },
-//     port: 4,
-//   });
+let mailTransporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: process.env.EMAIL,
+      pass: process.env.PASSWORD,
+    },
+    port: 4,
+  });
 
 // New user
 const createUser = async (req, res) => {
@@ -24,12 +24,12 @@ const createUser = async (req, res) => {
     let id = savedUserData._id;
     let userMail = savedUserData.email;
 
-    // mailTransporter.sendMail({
-    //     from: process.env.EMAIL,
-    //     to: userMail,
-    //     subject: "Thank you for creating an account with us" + savedUserData.fName,
-    //     text: "We hope you have a good time with our app.",
-    // });
+    mailTransporter.sendMail({
+        from: process.env.EMAIL,
+        to: userMail,
+        subject: "Thank you for creating an account with us" + savedUserData.fName,
+        text: "We hope you have a good time with our app.",
+    });
 
     let pass = await UserSchema.findById({ _id: id }, { password: 0 }); //to hide hashed pswd
 
@@ -113,6 +113,7 @@ const forgotPSWD = async (req, res) => {
         success: false,
         message: "User not found",
       });
+    }
 
       const token = await signAccessToken(user._id);
 
@@ -135,7 +136,7 @@ const forgotPSWD = async (req, res) => {
         message: "OTP sent via mail",
         token: token,
       });
-    }
+
   } catch (err) {
     res.status(500).json({
       success: false,
