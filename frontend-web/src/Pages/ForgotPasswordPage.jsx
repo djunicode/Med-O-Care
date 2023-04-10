@@ -5,25 +5,50 @@ import { Button, TextField, InputAdornment } from "@mui/material";
 import { EmailOutlined } from "@mui/icons-material";
 import "./ForgotPasswordPage.css";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useApp } from "../Context/app-context";
+import axios from "axios";
 
 const ForgotPasswordPage = () => {
     const [email, setEmail] = useState("");
-    const [allEntry, setAllEntry] = useState([]);
+
     const validEmail = new RegExp(
-        "^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9-]+.[a-zA-Z]$"
+        "^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$"
     );
 
-    const submitForm = (e) => {
+    const navigate = useNavigate();
+    const { setCurrentUser, setUserToken } = useApp();
+
+    // useEffect(() => {
+    //     if (localStorage.getItem("isAuthorized")) {
+    //         navigate("/");
+    //     }
+    // }, [navigate]);
+
+    const submitForm = async (e) => {
         e.preventDefault();
-        if (
-            email.trim() === "" ||
-            email.trim() == null ||
-            !validEmail.test(email)
-        ) {
+
+        if (email.trim() === "" || !validEmail.test(email)) {
             alert("Please enter email correctly.");
         } else {
-            const newEntry = { id: new Date().getTime().toString(), email };
-            setAllEntry([...allEntry, newEntry]);
+            try {
+                const {
+                    data: { token, message, success },
+                } = await axios.get(
+                    "https://med-o-care.onrender.com/user/forgotPSWD",
+                    {
+                        email,
+                    },
+                    { withCredentials: true }
+                );
+
+                if (success) {
+                    // message toast
+                    navigate("/otp");
+                }
+            } catch (error) {
+                console.log(error.response?.data.error);
+            }
         }
     };
     return (

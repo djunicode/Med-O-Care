@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Grid, TextField, Typography, Button } from "@mui/material";
 import logo from "../Components/images/logo.png";
 import doctor from "../Components/images/doctor.png";
@@ -10,6 +10,10 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import MenuItem from "@mui/material/MenuItem";
 import IconButton from "@mui/material/IconButton";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { setupAuthHeaderForNetworkCalls } from "../Services/SetupAuthHeaders";
+import { useApp } from "../Context/app-context";
 
 const genders = ["Male", "Female", "Other"];
 
@@ -57,7 +61,18 @@ const SignupPage = () => {
 
     const handleClickShowPassword = () => setShowPwd((show) => !show);
 
-    const handleSubmit = () => {
+    const navigate = useNavigate();
+    const { setCurrentUser, setUserToken } = useApp();
+
+    useEffect(() => {
+        if (localStorage.getItem("isAuthorized")) {
+            navigate("/");
+        }
+    }, [navigate]);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
         !validEmail.test(formData.email)
             ? setEmailErr(true)
             : setEmailErr(false);
@@ -76,6 +91,42 @@ const SignupPage = () => {
 
         if (formData === initialState) {
             alert("Please fill all text fields!");
+        } else if (
+            !emailErr &&
+            !pwdError &&
+            !phoneError &&
+            !confirmPasswordError
+        ) {
+            try {
+                const {
+                    data: { token, data, success },
+                } = await axios.post(
+                    "https://med-o-care.onrender.com/user/signup",
+                    {
+                        email: formData.email,
+                        fName: formData.name.split(" ")[0],
+                        lName: formData.name.split(" ")[1],
+                        phone: formData.phone,
+                        dob: formData.dob,
+                        gender: formData.gender,
+                        location: formData.location,
+                        password: formData.password,
+                    },
+                    { withCredentials: true }
+                );
+
+                if (success) {
+                    setupAuthHeaderForNetworkCalls(token);
+                    setUserToken(token);
+                    localStorage.setItem("userToken", token);
+                    setCurrentUser(data);
+                    localStorage.setItem("currentUser", JSON.stringify(data));
+                    localStorage.setItem("isAuthorized", true);
+                    navigate("/");
+                }
+            } catch (error) {
+                console.log(error.response?.data.error);
+            }
         }
     };
 

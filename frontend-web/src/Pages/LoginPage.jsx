@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
     Button,
     TextField,
@@ -16,14 +16,16 @@ import {
 } from "@mui/icons-material";
 import doctor from "../Components/images/doctor.png";
 import logo from "../Components/images/logo.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import "./LoginPage.css";
+import { useApp } from "../Context/app-context";
+import axios from "axios";
+import { setupAuthHeaderForNetworkCalls } from "../Services/SetupAuthHeaders";
 
 const LoginPage = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [allEntry, setAllEntry] = useState([]);
     const [showPwd, setShowPwd] = useState(false);
 
     const handleClickShowPassword = () => setShowPwd((show) => !show);
@@ -31,36 +33,55 @@ const LoginPage = () => {
     const [isChecked, setIsChecked] = useState(false);
 
     const validEmail = new RegExp(
-        "^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9-]+.[a-zA-Z]$"
+        "^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$"
     );
     const validPassword = new RegExp("^.*(?=.{8,}).*$");
 
-    var errorE = document.getElementById("email");
-    var errorP = document.getElementById("password");
-    var errorS = document.getElementById("error");
+    const navigate = useNavigate();
+    const { setCurrentUser, setUserToken } = useApp();
 
-    const submitForm = (e) => {
+    // useEffect(() => {
+    //     if (localStorage.getItem("isAuthorized")) {
+    //         navigate("/");
+    //     }
+    // }, [navigate]);
+
+    const submitForm = async (e) => {
         e.preventDefault();
-        if (
-            email.trim() === "" ||
-            email.trim() == null ||
-            !validEmail.test(email)
-        ) {
+
+        if (email.trim() === "" || !validEmail.test(email)) {
             alert("Please enter email correctly");
         } else if (
             password.trim() === "" ||
-            password.trim() == null ||
             password.trim().length < 8 ||
             !validPassword.test(password)
         ) {
             alert("Please enter password correctly");
         } else {
-            const newEntry = {
-                id: new Date().getTime().toString(),
-                email,
-                password,
-            };
-            setAllEntry([...allEntry, newEntry]);
+            try {
+                const {
+                    data: { token, data, success },
+                } = await axios.post(
+                    "https://med-o-care.onrender.com/user/login",
+                    {
+                        email,
+                        password,
+                    },
+                    { withCredentials: true }
+                );
+
+                if (success) {
+                    setupAuthHeaderForNetworkCalls(token);
+                    setUserToken(token);
+                    localStorage.setItem("userToken", token);
+                    setCurrentUser(data);
+                    localStorage.setItem("currentUser", JSON.stringify(data));
+                    localStorage.setItem("isAuthorized", true);
+                    navigate("/");
+                }
+            } catch (error) {
+                console.log(error.response?.data.error);
+            }
         }
     };
 
@@ -103,11 +124,11 @@ const LoginPage = () => {
                 </Typography>
                 <TextField
                     id="password"
-                    type="password"
                     autoComplete="off"
                     placeholder="Enter your password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    type={showPwd ? "text" : "password"}
                     fullWidth
                     InputProps={{
                         style: {
