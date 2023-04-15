@@ -1,33 +1,42 @@
-const userC = require("../controllers/userController.js")
-const express = require("express")
-const auth = require('../middlewares/auth')
-const fileVerify = require("../middlewares/fileVerify")
+const userC = require("../controllers/userController.js");
+const express = require("express");
+const auth = require("../middlewares/auth");
+const fileVerify = require("../middlewares/fileVerify");
 
-const router = express.Router()
+const router = express.Router();
 
 // Create user
-router.post("/signup", userC.createUser)
+router.post("/signup", userC.createUser);
 
 // Login user
-router.post("/login", userC.loginUser)
+router.post("/login", userC.loginUser);
 
 // Get account details
-router.get("/profile", auth.verifyToken, userC.profile)
+router.get("/profile", auth.verifyToken, userC.profile);
 
 //send otp for forgot password
-router.get("/forgotPSWD", userC.forgotPSWD)
+router.post("/forgotPSWD", userC.forgotPSWD);
 
-//verify OTP 
-router.get("/verifyOTP", auth.verifyToken, userC.verifyOTP)   //then hit edit user api details to reset password
+//verify OTP
+router.post("/verifyOTP", auth.verifyToken, userC.verifyOTP); //then hit edit user api details to reset password
 
 //edit user details
-router.put("/editUserInfo", auth.verifyToken, userC.updateUser)
+router.put("/editUserInfo", auth.verifyToken, userC.updateUser);
 
 //upload medical records
-router.post("/uploadMedical", auth.verifyToken, fileVerify.fileVerifyPfp.array('files'), userC.uploadMedical)
+router.post(
+    "/uploadMedical",
+    auth.verifyToken,
+    fileVerify.fileVerifyPfp.array("files"),
+    userC.uploadMedical
+);
 
 //upload insurance records
-router.post("/uploadInsurance", auth.verifyToken, fileVerify.fileVerifyPfp.array('files'), userC.uploadInsurance)
-
+router.post(
+    "/uploadInsurance",
+    auth.verifyToken,
+    fileVerify.fileVerifyPfp.array("files"),
+    userC.uploadInsurance
+);
 
 module.exports = router;
