@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
-import doctor from "../Components/images/doctor.png";
-import logo from "../Components/images/logo.png";
-import { Button, TextField, InputAdornment } from "@mui/material";
-import { EmailOutlined } from "@mui/icons-material";
-import "./ForgotPasswordPage.css";
+import doctor from '../Assets/doctor.png';
+import logo from '../Assets/logo.png';
+import { Button, TextField, InputAdornment } from '@mui/material';
+import { EmailOutlined } from '@mui/icons-material';
+import './ForgotPasswordPage.css';
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useApp } from "../Context/app-context";

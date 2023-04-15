@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import doctor from "../Components/images/doctor.png";
-import logo from "../Components/images/logo.png";
+import React from 'react';
+import doctor from '../Assets/doctor.png';
+import logo from '../Assets/logo.png';
 import { Button, TextField } from "@mui/material";
 import "./OTPPage.css";
 import { Link, useNavigate } from "react-router-dom";

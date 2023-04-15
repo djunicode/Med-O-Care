@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { Box, Grid, TextField, Typography, Button } from "@mui/material";
-import logo from "../Components/images/logo.png";
-import doctor from "../Components/images/doctor.png";
-import InputAdornment from "@mui/material/InputAdornment";
-import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
-import MailOutlineIcon from "@mui/icons-material/MailOutline";
-import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import MenuItem from "@mui/material/MenuItem";
-import IconButton from "@mui/material/IconButton";
+import React, { useEffect, useState } from 'react'
+import { Box, Grid, TextField, Typography, Button } from '@mui/material';
+import logo from '../Assets/logo.png';
+import doctor from '../Assets/doctor.png';
+import InputAdornment from '@mui/material/InputAdornment';
+import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+import MailOutlineIcon from '@mui/icons-material/MailOutline';
+import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import MenuItem from '@mui/material/MenuItem';
+import IconButton from '@mui/material/IconButton';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { setupAuthHeaderForNetworkCalls } from "../Services/SetupAuthHeaders";

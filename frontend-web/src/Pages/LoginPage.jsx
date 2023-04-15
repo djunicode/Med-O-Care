@@ -1,3 +1,6 @@
+import doctor from '../Assets/doctor.png';
+import logo from '../Assets/logo.png';
+import { Link } from "react-router-dom";
 import React, { useEffect } from "react";
 import {
     Button,
@@ -14,10 +17,7 @@ import {
     VisibilityOff,
     Visibility,
 } from "@mui/icons-material";
-import doctor from "../Components/images/doctor.png";
-import logo from "../Components/images/logo.png";
-import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+
 import "./LoginPage.css";
 import { useApp } from "../Context/app-context";
 import axios from "axios";
