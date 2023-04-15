@@ -1,9 +1,9 @@
 import "./Styles/App.css";
 import {
-  createBrowserRouter,
-  Route,
-  createRoutesFromElements,
-  RouterProvider,
+    createBrowserRouter,
+    Route,
+    createRoutesFromElements,
+    RouterProvider,
 } from "react-router-dom";
 import RootLayout from "./Layouts/RootLayout";
 import HomePage from "./Pages/HomePage";
@@ -14,6 +14,7 @@ import UploadRecords from "./Pages/UploadRecords";
 import Healthscore from "./Pages/Healthscore";
 import PeriodTracker from "./Pages/PeriodTracker";
 import OTPPage from "./Pages/OTPPage";
+import ResetPassword from "./Pages/ResetPassword";
 import History from "./Pages/History";
 
 const router = createBrowserRouter(
@@ -27,9 +28,9 @@ const router = createBrowserRouter(
         <Route path="uploadrecords" element={<UploadRecords />} />
         <Route path="healthscore" element={<Healthscore />} />
         <Route path="periodtracker" element={<PeriodTracker />} />
-        <Route path="forgotpassword" element={<ForgotPasswordPage />} />
-        <Route path="forgotpassword" element={<ForgotPasswordPage />} />
-        <Route path="otp" element={<OTPPage />} />
+         <Route path="forgot-password" element={<ForgotPasswordPage />} />
+            <Route path="otp" element={<OTPPage />} />
+            <Route path="reset-password" element={<ResetPassword />} />
         <Route path ="history" element={<History />} />
       </Route>
       

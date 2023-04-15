@@ -1,26 +1,60 @@
-import React from 'react';
+import React, { useEffect } from "react";
 import doctor from '../Assets/doctor.png';
 import logo from '../Assets/logo.png';
 import { Button, TextField, InputAdornment } from '@mui/material';
 import { EmailOutlined } from '@mui/icons-material';
 import './ForgotPasswordPage.css';
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useApp } from "../Context/app-context";
+import axios from "axios";
+import { setupAuthHeaderForNetworkCalls } from "../Services/SetupAuthHeaders";
 
-export const ForgotPasswordPage = () => {
+const ForgotPasswordPage = () => {
     const [email, setEmail] = useState("");
-    const [allEntry, setAllEntry] = useState([]);
-    const validEmail = new RegExp("^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9-]+.[a-zA-Z]$");
 
-    const submitForm = (e) => {
+    const validEmail = new RegExp(
+        "^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$"
+    );
+
+    const navigate = useNavigate();
+    const { setUserToken } = useApp();
+
+    useEffect(() => {
+        if (localStorage.getItem("isAuthorized")) {
+            navigate("/");
+        }
+    }, [navigate]);
+
+    const submitForm = async (e) => {
         e.preventDefault();
-        if (email.trim() === "" || email.trim() == null || !validEmail.test(email)) {
-            alert("Please enter email correctly.")
+
+        if (email.trim() === "" || !validEmail.test(email)) {
+            alert("Please enter email correctly.");
+        } else {
+            try {
+                const {
+                    data: { token, message, success },
+                } = await axios.post(
+                    `${process.env.REACT_APP_API_ENDPOINT}/user/forgotPSWD`,
+                    {
+                        email,
+                    },
+                    { withCredentials: true }
+                );
+
+                if (success) {
+                    // message toast
+                    setupAuthHeaderForNetworkCalls(token);
+                    setUserToken(token);
+                    localStorage.setItem("userToken", token);
+                    navigate("/otp");
+                }
+            } catch (error) {
+                console.log(error.response?.data.error);
+            }
         }
-        else {
-            const newEntry = { id: new Date().getTime().toString(), email };
-            setAllEntry([...allEntry, newEntry]);
-        }
-    }
+    };
     return (
         <div class="grid-container">
             <br></br>
@@ -29,12 +63,16 @@ export const ForgotPasswordPage = () => {
             <div id="forgotpass">
                 <br></br>
                 <br></br>
-                <span style={{
-                    fontFamily: 'Poppins',
-                    width: '317',
-                    height: '25',
-                    fontSize: '32'
-                }}><b>Reset Password</b></span>
+                <span
+                    style={{
+                        fontFamily: "Poppins",
+                        width: "317",
+                        height: "25",
+                        fontSize: "32",
+                    }}
+                >
+                    <b>Reset Password</b>
+                </span>
                 <br></br>
                 <br></br>
                 <br></br>
@@ -46,37 +84,44 @@ export const ForgotPasswordPage = () => {
                 <br></br>
                 <TextField
                     id="email"
-                    placeholder='Enter your email'
+                    placeholder="Enter your email"
                     autoComplete="off"
                     onChange={(e) => setEmail(e.target.value)}
                     sx={{ width: 440.08, height: 40, padding: 1, margin: 2 }}
                     InputProps={{
                         style: {
-                            border: '2px solid rgba(130, 170, 227, 1)',
-                            borderRadius: '50px',
-                            textAlign: 'center',
-                            color: 'rgba(0, 0, 0, 1)',
-                            backgroundColor: '#FFFFFF',
-                            height: '70',
-                            width: '440.08'
+                            border: "2px solid rgba(130, 170, 227, 1)",
+                            borderRadius: "50px",
+                            textAlign: "center",
+                            color: "rgba(0, 0, 0, 1)",
+                            backgroundColor: "#FFFFFF",
+                            height: "70",
+                            width: "440.08",
                         },
                         startAdornment: (
                             <InputAdornment position="start">
                                 <EmailOutlined />
                             </InputAdornment>
                         ),
-                    }}></TextField>
+                    }}
+                ></TextField>
                 <br></br>
                 <br></br>
-                <Button variant="contained" type="submit" id="submit" onClick={submitForm}
+                <Button
+                    variant="contained"
+                    type="submit"
+                    id="submit"
+                    onClick={submitForm}
                     sx={{ width: 440.08, height: 40, padding: 1, margin: 2 }}
-                >Send OTP</Button>
+                >
+                    Send OTP
+                </Button>
             </div>
-            <div id='image'>
-                <img src={logo} alt="logo" height='310' width='395' />
-                <img src={doctor} alt="doctor" height='210' width='365' />
+            <div id="image">
+                <img src={logo} alt="logo" height="310" width="395" />
+                <img src={doctor} alt="doctor" height="210" width="365" />
             </div>
         </div>
-    )
-}
+    );
+};
 export default ForgotPasswordPage;
