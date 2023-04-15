@@ -40,11 +40,11 @@ const LoginPage = () => {
     const navigate = useNavigate();
     const { setCurrentUser, setUserToken } = useApp();
 
-    // useEffect(() => {
-    //     if (localStorage.getItem("isAuthorized")) {
-    //         navigate("/");
-    //     }
-    // }, [navigate]);
+    useEffect(() => {
+        if (localStorage.getItem("isAuthorized")) {
+            navigate("/");
+        }
+    }, [navigate]);
 
     const submitForm = async (e) => {
         e.preventDefault();
@@ -62,7 +62,7 @@ const LoginPage = () => {
                 const {
                     data: { token, data, success },
                 } = await axios.post(
-                    "https://med-o-care.onrender.com/user/login",
+                    `${process.env.REACT_APP_API_ENDPOINT}/user/login`,
                     {
                         email,
                         password,

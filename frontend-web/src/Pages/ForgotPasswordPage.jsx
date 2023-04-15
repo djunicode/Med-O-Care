@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import doctor from "../Components/images/doctor.png";
 import logo from "../Components/images/logo.png";
 import { Button, TextField, InputAdornment } from "@mui/material";
@@ -8,6 +8,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useApp } from "../Context/app-context";
 import axios from "axios";
+import { setupAuthHeaderForNetworkCalls } from "../Services/SetupAuthHeaders";
 
 const ForgotPasswordPage = () => {
     const [email, setEmail] = useState("");
@@ -17,13 +18,13 @@ const ForgotPasswordPage = () => {
     );
 
     const navigate = useNavigate();
-    const { setCurrentUser, setUserToken } = useApp();
+    const { setUserToken } = useApp();
 
-    // useEffect(() => {
-    //     if (localStorage.getItem("isAuthorized")) {
-    //         navigate("/");
-    //     }
-    // }, [navigate]);
+    useEffect(() => {
+        if (localStorage.getItem("isAuthorized")) {
+            navigate("/");
+        }
+    }, [navigate]);
 
     const submitForm = async (e) => {
         e.preventDefault();
@@ -34,8 +35,8 @@ const ForgotPasswordPage = () => {
             try {
                 const {
                     data: { token, message, success },
-                } = await axios.get(
-                    "https://med-o-care.onrender.com/user/forgotPSWD",
+                } = await axios.post(
+                    `${process.env.REACT_APP_API_ENDPOINT}/user/forgotPSWD`,
                     {
                         email,
                     },
@@ -44,6 +45,9 @@ const ForgotPasswordPage = () => {
 
                 if (success) {
                     // message toast
+                    setupAuthHeaderForNetworkCalls(token);
+                    setUserToken(token);
+                    localStorage.setItem("userToken", token);
                     navigate("/otp");
                 }
             } catch (error) {

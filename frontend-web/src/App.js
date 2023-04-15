@@ -11,6 +11,7 @@ import SignupPage from "./Pages/SignupPage";
 import LoginPage from "./Pages/LoginPage";
 import ForgotPasswordPage from "./Pages/ForgotPasswordPage";
 import OTPPage from "./Pages/OTPPage";
+import ResetPassword from "./Pages/ResetPassword";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -20,6 +21,7 @@ const router = createBrowserRouter(
             <Route path="login" element={<LoginPage />} />
             <Route path="forgot-password" element={<ForgotPasswordPage />} />
             <Route path="otp" element={<OTPPage />} />
+            <Route path="reset-password" element={<ResetPassword />} />
         </Route>
     )
 );

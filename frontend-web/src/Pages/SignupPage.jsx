@@ -101,7 +101,7 @@ const SignupPage = () => {
                 const {
                     data: { token, data, success },
                 } = await axios.post(
-                    "https://med-o-care.onrender.com/user/signup",
+                    `${process.env.REACT_APP_API_ENDPOINT}/user/signup`,
                     {
                         email: formData.email,
                         fName: formData.name.split(" ")[0],
@@ -123,6 +123,7 @@ const SignupPage = () => {
                     localStorage.setItem("currentUser", JSON.stringify(data));
                     localStorage.setItem("isAuthorized", true);
                     navigate("/");
+                    // add toasts and feedback for backend errors
                 }
             } catch (error) {
                 console.log(error.response?.data.error);
