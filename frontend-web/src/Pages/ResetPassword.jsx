@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import doctor from "../Components/images/doctor.png";
-import logo from "../Components/images/logo.png";
+import doctor from "../Assets/doctor.png";
+import logo from "../Assets/logo.png";
 import {
     Button,
     TextField,
