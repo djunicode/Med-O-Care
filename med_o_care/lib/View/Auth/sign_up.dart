@@ -151,13 +151,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       flex: 2,
                       child: TextFormField(
                         keyboardType: TextInputType.emailAddress,
-                        controller: gendercontroller,readOnly: true,
+                        controller: gendercontroller,
+                        readOnly: true,
                         decoration: const InputDecoration(
-                          labelText: "Gender",hintText: "Gender",
+                          labelText: "Gender",
+                          hintText: "Gender",
                           border: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(50))),
-                          suffixIcon:Icon(Icons.arrow_downward_outlined),
+                          suffixIcon: Icon(Icons.keyboard_arrow_down),
                           fillColor: Colors.white,
                           filled: true,
                         ),
@@ -179,7 +181,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       fillColor: Colors.white,
                       filled: true,
                       prefixIcon: Icon(Icons.location_on),
-                      suffixIcon: Icon(Icons.arrow_drop_down_sharp)),
+                      suffixIcon: Icon(Icons.keyboard_arrow_down)),
                 ),
                 const SizedBox(
                   height: 30,
