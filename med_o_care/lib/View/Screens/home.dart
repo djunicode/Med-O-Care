@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:med_o_care/Constant/colors.dart';
-import 'package:med_o_care/Constant/constants.dart';
 import 'package:med_o_care/View/Medicines/medicines_page.dart';
+import 'package:med_o_care/View/Profile/profile.dart';
+import 'package:med_o_care/View/Upload/my_files.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -13,8 +14,10 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int selectedIndex = 0;
-  List<Widget> _navigationScreens = [
-    MedicinesPage(),
+  final List<Widget> _navigationScreens = [
+    const MedicinesPage(),
+    const UploadFiles(),
+    const ProfilePage()
   ];
 
   List<NavigationItem> items = [
@@ -55,15 +58,15 @@ class _HomeState extends State<Home> {
             ),
           ),
           Expanded(
-            child: _navigationScreens[0],
+            child: _navigationScreens[2],
           )
         ]),
       ),
       bottomNavigationBar: Container(
         width: MediaQuery.of(context).size.width,
         height: 70.0,
-        padding: EdgeInsets.symmetric(horizontal: 10.0),
-        decoration: BoxDecoration(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        decoration: const BoxDecoration(
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(15), topRight: Radius.circular(10)),
             color: ResourceColors.colorTertiaryLightTheme),
@@ -94,13 +97,13 @@ class NavigationItem {
 }
 
 Widget _buildItem(NavigationItem item, bool isSelected) {
-  return Container(
+  return SizedBox(
     height: 60.0,
     width: 60.0,
     child: Column(
       children: [
         if (isSelected)
-          Card(
+          const Card(
             borderOnForeground: false,
             elevation: 5,
             shadowColor: ResourceColors.colorPrimaryLightTheme,
@@ -117,7 +120,7 @@ Widget _buildItem(NavigationItem item, bool isSelected) {
         ),
         Text(
           item.title,
-          style: TextStyle(fontSize: 10),
+          style: const TextStyle(fontSize: 10),
         )
       ],
     ),

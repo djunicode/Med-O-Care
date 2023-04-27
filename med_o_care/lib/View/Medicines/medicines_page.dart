@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:med_o_care/View/Medicines/widgets.dart';
 
 class MedicinesPage extends StatefulWidget {
   const MedicinesPage({super.key});
@@ -20,7 +21,7 @@ class _MedicinesPageState extends State<MedicinesPage> {
             controller: searchController,
             decoration: InputDecoration(
               hintText: 'Search',
-              border: OutlineInputBorder(
+              border: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(50))),
               prefixIcon: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -34,6 +35,18 @@ class _MedicinesPageState extends State<MedicinesPage> {
               filled: true,
             ),
           ),
+          Expanded(
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: 5,
+                  itemBuilder: (context, index) {
+                    return const MedicineWidget();
+                  }),
+            ),
+          )
         ],
       ),
     );

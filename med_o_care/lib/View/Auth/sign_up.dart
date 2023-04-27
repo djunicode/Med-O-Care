@@ -1,7 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:intl/intl.dart';
 import 'package:med_o_care/Constant/constants.dart';
+import 'package:med_o_care/View/Auth/services/auth_service.dart';
+import 'package:med_o_care/models/user.dart';
 import 'login.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -18,6 +22,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     'Others',
   ];
   String password = '';
+  String? dobString;
   bool pass1 = true;
   bool pass2 = true;
   String errorMessage = '';
@@ -37,6 +42,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
           child: Form(
             key: _formkey,
             autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -82,6 +88,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     fillColor: Colors.white,
                     filled: true,
                   ),
+                  validator: MultiValidator(
+                      [RequiredValidator(errorText: "    " '*Required')]),
                 ),
                 const SizedBox(
                   height: 30,
@@ -137,7 +145,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           if (pickedDate != null) {
                             String formattedDate =
                                 DateFormat('dd/MM/yyyy').format(pickedDate);
+
                             setState(() {
+                              dobString = pickedDate.toIso8601String();
                               dobcontroller.text = formattedDate;
                             });
                           } else {}
@@ -151,13 +161,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       flex: 2,
                       child: TextFormField(
                         keyboardType: TextInputType.emailAddress,
-                        controller: gendercontroller,readOnly: true,
+                        controller: gendercontroller,
+                        readOnly: true,
                         decoration: const InputDecoration(
-                          labelText: "Gender",hintText: "Gender",
+                          labelText: "Gender",
+                          hintText: "Gender",
                           border: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(50))),
-                          suffixIcon:Icon(Icons.arrow_downward_outlined),
+                          suffixIcon: Icon(Icons.arrow_downward_outlined),
                           fillColor: Colors.white,
                           filled: true,
                         ),
@@ -251,7 +263,33 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   height: 50,
                 ),
                 InkWell(
-                  onTap: () {},
+                  onTap: () async {
+                    if (_formkey.currentState!.validate()) {
+                      final newUser = user(
+                        fName: usercontroller.text.trim(),
+                        phone: int.parse(
+                          phonecontroller.text.trim(),
+                        ),
+                        email: emailcontroller.text.trim(),
+                        dob: dobString,
+                        gender: gendercontroller.text.trim(),
+                        location: locationcontroller.text.trim(),
+                        password: passcontroller.text.trim(),
+                        role: 'user',
+                      );
+                      showDialog(
+                          context: context,
+                          builder: (context) => Center(
+                                child: CircularProgressIndicator(),
+                              ));
+                      final success = await AuthService().signup(newUser);
+                      Navigator.pop(context);
+                      //log("IS SUCCESS " + success.toString());
+                      if (success) {
+                        Navigator.pushReplacementNamed(context, '/navbar');
+                      } else {}
+                    }
+                  },
                   child: Container(
                     height: 50,
                     decoration: BoxDecoration(
