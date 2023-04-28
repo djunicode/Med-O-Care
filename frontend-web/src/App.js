@@ -26,6 +26,8 @@ const router = createBrowserRouter(
         <Route path="healthscore" element={<Healthscore />} />
         <Route path="periodtracker" element={<PeriodTracker />} />
         <Route path="forgotpassword" element={<ForgotPasswordPage />} />
+        <Route path="forgotpassword" element={<ForgotPasswordPage />} />
+        <Route path="/otp" element={<OTPPage />} />
       </Route>
       
     </Route>
