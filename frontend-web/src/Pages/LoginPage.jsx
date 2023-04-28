@@ -1,170 +1,256 @@
-import React from 'react';
-import './LoginPage.css';
-import { Button, TextField, InputAdornment } from '@mui/material';
-import { EmailOutlined, LockOutlined, VisibilityOffOutlined, Google } from '@mui/icons-material';
-import doctor from '../Components/doctor.svg';
-import logo from '../Components/logo.png';
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import doctor from "../Assets/doctor.png";
+import logo from "../Assets/logo.png";
+import { Link, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import {
+    Button,
+    TextField,
+    InputAdornment,
+    Typography,
+    IconButton,
+} from "@mui/material";
+import {
+    EmailOutlined,
+    LockOutlined,
+    VisibilityOffOutlined,
+    Google,
+    VisibilityOff,
+    Visibility,
+} from "@mui/icons-material";
 
-export const LoginPage = () => {
+import "./LoginPage.css";
+import { useApp } from "../Context/app-context";
+import axios from "axios";
+import { setupAuthHeaderForNetworkCalls } from "../Services/SetupAuthHeaders";
+
+const LoginPage = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [allEntry, setAllEntry] = useState([]);
+    const [showPwd, setShowPwd] = useState(false);
+
+    const handleClickShowPassword = () => setShowPwd((show) => !show);
 
     const [isChecked, setIsChecked] = useState(false);
 
-    const validEmail = new RegExp("^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9-]+.[a-zA-Z]$");
+    const validEmail = new RegExp(
+        "^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$"
+    );
     const validPassword = new RegExp("^.*(?=.{8,}).*$");
 
-    var errorE = document.getElementById('email');
-    var errorP = document.getElementById("password");
-    var errorS = document.getElementById('error');
+    const navigate = useNavigate();
+    const { setCurrentUser, setUserToken } = useApp();
 
-    const submitForm = (e) => {
+    useEffect(() => {
+        if (localStorage.getItem("isAuthorized")) {
+            navigate("/");
+        }
+    }, [navigate]);
+
+    const submitForm = async (e) => {
         e.preventDefault();
-        if (email.trim() === "" || email.trim() == null || !validEmail.test(email)) {
+
+        if (email.trim() === "" || !validEmail.test(email)) {
             alert("Please enter email correctly");
-        }
-        else if (password.trim() === "" || password.trim() == null || password.trim().length < 8 ||
-            !validPassword.test(password)) {
+        } else if (
+            password.trim() === "" ||
+            password.trim().length < 8 ||
+            !validPassword.test(password)
+        ) {
             alert("Please enter password correctly");
+        } else {
+            try {
+                const {
+                    data: { token, data, success },
+                } = await axios.post(
+                    `${process.env.REACT_APP_API_ENDPOINT}/user/login`,
+                    {
+                        email,
+                        password,
+                    },
+                    { withCredentials: true }
+                );
+
+                if (success) {
+                    setupAuthHeaderForNetworkCalls(token);
+                    setUserToken(token);
+                    localStorage.setItem("userToken", token);
+                    setCurrentUser(data);
+                    localStorage.setItem("currentUser", JSON.stringify(data));
+                    localStorage.setItem("isAuthorized", true);
+                    navigate("/");
+                }
+            } catch (error) {
+                console.log(error.response?.data.error);
+            }
         }
-        else {
-            const newEntry = { id: new Date().getTime().toString(), email, password };
-            setAllEntry([...allEntry, newEntry]);
-        }
-    }
+    };
 
     return (
-        <div class="grid-container">
-
+        <div class="login-grid-container">
             <div id="logininfo">
-                <span hidden id='error'>Invalid email or password!</span>
-                <br></br>
-                Email
-                <br></br>
+                <span hidden id="error">
+                    Invalid email or password!
+                </span>
+                <Typography fullWidth sx={{ marginLeft: 4, fontSize: "large" }}>
+                    Email
+                </Typography>
                 <TextField
                     id="email"
-                    placeholder='Enter your email'
+                    placeholder="Enter your email"
                     autoComplete="off"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    sx={{ width: 440.08, height: 40, padding: 1, margin: 2 }}
+                    fullWidth
+                    sx={{ mb: "2rem" }}
                     InputProps={{
                         style: {
-                            border: '2px solid rgba(130, 170, 227, 1)',
-                            borderRadius: '50px',
-                            textAlign: 'center',
-                            color: 'rgba(0, 0, 0, 1)',
-                            backgroundColor: '#FFFFFF',
-                            height: '70',
-                            width: '440.08'
+                            border: "2px solid rgba(130, 170, 227, 1)",
+                            borderRadius: "50px",
+                            textAlign: "center",
+                            color: "rgba(0, 0, 0, 1)",
+                            backgroundColor: "#FFFFFF",
+                            height: "70",
+                            width: "440.08",
                         },
                         startAdornment: (
                             <InputAdornment position="start">
-                                <EmailOutlined />
+                                <EmailOutlined sx={{ ml: "5px" }} />
                             </InputAdornment>
                         ),
-                    }}>
-
-                </TextField>
-                <br></br>
-                <br></br>
-                Password
-                <br></br>
+                    }}
+                ></TextField>
+                <Typography fullWidth sx={{ marginLeft: 4, fontSize: "large" }}>
+                    Password
+                </Typography>
                 <TextField
                     id="password"
-                    type='password'
                     autoComplete="off"
-                    placeholder='Enter your password'
+                    placeholder="Enter your password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    sx={{ width: 440.08, height: 40, padding: 1, margin: 2 }}
+                    type={showPwd ? "text" : "password"}
+                    fullWidth
                     InputProps={{
                         style: {
-                            border: '2px solid rgba(130, 170, 227, 1)',
-                            borderRadius: '50px',
-                            textAlign: 'center',
-                            color: 'rgba(0, 0, 0, 1)',
-                            backgroundColor: '#FFFFFF'
+                            border: "2px solid rgba(130, 170, 227, 1)",
+                            borderRadius: "50px",
+                            textAlign: "center",
+                            color: "rgba(0, 0, 0, 1)",
+                            backgroundColor: "#FFFFFF",
                         },
                         startAdornment: (
                             <InputAdornment position="start">
-                                <LockOutlined />
+                                <LockOutlined sx={{ ml: "5px" }} />
                             </InputAdornment>
                         ),
                         endAdornment: (
                             <InputAdornment position="end">
-                                <VisibilityOffOutlined />
+                                <IconButton
+                                    aria-label="toggle password visibility"
+                                    onClick={handleClickShowPassword}
+                                    edge="end"
+                                    sx={{ mr: "0.5px" }}
+                                >
+                                    {showPwd ? (
+                                        <VisibilityOff color="disabled" />
+                                    ) : (
+                                        <Visibility color="disabled" />
+                                    )}
+                                </IconButton>
                             </InputAdornment>
                         ),
-                    }}>
-                </TextField>
-                <br></br>
-                <div class="grid-container1">
-                    <div id='rm'>
+                    }}
+                ></TextField>
+                <div class="login-flex-btns">
+                    <div id="rm">
                         <input
                             type="checkbox"
                             onChange={() => {
                                 setIsChecked(!isChecked);
                             }}
                         />
-                        <span
-                            className={`checkbox ${isChecked ? "checkbox--active" : ""}`}
-                            aria-hidden="true"
-                        />
-                        Remember me
+                        <span className={"login-checkbox"} aria-hidden="true">
+                            Remember me
+                        </span>
                     </div>
-                    <div id='fp'>
-                        <Link to='/forgotpassword'>Forgot Password?</Link>
+                    <div id="fp">
+                        <Link to="/forgot-password">Forgot Password?</Link>
                     </div>
                 </div>
-                <Button variant="contained" type="submit" id="submit" onClick={submitForm}
-                    sx={{ width: 440.08, height: 40, padding: 1, margin: 2 }}
-                >Login</Button>
-                <br></br>
-                <br></br>
-                <div
-                    style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}
+                <Button
+                    variant="contained"
+                    type="submit"
+                    id="submit"
+                    fullWidth
+                    onClick={submitForm}
                 >
-                    <div style={{ flex: 1, height: '1px', width: '195.08', backgroundColor: 'rgba(0, 0, 0, 0.75)' }} />
-
-                    <div>
-                        <p style={{ width: '50px', textAlign: 'center' }}>OR</p>
-                    </div>
-
-                    <div style={{ flex: 1, height: '1px', width: '195.08', backgroundColor: 'rgba(0, 0, 0, 0.75)' }} />
-                </div>
-                <br></br>
-                <div id='google'
-                    sx={{
-                        width: 440.08,
-                        height: 40,
-                        padding: 1,
-                        margin: 2
+                    Login
+                </Button>
+                <div
+                    style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
                     }}
-                    InputProps={{
-                        style: {
-                            textAlign: 'center',
-                            width: 440.08,
-                            height: 40
-                        }
-                    }}>
-                    Login with Google&nbsp; <Google />
+                >
+                    <div
+                        style={{
+                            flex: 1,
+                            height: "1px",
+                            width: "195.08",
+                            backgroundColor: "rgba(0, 0, 0, 0.75)",
+                        }}
+                    />
+                    <div>
+                        <p style={{ width: "50px", textAlign: "center" }}>OR</p>
+                    </div>
+                    <div
+                        style={{
+                            flex: 1,
+                            height: "1px",
+                            width: "195.08",
+                            backgroundColor: "rgba(0, 0, 0, 0.75)",
+                        }}
+                    />
+                </div>
+                <div id="google">
+                    Login with Google&nbsp;
+                    <Google />
                     {/* <Link to='' underline='none'></Link> */}
                 </div>
-                <br></br>
-                <div>
-                    Don't have an account? <Link to='/signup' underline='always'>Signup</Link>
+                <div className="no-account">
+                    Don't have an account?
+                    <Link
+                        to="/signup"
+                        underline="always"
+                        style={{ paddingLeft: "1rem" }}
+                    >
+                        Signup
+                    </Link>
                 </div>
             </div>
-            <div id='image'>
-                <img src={logo} alt="logo" height='310' width='395' />
-                <img src={doctor} alt="doctor" height='210' width='365' />
+            <div id="image">
+                <img
+                    src={logo}
+                    alt="logo"
+                    style={{
+                        height: "350px",
+                        width: "350px",
+                        objectFit: "cover",
+                    }}
+                />
+                <img
+                    src={doctor}
+                    alt="doctor"
+                    style={{
+                        height: "280px",
+                        width: "440px",
+                        objectFit: "cover",
+                    }}
+                />
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default LoginPage;

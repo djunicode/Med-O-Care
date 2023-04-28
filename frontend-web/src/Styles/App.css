@@ -1,5 +1,6 @@
-*{
-    font-family: 'Poppins', sans-serif;
+* {
+    font-family: "Poppins", sans-serif;
+    box-sizing: border-box;
 }
 
 body {
@@ -7,7 +8,7 @@ body {
     margin:0;
 }
 
-main{
+main {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -28,4 +29,14 @@ main{
     margin-left: 79%;
     height: 166px;
     width: 185px;
+}
+
+/* to hide arrows from input type number in html */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type="number"] {
+    -moz-appearance: textfield;
 }
