@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Box, Grid, TextField, Typography, Button } from '@mui/material';
-import logo from '../Components/images/logo.png';
-import doctor from '../Components/images/doctor.png';
+import logo from '../Assets/logo.png';
+import doctor from '../Assets/doctor.png';
 import InputAdornment from '@mui/material/InputAdornment';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
@@ -124,7 +124,7 @@ const SignupPage = () => {
                 </Grid>
               </Grid>
               <Grid sx={gridStyle}>
-              <Typography sx={{marginLeft: 2, fontSize: 'large'}}>Location</Typography>
+                <Typography sx={{marginLeft: 2, fontSize: 'large'}}>Location</Typography>
                     <TextField id="outlined-select-currency" placeholder="Location" select value={formData.location}
                     onChange={(e) => setFormData({ ...formData, location: e.target.value})}
                             InputProps={{

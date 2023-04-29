@@ -2,7 +2,7 @@ import { Typography, Card, Box, Grid } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import logo from '../../Components/images/logo.png'
+import logo from '../../Assets/logo.png'
 import axios from 'axios'
 
 const CardCarousel = () => {
@@ -38,12 +38,11 @@ const CardCarousel = () => {
 
   return (
     <>
-      <Carousel responsive={responsive}>
-            {medicines?.map(medicine => {
-                return(
+    <Carousel responsive={responsive}>
+            {medicines?.map(medicine => (
                     <Card sx={{height: 120, width: 220, backgroundColor: '#82AAE3', borderRadius: 5, display: 'flex', padding: 2}}>
                         <Box sx={{flex: 40}}>
-                            <img src={logo} style={imageStyle}/>
+                            <img src={logo} alt='' style={imageStyle}/>
                             <Typography variant='h6'>₹50</Typography>
                         </Box>
                         <Box sx={{flex: 60}}>
@@ -58,9 +57,10 @@ const CardCarousel = () => {
                     </Card>
                 )
                 
-            })} 
+            )} 
         </Carousel>
-    </>
+        </>
+        
 
   )
 }
