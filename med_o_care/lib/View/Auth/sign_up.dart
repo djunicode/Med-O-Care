@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:intl/intl.dart';
 import 'package:med_o_care/Constant/constants.dart';
+import 'package:med_o_care/View/Screens/myprofile.dart';
 import 'login.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -151,13 +152,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       flex: 2,
                       child: TextFormField(
                         keyboardType: TextInputType.emailAddress,
-                        controller: gendercontroller,readOnly: true,
+                        controller: gendercontroller,
+                        readOnly: true,
                         decoration: const InputDecoration(
-                          labelText: "Gender",hintText: "Gender",
+                          labelText: "Gender",
+                          hintText: "Gender",
                           border: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(50))),
-                          suffixIcon:Icon(Icons.arrow_downward_outlined),
+                          suffixIcon: Icon(Icons.arrow_downward_outlined),
                           fillColor: Colors.white,
                           filled: true,
                         ),
@@ -251,7 +254,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   height: 50,
                 ),
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const MyProfile()));
+                  },
                   child: Container(
                     height: 50,
                     decoration: BoxDecoration(

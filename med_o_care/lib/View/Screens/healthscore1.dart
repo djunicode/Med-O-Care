@@ -1,0 +1,277 @@
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:med_o_care/Constant/constants.dart';
+import 'package:med_o_care/View/Screens/healthscore2.dart';
+import 'package:med_o_care/View/Screens/score_tracker.dart';
+
+class healthscore_data extends StatefulWidget {
+  const healthscore_data({super.key});
+
+  @override
+  State<healthscore_data> createState() => _healthscore_dataState();
+}
+
+class _healthscore_dataState extends State<healthscore_data> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Padding(
+        padding: EdgeInsets.all(0.5),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            SizedBox(height: 13),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                SizedBox(
+                  width: 18,
+                ),
+                Image.asset(
+                  logo,
+                  height: 65,
+                  width: 65,
+                ),
+              ],
+            ),
+            SizedBox(height: 15),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                SizedBox(width: 13),
+                IconButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(MaterialPageRoute(
+                          builder: (context) => score_tracker()));
+                    },
+                    icon: Icon(Icons.arrow_back)),
+                SizedBox(width: 7.5),
+                Container(
+                  child: Text('Calculate your Health score',
+                      style: GoogleFonts.poppins(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      )),
+                ),
+              ],
+            ),
+            SizedBox(height: 29),
+            Row(
+              children: [
+                SizedBox(width: 67),
+                Text(
+                  'Weight',
+                  style: GoogleFonts.poppins(
+                      fontSize: 13, fontWeight: FontWeight.w500),
+                ),
+              ],
+            ),
+            SizedBox(height: 5),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  height: 55,
+                  width: 275,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            child: Text(
+                              'Enter your weight',
+                              style: GoogleFonts.poppins(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black.withOpacity(0.45),
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 85),
+                          IconButton(
+                            onPressed: () {},
+                            icon: Icon(Icons.arrow_downward_sharp),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                  decoration: BoxDecoration(
+                      border: Border.all(color: colorPrimary),
+                      borderRadius: BorderRadius.circular(50),
+                      color: Colors.white),
+                ),
+              ],
+            ),
+            SizedBox(height: 30),
+            Row(
+              children: [
+                SizedBox(width: 67),
+                Text(
+                  'Height',
+                  style: GoogleFonts.poppins(
+                      fontSize: 13, fontWeight: FontWeight.w500),
+                ),
+              ],
+            ),
+            SizedBox(height: 5),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  height: 50,
+                  width: 275,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            child: Text(
+                              'Enter your height',
+                              style: GoogleFonts.poppins(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black.withOpacity(0.45),
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 85),
+                          IconButton(
+                            onPressed: () {},
+                            icon: Icon(Icons.arrow_downward_sharp),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                  decoration: BoxDecoration(
+                      border: Border.all(color: colorPrimary),
+                      borderRadius: BorderRadius.circular(50),
+                      color: Colors.white),
+                ),
+              ],
+            ),
+            SizedBox(height: 31),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => final_healthscore()));
+                  },
+                  child: Container(
+                    height: 55,
+                    width: 275,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF537FE7),
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    child: Center(
+                        child: Text(
+                      "Check",
+                      style: GoogleFonts.poppins(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white),
+                    )),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 50),
+            Row(
+              children: [
+                SizedBox(width: 39),
+                Text(
+                  'Convert',
+                  style: GoogleFonts.poppins(
+                      fontSize: 16, fontWeight: FontWeight.w500),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 8,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    // SizedBox(width: 39),
+                    Container(
+                      padding: EdgeInsets.only(left: 13),
+                      height: 55,
+                      width: 120,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                'Enter value',
+                                style: GoogleFonts.poppins(
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black.withOpacity(0.45),
+                                ),
+                              ),
+                              IconButton(
+                                onPressed: () {},
+                                icon: Icon(Icons.arrow_downward_sharp),
+                                iconSize: 20,
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: colorPrimary),
+                          borderRadius: BorderRadius.circular(50),
+                          color: Colors.white),
+                    ),
+                    SizedBox(width: 20),
+                    Icon(
+                      Icons.compare_arrows,
+                      size: 40,
+                    ),
+                    SizedBox(width: 20),
+                    Container(
+                      padding: EdgeInsets.only(right: 5),
+                      height: 55,
+                      width: 120,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              IconButton(
+                                onPressed: () {},
+                                icon: Icon(Icons.arrow_downward_sharp),
+                                iconSize: 20,
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: colorPrimary),
+                          borderRadius: BorderRadius.circular(50),
+                          color: Colors.white),
+                    ),
+                  ],
+                ),
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
