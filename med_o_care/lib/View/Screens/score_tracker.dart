@@ -13,23 +13,25 @@ class score_tracker extends StatefulWidget {
 class _score_trackerState extends State<score_tracker> {
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.all(0.5),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            SizedBox(height: 13),
+            SizedBox(height: size.height * 0.01625),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 SizedBox(
-                  width: 18,
+                  width: size.width * 0.045,
                 ),
                 Image.asset(
                   logo,
-                  height: 65,
-                  width: 65,
+                  height: size.height * 0.08125,
+                  width: size.height * 0.08125,
                 ),
               ],
             ),
@@ -37,8 +39,8 @@ class _score_trackerState extends State<score_tracker> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  height: 116,
-                  width: 154,
+                  height: size.height * 0.145,
+                  width: size.width * 0.385,
                   child: Image.asset("assets/images/Information carousel.png"),
                 )
               ],
@@ -52,23 +54,23 @@ class _score_trackerState extends State<score_tracker> {
                         decoration: BoxDecoration(
                             color: Color(0XFF82AAE3).withOpacity(0.55),
                             borderRadius: BorderRadius.circular(5)),
-                        width: 300,
-                        height: 438,
+                        width: size.width * 0.75,
+                        height: size.height * 0.5475,
                         child: Column(
                           children: [
-                            SizedBox(height: 95),
+                            SizedBox(height: size.height * 0.11875),
                             Text('Calculate your Health Score',
                                 style: GoogleFonts.poppins(
                                     fontWeight: FontWeight.w500, fontSize: 16)),
-                            SizedBox(height: 17),
+                            SizedBox(height: size.height * 0.02125),
                             InkWell(
                               onTap: () {
                                 Navigator.of(context).push(MaterialPageRoute(
                                     builder: (context) => healthscore_data()));
                               },
                               child: Container(
-                                height: 50,
-                                width: 230,
+                                height: size.height * 0.0625,
+                                width: size.width * 0.575,
                                 decoration: BoxDecoration(
                                   color: const Color(0xFF537FE7),
                                   borderRadius: BorderRadius.circular(50),
@@ -83,22 +85,22 @@ class _score_trackerState extends State<score_tracker> {
                                 )),
                               ),
                             ),
-                            SizedBox(height: 33),
+                            SizedBox(height: size.height * 0.04125),
                             Text('OR',
                                 style: GoogleFonts.poppins(
                                     fontSize: 18,
                                     fontWeight: FontWeight.w500,
                                     color: Colors.white)),
-                            SizedBox(height: 49),
+                            SizedBox(height: size.height * 0.06125),
                             Text('Track your periods',
                                 style: GoogleFonts.poppins(
                                     fontWeight: FontWeight.w500, fontSize: 16)),
-                            SizedBox(height: 15),
+                            SizedBox(height: size.height * 0.01875),
                             InkWell(
                               onTap: () {},
                               child: Container(
-                                height: 50,
-                                width: 230,
+                                height: size.height * 0.0625,
+                                width: size.width * 0.575,
                                 decoration: BoxDecoration(
                                   color: const Color(0xFF537FE7),
                                   borderRadius: BorderRadius.circular(50),

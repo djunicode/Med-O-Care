@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:med_o_care/View/Screens/myprofile.dart';
 import 'package:med_o_care/View/Screens/score_tracker.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -25,7 +27,7 @@ class MyApp extends StatelessWidget {
                 borderRadius: BorderRadius.all(Radius.circular(50))),
           )),
       // home: const SignUpScreen(),
-      home: score_tracker(),
+      home: MyProfile(),
     );
   }
 }

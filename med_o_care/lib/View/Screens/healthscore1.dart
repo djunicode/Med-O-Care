@@ -14,6 +14,8 @@ class healthscore_data extends StatefulWidget {
 class _healthscore_dataState extends State<healthscore_data> {
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.all(0.5),
@@ -25,20 +27,20 @@ class _healthscore_dataState extends State<healthscore_data> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 SizedBox(
-                  width: 18,
+                  width: size.width * 0.045,
                 ),
                 Image.asset(
                   logo,
-                  height: 65,
-                  width: 65,
+                  height: size.height * 0.08125,
+                  width: size.width * 0.1625,
                 ),
               ],
             ),
-            SizedBox(height: 15),
+            SizedBox(height: size.height * 0.01875),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                SizedBox(width: 13),
+                SizedBox(width: size.width * 0.0325),
                 IconButton(
                     onPressed: () {
                       Navigator.of(context).pop(MaterialPageRoute(
@@ -55,10 +57,10 @@ class _healthscore_dataState extends State<healthscore_data> {
                 ),
               ],
             ),
-            SizedBox(height: 29),
+            SizedBox(height: size.height * 0.03625),
             Row(
               children: [
-                SizedBox(width: 67),
+                SizedBox(width: size.width * 0.1675),
                 Text(
                   'Weight',
                   style: GoogleFonts.poppins(
@@ -71,8 +73,8 @@ class _healthscore_dataState extends State<healthscore_data> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  height: 55,
-                  width: 275,
+                  height: size.height * 0.06875,
+                  width: size.width * 0.6875,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -89,7 +91,7 @@ class _healthscore_dataState extends State<healthscore_data> {
                               ),
                             ),
                           ),
-                          SizedBox(width: 85),
+                          SizedBox(width: size.width * 0.2125),
                           IconButton(
                             onPressed: () {},
                             icon: Icon(Icons.arrow_downward_sharp),
@@ -105,10 +107,10 @@ class _healthscore_dataState extends State<healthscore_data> {
                 ),
               ],
             ),
-            SizedBox(height: 30),
+            SizedBox(height: size.height * 0.0375),
             Row(
               children: [
-                SizedBox(width: 67),
+                SizedBox(width: size.width * 0.1675),
                 Text(
                   'Height',
                   style: GoogleFonts.poppins(
@@ -121,8 +123,8 @@ class _healthscore_dataState extends State<healthscore_data> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  height: 50,
-                  width: 275,
+                  height: size.height * 0.0625,
+                  width: size.width * 0.6875,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -155,7 +157,7 @@ class _healthscore_dataState extends State<healthscore_data> {
                 ),
               ],
             ),
-            SizedBox(height: 31),
+            SizedBox(height: size.height * 0.03875),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -165,8 +167,8 @@ class _healthscore_dataState extends State<healthscore_data> {
                         builder: (context) => final_healthscore()));
                   },
                   child: Container(
-                    height: 55,
-                    width: 275,
+                    height: size.height * 0.06875,
+                    width: size.width * 0.6875,
                     decoration: BoxDecoration(
                       color: const Color(0xFF537FE7),
                       borderRadius: BorderRadius.circular(50),
@@ -183,10 +185,10 @@ class _healthscore_dataState extends State<healthscore_data> {
                 ),
               ],
             ),
-            SizedBox(height: 50),
+            SizedBox(height: size.height * 0.0625),
             Row(
               children: [
-                SizedBox(width: 39),
+                SizedBox(width: size.width * 0.0975),
                 Text(
                   'Convert',
                   style: GoogleFonts.poppins(
@@ -195,7 +197,7 @@ class _healthscore_dataState extends State<healthscore_data> {
               ],
             ),
             SizedBox(
-              height: 8,
+              height: size.height * 0.01,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -206,8 +208,8 @@ class _healthscore_dataState extends State<healthscore_data> {
                     // SizedBox(width: 39),
                     Container(
                       padding: EdgeInsets.only(left: 13),
-                      height: 55,
-                      width: 120,
+                      height: size.height * 0.06875,
+                      width: size.width * 0.31,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -235,16 +237,16 @@ class _healthscore_dataState extends State<healthscore_data> {
                           borderRadius: BorderRadius.circular(50),
                           color: Colors.white),
                     ),
-                    SizedBox(width: 20),
+                    SizedBox(width: size.width * 0.05),
                     Icon(
                       Icons.compare_arrows,
                       size: 40,
                     ),
-                    SizedBox(width: 20),
+                    SizedBox(width: size.width * 0.05),
                     Container(
                       padding: EdgeInsets.only(right: 5),
-                      height: 55,
-                      width: 120,
+                      height: size.height * 0.06875,
+                      width: size.width * 0.3,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
