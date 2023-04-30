@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'View/Auth/sign_up.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:med_o_care/View/Auth/login.dart';
+import 'package:med_o_care/View/Auth/services/auth_service.dart';
+import 'package:med_o_care/View/Screens/home.dart';
+import 'package:med_o_care/View/Upload/add_document.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,6 +17,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'MedOCare',
       theme: ThemeData(
+          fontFamily: GoogleFonts.poppins().fontFamily,
           scaffoldBackgroundColor: const Color(0xFFE9F8F9),
           inputDecorationTheme: const InputDecorationTheme(
             enabledBorder: OutlineInputBorder(
@@ -25,7 +30,25 @@ class MyApp extends StatelessWidget {
                 borderSide: BorderSide(color: Color(0xA6AF0D0D)),
                 borderRadius: BorderRadius.all(Radius.circular(50))),
           )),
-      home: const SignUpScreen(),
+      home: FutureBuilder<String>(
+        future: AuthService().getAuthToken(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData &&
+              snapshot.data!.isNotEmpty &&
+              snapshot.data != 'no_token') {
+            // User is logged in, navigate to home page
+            return Home();
+          } else {
+            // User is not logged in, navigate to login page
+            return LoginScreen();
+          }
+        },
+      ),
+      routes: {
+        '/add_files': (context) => AddDocument(),
+        '/navbar': (context) => Home(),
+        '/login': (context) => LoginScreen()
+      },
     );
   }
 }
