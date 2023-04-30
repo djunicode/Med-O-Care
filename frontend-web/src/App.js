@@ -16,6 +16,7 @@ import PeriodTracker from "./Pages/PeriodTracker";
 import OTPPage from "./Pages/OTPPage";
 import ResetPassword from "./Pages/ResetPassword";
 import History from "./Pages/History";
+import PeriodTracker2 from "./Pages/PeriodTracker2";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -32,6 +33,7 @@ const router = createBrowserRouter(
             <Route path="otp" element={<OTPPage />} />
             <Route path="reset-password" element={<ResetPassword />} />
         <Route path ="history" element={<History />} />
+        <Route path="periodtracker2" element={<PeriodTracker2 />} />
       </Route>
       
     </Route>
