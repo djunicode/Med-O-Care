@@ -20,7 +20,7 @@ class _MedicinesPageState extends State<MedicinesPage> {
             controller: searchController,
             decoration: InputDecoration(
               hintText: 'Search',
-              border: OutlineInputBorder(
+              border: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(50))),
               prefixIcon: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
