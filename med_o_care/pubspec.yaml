@@ -3,7 +3,14 @@ description: A new Flutter project.
 publish_to: 'none' 
 version: 1.0.0+1
 environment:
-  sdk: '>=2.18.2 <3.0.0'
+  sdk: '>=2.19.0 <4.0.0'
+
+# Dependencies specify other packages that your package needs in order to work.
+# To automatically upgrade your package dependencies to the latest versions
+# consider running `flutter pub upgrade --major-versions`. Alternatively,
+# dependencies can be manually updated by changing the version numbers below to
+# the latest version available on pub.dev. To see which dependencies have newer
+# versions available, run `flutter pub outdated`.
 dependencies:
   flutter:
     sdk: flutter
@@ -15,6 +22,9 @@ dependencies:
   cupertino_icons: ^1.0.2
   intl: 0.18.0
   form_field_validator: ^1.1.0
+  http:
+  shared_preferences:
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -24,6 +34,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - assets/icons/
 
   # fonts:
   #   - family: Schyler

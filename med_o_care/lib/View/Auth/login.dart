@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:med_o_care/Constant/constants.dart';
 import 'package:med_o_care/View/Auth/forgot_password.dart';
+import 'package:med_o_care/View/Auth/services/auth_service.dart';
 import 'package:med_o_care/View/Auth/sign_up.dart';
+import 'package:med_o_care/View/Screens/home.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -43,7 +45,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   controller: emailcontroller,
                   decoration: const InputDecoration(
                     labelText: "Email",
-                    hintText: 'Enter your email',border: OutlineInputBorder(
+                    hintText: 'Enter your email',
+                    border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(50))),
                     prefixIcon: Icon(Icons.email),
                     fillColor: Colors.white,
@@ -120,7 +123,29 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 30,
                 ),
                 InkWell(
-                  onTap: () {},
+                  onTap: () async {
+                    if (_formkey.currentState!.validate()) {
+                      showDialog(
+                          context: context,
+                          builder: (context) => Center(
+                                child: CircularProgressIndicator(),
+                              ));
+                      final success = await AuthService().login(
+                          emailcontroller.text.trim(),
+                          passcontroller.text.trim());
+                      Navigator.pop(context);
+                      if (success) {
+                        Navigator.pushReplacementNamed(context, '/navbar');
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('There seems to be an issue'),
+                            duration: Duration(seconds: 3),
+                          ),
+                        );
+                      }
+                    }
+                  },
                   child: Container(
                     height: 55,
                     decoration: BoxDecoration(
@@ -128,8 +153,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       borderRadius: BorderRadius.circular(50),
                     ),
                     child: const Center(
-                      child:
-                          Text("Log In", style: TextStyle(color: Colors.white,fontSize: 20)),
+                      child: Text("Log In",
+                          style: TextStyle(color: Colors.white, fontSize: 20)),
                     ),
                   ),
                 ),
