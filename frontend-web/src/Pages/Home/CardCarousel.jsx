@@ -14,7 +14,6 @@ const CardCarousel = () => {
         .then(res => setMedicines(res.data.posts))
       },[])
 
-
     const imageStyle = { height: 65, width: 65}
     const responsive = {
         superLargeDesktop: {
@@ -28,7 +27,7 @@ const CardCarousel = () => {
         },
         tablet: {
           breakpoint: { max: 1024, min: 464 },
-          items: 3
+          items: 1
         },
         mobile: {
           breakpoint: { max: 464, min: 0 },

@@ -20,10 +20,10 @@ import History from "./Pages/History";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/">
-      <Route path="signup" element={<SignupPage />} />
-      <Route path="login" element={<LoginPage />} />
 
       <Route element={<RootLayout />}>
+      <Route path="signup" element={<SignupPage />} />
+      <Route path="login" element={<LoginPage />} />
         <Route index element={<HomePage />} />
         <Route path="uploadrecords" element={<UploadRecords />} />
         <Route path="healthscore" element={<Healthscore />} />

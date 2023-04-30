@@ -1,0 +1,43 @@
+
+.pt-container {
+    margin: 30px 60px;
+}
+#pt-title {
+    margin-left: 50px;
+    margin-bottom: 10px;
+}
+#pt-paper-style {
+    background-color: #82aae36d;
+    margin: auto;
+    padding: 30px 70px 40px;
+    border: #537FE7 2px solid;
+    border-radius: 20px; 
+}
+#track-btn {
+    background-color: #537FE7;
+    border-radius: 20px;
+    margin: 20px 0 10px;
+    padding: 8px 50px;
+}
+.calender-img {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 30px;
+}
+@media (max-width: 800px) {
+    .pt-container {
+        margin: 7px;
+    }
+    #pt-paper-style {
+        padding: 15px;
+    }
+    #track-btn {
+        background-color: #537FE7;
+        border-radius: 20px;
+        margin: 10px;
+        padding: 8px 30px;
+    }
+    .calender-img {
+        justify-content: center;
+    }
+}
