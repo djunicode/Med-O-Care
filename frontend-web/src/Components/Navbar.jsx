@@ -14,18 +14,20 @@ import MenuItem from "@mui/material/MenuItem";
 import logo from "../Assets/logo.png";
 import { useNavigate } from "react-router-dom";
 import Navbar2 from "./Navbar2";
+import AccountPage from "../Pages/Home/AccountPage";
 
 const pages = ["Upload", "Healthscore", "Period tracker"];
 
 function Navbar() {
   const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const [open, setOpen] = React.useState(false);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
   const handleOpenUserMenu = (event) => {
-    //display modal
+    setOpen(true);
   };
 
   const handleCloseNavMenu = (page) => {
@@ -42,7 +44,7 @@ function Navbar() {
   };
 
   const handleCloseUserMenu = () => {
-    //remove modal
+    setOpen(false)
   };
 
   return (
@@ -204,6 +206,7 @@ function Navbar() {
           </Toolbar>
         </Container>
       </AppBar>
+      {open && <AccountPage open={open} close={handleCloseUserMenu}/>}
     </>
   );
 }
