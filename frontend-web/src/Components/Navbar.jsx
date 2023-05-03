@@ -145,20 +145,24 @@ function Navbar() {
                   </MenuItem>
                 ))}
 
-                <MenuItem
-                  onClick={() => {
-                    handleCloseNavMenu("signup");
-                  }}
-                >
-                  <Typography textAlign="center">Sign Up</Typography>
-                </MenuItem>
-                <MenuItem
-                  onClick={() => {
-                    handleCloseNavMenu("login");
-                  }}
-                >
-                  <Typography textAlign="center">Login </Typography>
-                </MenuItem>
+                {userDetails.email && (
+                  <>
+                    <MenuItem
+                      onClick={() => {
+                        handleCloseNavMenu("signup");
+                      }}
+                    >
+                      <Typography textAlign="center">Sign Up</Typography>
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        handleCloseNavMenu("login");
+                      }}
+                    >
+                      <Typography textAlign="center">Login </Typography>
+                    </MenuItem>
+                  </>
+                )}
               </Menu>
             </Box>
 
