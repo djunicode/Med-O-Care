@@ -145,7 +145,7 @@ function Navbar() {
                   </MenuItem>
                 ))}
 
-                {userDetails.email && (
+                {userDetails?.email && (
                   <>
                     <MenuItem
                       onClick={() => {
