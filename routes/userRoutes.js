@@ -24,10 +24,10 @@ router.get("/verifyOTP", auth.verifyToken, userC.verifyOTP)   //then hit edit us
 router.put("/editUserInfo", auth.verifyToken, userC.updateUser)
 
 //upload medical records
-router.post("/uploadMedical", auth.verifyToken, fileVerify.fileVerifyPfp.array('files'), userC.uploadMedical)
+router.post("/uploadMedical", auth.verifyToken, fileVerify.fileVerifyPfp.single('file'), userC.uploadMedical)
 
 //upload insurance records
-router.post("/uploadInsurance", auth.verifyToken, fileVerify.fileVerifyPfp.array('files'), userC.uploadInsurance)
+router.post("/uploadInsurance", auth.verifyToken, fileVerify.fileVerifyPfp.single('file'), userC.uploadInsurance)
 
 
 module.exports = router;

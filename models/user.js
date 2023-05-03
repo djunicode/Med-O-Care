@@ -61,16 +61,28 @@ const userSchema = new Schema({
         max: 999999999999
     },
     medicalFiles: [{
-        name: String,
-        type: Buffer
+        name : {
+            type : String,
+            required : true
+        },
+        file : {
+            type : Buffer,
+            required : true
+        }
     }],
     medicalFileCount: {
         type: Number,
         default: 0
     },
     insuranceFiles: [{
-        name: String,
-        type: Buffer
+        name : {
+            type : String,
+            required : true
+        },
+        file : {
+            type : Buffer,
+            required : true
+        }
     }],
     insuranceFileCount: {
         type: Number,

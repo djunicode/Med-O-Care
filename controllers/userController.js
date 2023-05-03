@@ -7,14 +7,14 @@ const multer = require("multer");
 const fs = require("fs");
 const axios = require("axios");
 
-// let mailTransporter = nodemailer.createTransport({
-//     service: "gmail",
-//     auth: {
-//       user: process.env.EMAIL,
-//       pass: process.env.PASSWORD,
-//     },
-//     port: 4,
-//   });
+let mailTransporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: process.env.EMAIL,
+      pass: process.env.PASSWORD,
+    },
+    port: 4,
+  });
 
 // New user
 const createUser = async (req, res) => {
@@ -24,12 +24,12 @@ const createUser = async (req, res) => {
     let id = savedUserData._id;
     let userMail = savedUserData.email;
 
-    // mailTransporter.sendMail({
-    //     from: process.env.EMAIL,
-    //     to: userMail,
-    //     subject: "Thank you for creating an account with us" + savedUserData.fName,
-    //     text: "We hope you have a good time with our app.",
-    // });
+    mailTransporter.sendMail({
+        from: process.env.EMAIL,
+        to: userMail,
+        subject: "Thank you for creating an account with us" + savedUserData.fName,
+        text: "We hope you have a good time with our app.",
+    });
 
     let pass = await UserSchema.findById({ _id: id }, { password: 0 }); //to hide hashed pswd
 
@@ -112,7 +112,8 @@ const forgotPSWD = async (req, res) => {
       res.status(404).json({
         success: false,
         message: "User not found",
-      });
+      })
+    };
 
       const token = await signAccessToken(user._id);
 
@@ -135,7 +136,6 @@ const forgotPSWD = async (req, res) => {
         message: "OTP sent via mail",
         token: token,
       });
-    }
   } catch (err) {
     res.status(500).json({
       success: false,
@@ -232,17 +232,18 @@ const uploadMedical = async (req, res) => {
   try {
     const userEmail = req.user.email;
 
-    const buffer = req.files;
-    const arrOfPosts = [];
-    var fileCount = 0;
-    for (var i = 0; i < buffer.length; i++) {
-      arrOfPosts[i] = buffer[i].buffer;
-      fileCount++;
-    }
+    const buffer = req.file;
+    // const arrOfPosts = [];
+    // var fileCount = 0;
+    // for (var i = 0; i < buffer.length; i++) {
+    //   arrOfPosts[i] = buffer[i].buffer;
+    //   fileCount++;
+    // }
 
-    await UserSchema.findOne(
+    await UserSchema.findOneAndUpdate(
       { email: userEmail },
-      { medicalFiles: arrOfPosts, medicalFileCount: fileCount }
+      { $push : { medicalFiles: { name : req.body.name , file : buffer.buffer}}, 
+        $inc : { medicalFileCount: 1 }}
     );
 
     res.status(201).json({
@@ -264,17 +265,18 @@ const uploadInsurance = async (req, res) => {
     const userEmail = req.user.email;
 
     const buffer = req.files;
-    const arrOfPosts = [];
-    var fileCount = 0;
-    for (var i = 0; i < buffer.length; i++) {
-      arrOfPosts[i] = buffer[i].buffer;
-      fileCount++;
-    }
+    // const arrOfPosts = [];
+    // var fileCount = 0;
+    // for (var i = 0; i < buffer.length; i++) {
+    //   arrOfPosts[i] = buffer[i].buffer;
+    //   fileCount++;
+    // }
 
-    await UserSchema.findOne(
+    await UserSchema.findOneAndUpdate(
       { email: userEmail },
-      { insuranceFiles: arrOfPosts, insuranceFileCount: fileCount }
-    );
+      { $push : { insuranceFiles: { name : req.body.name , file : buffer.buffer}}, 
+        $inc : { insuranceFileCount: 1 }}
+    )
     res.status(201).json({
       success: true,
       message: "Record uploaded succedfully!",

@@ -32,5 +32,5 @@ app.use("/user", userRoutes);
 app.use("/exercise", exerciseRoutes);
 
 app.listen(process.env.PORT || 3001, () =>
-    console.log(`Listening on port 3001`)
+    console.log("Listening on port 3001")
 );
