@@ -15,13 +15,13 @@ import logo from "../Assets/logo.png";
 import { useNavigate } from "react-router-dom";
 import Navbar2 from "./Navbar2";
 import AccountPage from "../Pages/Home/AccountPage";
-
-const pages = ["Upload", "Healthscore", "Period tracker"];
+import { useApp } from "../Context/app-context";
 
 function Navbar() {
   const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [open, setOpen] = React.useState(false);
+  const { userDetails } = useApp();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -34,6 +34,12 @@ function Navbar() {
     setAnchorElNav(null);
     routing(page);
   };
+  let pages = [];
+  if (userDetails?.email) {
+    pages = ["Upload", "Healthscore", "Period tracker"];
+  } else {
+    pages = ["Healthscore"];
+  }
 
   const routing = (page) => {
     page == "login" && navigate("login");
@@ -44,7 +50,7 @@ function Navbar() {
   };
 
   const handleCloseUserMenu = () => {
-    setOpen(false)
+    setOpen(false);
   };
 
   return (
@@ -146,6 +152,13 @@ function Navbar() {
                 >
                   <Typography textAlign="center">Sign Up</Typography>
                 </MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    handleCloseNavMenu("login");
+                  }}
+                >
+                  <Typography textAlign="center">Login </Typography>
+                </MenuItem>
               </Menu>
             </Box>
 
@@ -162,51 +175,61 @@ function Navbar() {
                   {page}
                 </Button>
               ))}
-              <Box
-                sx={{
-                  display: "flex",
-                  my: 2,
-                  bgcolor: "#537FE7",
-                  justifyContent: "center",
-                  borderRadius: "10px",
-                  height: "40px",
-                  width: "90px",
-                  mr: 4,
-                }}
-              >
-                <Button
-                  sx={{ display: "block", color: "white" }}
-                  onClick={() => {
-                    handleCloseNavMenu("signup");
-                  }}
-                >
-                  Signup
-                </Button>
-              </Box>
-
-              <Box
-                sx={{ flexGrow: 1, display: { xs: "none", md: "flex" }, mr: 4 }}
-              >
-                <Button
-                  sx={{ my: 2, color: "black" }}
-                  onClick={() => {
-                    handleCloseNavMenu("login");
-                  }}
-                >
-                  Login
-                </Button>
-              </Box>
+              {!userDetails?.email && (
+                <>
+                  {" "}
+                  <Box
+                    sx={{
+                      display: "flex",
+                      my: 2,
+                      bgcolor: "#537FE7",
+                      justifyContent: "center",
+                      borderRadius: "10px",
+                      height: "40px",
+                      width: "90px",
+                      mr: 4,
+                    }}
+                  >
+                    <Button
+                      sx={{ display: "block", color: "white" }}
+                      onClick={() => {
+                        handleCloseNavMenu("signup");
+                      }}
+                    >
+                      Signup
+                    </Button>
+                  </Box>
+                  <Box
+                    sx={{
+                      flexGrow: 1,
+                      display: { xs: "none", md: "flex" },
+                      mr: 4,
+                    }}
+                  >
+                    <Button
+                      sx={{ my: 2, color: "black" }}
+                      onClick={() => {
+                        handleCloseNavMenu("login");
+                      }}
+                    >
+                      Login
+                    </Button>
+                  </Box>
+                </>
+              )}
             </Box>
 
-            <Tooltip title="My accounts">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="avatar" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
+            {userDetails?.email && (
+              <Tooltip title="My accounts">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <Avatar alt="avatar" src="/static/images/avatar/2.jpg" />
+                </IconButton>
+              </Tooltip>
+            )}
           </Toolbar>
         </Container>
       </AppBar>
-      {open && <AccountPage open={open} close={handleCloseUserMenu}/>}
+      {open && <AccountPage open={open} close={handleCloseUserMenu} />}
     </>
   );
 }
