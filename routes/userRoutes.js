@@ -29,5 +29,11 @@ router.post("/uploadMedical", auth.verifyToken, fileVerify.fileVerifyPfp.single(
 //upload insurance records
 router.post("/uploadInsurance", auth.verifyToken, fileVerify.fileVerifyPfp.single('file'), userC.uploadInsurance)
 
+// upload medicine information
+router.post("/uploadInsurance", auth.verifyToken, fileVerify.fileVerifyPfp.single('file'), userC.uploadInsurance)
+
+//upload medicine and dosage information 
+router.post("/medicineDosage", auth.verifyToken, userC.medicineDosage)
+
 
 module.exports = router;

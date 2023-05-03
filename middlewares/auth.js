@@ -1,6 +1,6 @@
 const JWT = require('jsonwebtoken');
 require('dotenv').config();
-const UserSchema = require('../models/user');
+const UserSchema = require('../models/userSchema');
 
 async function verifyToken(req, res, next) {
     try {
@@ -43,7 +43,7 @@ module.exports =  {
             }
             const secret = process.env.SECRET_KEY
             const options = {
-                expiresIn: "1h"
+                expiresIn: "1y"
             }
             JWT.sign(payload, secret, options, (err, token) => {
                 if (err) return reject(err)

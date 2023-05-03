@@ -1,4 +1,4 @@
-const UserSchema = require("../models/user");
+const UserSchema = require("../models/userSchema");
 const signAccessToken = require("../middlewares/auth").signAccessToken;
 const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
@@ -31,7 +31,7 @@ const createUser = async (req, res) => {
         text: "We hope you have a good time with our app.",
     });
 
-    let pass = await UserSchema.findById({ _id: id }, { password: 0 }); //to hide hashed pswd
+    let pass = await UserSchema.findById({ _id: id }).select("-password"); //to hide hashed pswd
 
     const accessToken = await signAccessToken(savedUserData._id);
     res.status(201).json({
@@ -240,11 +240,18 @@ const uploadMedical = async (req, res) => {
     //   fileCount++;
     // }
 
-    await UserSchema.findOneAndUpdate(
+    const user = await UserSchema.findOneAndUpdate(
       { email: userEmail },
       { $push : { medicalFiles: { name : req.body.name , file : buffer.buffer}}, 
         $inc : { medicalFileCount: 1 }}
     );
+
+    if (!user) {
+      res.status(404).json({
+        success: false,
+        message: "User not found",
+      })
+    }
 
     res.status(201).json({
       success: true,
@@ -272,11 +279,20 @@ const uploadInsurance = async (req, res) => {
     //   fileCount++;
     // }
 
-    await UserSchema.findOneAndUpdate(
+    const user = await UserSchema.findOneAndUpdate(
       { email: userEmail },
       { $push : { insuranceFiles: { name : req.body.name , file : buffer.buffer}}, 
         $inc : { insuranceFileCount: 1 }}
     )
+
+    if (!user) {
+      res.status(404).json({
+        success: false,
+        message: "User not found",
+      })
+    }
+
+
     res.status(201).json({
       success: true,
       message: "Record uploaded succedfully!",
@@ -289,6 +305,36 @@ const uploadInsurance = async (req, res) => {
   }
 };
 
+const medicineDosage = async (req,res) => {
+  try{
+    const email = req.user.email
+  const medicineName = req.body.medicineName
+  const frequency = req.body.frequency
+
+  const user = await UserSchema.findByIdAndUpdate(
+    { email : email},
+    { $push : { medicines : { name : medicineName, frequency : frequency}}} 
+    )
+
+    if (!user) {
+      res.status(404).json({
+        success: false,
+        message: "User not found",
+      })
+    }
+
+    res.status(201).json({
+      success: true,
+      message: "Medicine uploaded succedfully!",
+    })
+  }catch(err){
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
+  }
+}
+
 
 
 module.exports = {
@@ -300,4 +346,5 @@ module.exports = {
   updateUser,
   uploadMedical,
   uploadInsurance,
+  medicineDosage
 };

@@ -103,22 +103,32 @@ const userSchema = new Schema({
     }],
     OTP: {
         type : Number,
-    }
+    },
+    medicines : [{
+        name : {
+            type : String,
+            required : true
+        },
+        frequency : {
+            type : String,
+            required : true
+        }
+    }]
 }, {timestamps: true});
 
 
 // Hashing the password
-userSchema.pre("save", async function(next) {
+userSchema.pre("save", async function(next){
     try{
         const salt = await bcrypt.genSalt(10)
-        const hashedPass = bcrypt.hash(this.password, salt)
-        this.password = hashedPass
+        const hashedPassword =await bcrypt.hash(this.password, salt)
+        this.password = hashedPassword
         next()
-    }catch(error){
-        console.log(error)
+    }catch(e){
+        console.log(e)
     }
 })
 
 
-const UserSchema = mongoose.model("user", userSchema)
-module.exports = UserSchema
+const UserSchema = mongoose.model("user", userSchema);
+module.exports = UserSchema;

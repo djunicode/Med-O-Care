@@ -1,4 +1,4 @@
-const UserSchema = require("../models/user");
+const UserSchema = require("../models/userSchema");
 const signAccessToken = require("../middlewares/auth").signAccessToken;
 const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
