@@ -189,6 +189,7 @@ const AccountPage = ({ open, close }) => {
             <Typography sx={{ marginLeft: 2, fontSize: "large" }}>
               Age
             </Typography>
+            
             <TextField
               value={differenceInYears(new Date(), new Date(dateOfBirth))}
               sx={{ borderColor: "#537FE7" }}
