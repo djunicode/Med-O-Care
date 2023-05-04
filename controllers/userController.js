@@ -28,7 +28,7 @@ const createUser = async (req, res) => {
             from: process.env.EMAIL,
             to: userMail,
             subject:
-                "Thank you for creating an account with us " +
+                "Thank you for creating an account with us " + " " +
                 savedUserData.fName,
             text: "We hope you have a good time using our app.",
         });
@@ -188,7 +188,7 @@ const updateUser = async (req, res) => {
     let email = req.user.email;
 
     const updates = Object.keys(req.body);
-    const allowedUpdates = ["fName", "lName", "number", "password", "email"];
+    const allowedUpdates = ["fName", "lName", "number", "password", "email","height","weight", "health_score", "period_dates", "period_how_long", "period_mc_duration", "pill_reminder"];
     const isValidOperation = updates.every((update) =>
         allowedUpdates.includes(update)
     );
@@ -234,17 +234,18 @@ const uploadMedical = async (req, res) => {
     try {
         const userEmail = req.user.email;
 
-        const buffer = req.files;
-        const arrOfPosts = [];
-        var fileCount = 0;
-        for (var i = 0; i < buffer.length; i++) {
-            arrOfPosts[i] = buffer[i].buffer;
-            fileCount++;
-        }
+        const buffer = req.file;
+        // const arrOfPosts = [];
+        // var fileCount = 0;
+        // for (var i = 0; i < buffer.length; i++) {
+        //   arrOfPosts[i] = buffer[i].buffer;
+        //   fileCount++;
+        // }
 
-        await UserSchema.findOne(
+        await UserSchema.findOneAndUpdate(
             { email: userEmail },
-            { medicalFiles: arrOfPosts, medicalFileCount: fileCount }
+            { $push : { medicalFiles: { name : req.body.name , file : buffer.buffer}}, 
+              $inc : { medicalFileCount: 1 }}
         );
 
         res.status(201).json({
@@ -265,17 +266,18 @@ const uploadInsurance = async (req, res) => {
     try {
         const userEmail = req.user.email;
 
-        const buffer = req.files;
-        const arrOfPosts = [];
-        var fileCount = 0;
-        for (var i = 0; i < buffer.length; i++) {
-            arrOfPosts[i] = buffer[i].buffer;
-            fileCount++;
-        }
+        const buffer = req.file;
+        // const arrOfPosts = [];
+        // var fileCount = 0;
+        // for (var i = 0; i < buffer.length; i++) {
+        //   arrOfPosts[i] = buffer[i].buffer;
+        //   fileCount++;
+        // }
 
-        await UserSchema.findOne(
+        await UserSchema.findOneAndUpdate(
             { email: userEmail },
-            { insuranceFiles: arrOfPosts, insuranceFileCount: fileCount }
+            { $push : { insuranceFiles: { name : req.body.name , file : buffer.buffer}}, 
+              $inc : { insuranceFileCount: 1 }}
         );
         res.status(201).json({
             success: true,
@@ -289,6 +291,36 @@ const uploadInsurance = async (req, res) => {
     }
 };
 
+const medicineDosage = async (req,res) => {
+    try{
+      const email = req.user.email
+    const medicineName = req.body.medicineName
+    const frequency = req.body.frequency
+  
+    const user = await UserSchema.findByIdAndUpdate(
+      { email : email},
+      { $push : { medicines : { name : medicineName, frequency : frequency}}} 
+      )
+  
+      if (!user) {
+        res.status(404).json({
+          success: false,
+          message: "User not found",
+        })
+      }
+  
+      res.status(201).json({
+        success: true,
+        message: "Medicine uploaded succedfully!",
+      })
+    }catch(err){
+      res.status(500).json({
+        success: false,
+        message: err.message,
+      });
+    }
+  }
+
 module.exports = {
     createUser,
     loginUser,
@@ -298,4 +330,5 @@ module.exports = {
     updateUser,
     uploadMedical,
     uploadInsurance,
+    medicineDosage
 };

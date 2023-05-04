@@ -64,22 +64,30 @@ const userSchema = new Schema(
             min: 100000000000, // Coz 12 digits
             max: 999999999999,
         },
-        medicalFiles: [
-            {
-                name: String,
-                type: Buffer,
+        medicalFiles: [{
+            name : {
+                type : String,
+                required : true
             },
-        ],
+            file : {
+                type : Buffer,
+                required : true
+            }
+        }],
         medicalFileCount: {
             type: Number,
             default: 0,
         },
-        insuranceFiles: [
-            {
-                name: String,
-                type: Buffer,
+        insuranceFiles: [{
+            name : {
+                type : String,
+                required : true
             },
-        ],
+            file : {
+                type : Buffer,
+                required : true
+            }
+        }],
         insuranceFileCount: {
             type: Number,
             default: 0,

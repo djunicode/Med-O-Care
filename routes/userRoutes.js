@@ -27,7 +27,7 @@ router.put("/editUserInfo", auth.verifyToken, userC.updateUser);
 router.post(
     "/uploadMedical",
     auth.verifyToken,
-    fileVerify.fileVerifyPfp.array("files"),
+    fileVerify.fileVerifyPfp.single('file'),
     userC.uploadMedical
 );
 
@@ -35,8 +35,11 @@ router.post(
 router.post(
     "/uploadInsurance",
     auth.verifyToken,
-    fileVerify.fileVerifyPfp.array("files"),
+    fileVerify.fileVerifyPfp.single('file'),
     userC.uploadInsurance
 );
+
+//upload medicine and dosage information 
+router.post("/medicineDosage", auth.verifyToken, userC.medicineDosage)
 
 module.exports = router;
