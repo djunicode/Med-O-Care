@@ -13,7 +13,6 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import logo from "../Assets/logo.png";
 import { useNavigate } from "react-router-dom";
-import Navbar2 from "./Navbar2";
 import AccountPage from "../Pages/Home/AccountPage";
 import { useApp } from "../Context/app-context";
 
@@ -42,11 +41,11 @@ function Navbar() {
   }
 
   const routing = (page) => {
-    page == "login" && navigate("login");
-    page == "signup" && navigate("signup");
-    page == "Upload" && navigate("uploadrecords");
-    page == "Healthscore" && navigate("healthscore");
-    page == "Period tracker" && navigate("periodtracker");
+    page === "login" && navigate("login");
+    page === "signup" && navigate("signup");
+    page === "Upload" && navigate("uploadrecords");
+    page === "Healthscore" && navigate("healthscore");
+    page === "Period tracker" && navigate("periodtracker");
   };
 
   const handleCloseUserMenu = () => {
