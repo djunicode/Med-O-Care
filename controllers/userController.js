@@ -289,6 +289,56 @@ const uploadInsurance = async (req, res) => {
     }
 };
 
+// period tracker
+
+const periodTracker = async(req, res) => {
+    try {
+        const userEmail = req.user.email;
+        const lastDay = req.params.lastDay;
+        const how_long = req.params.how_long;
+        const duration = req.params.duration;
+
+        function addDays (days, date) {
+            date.setDate(date.getDate() + parseInt(days));
+            return date;
+        }
+
+        let index = 0;
+        let dates = [];
+        for (var i = 0; i < 3; i++) {
+            for (var j = 0; j < how_long; j++) {
+                if (j == 0 && i == 0) {
+                    dates[index] = addDays(duration, new Date(lastDay))
+                }
+                else if (j == 0) {
+                    dates[index] = addDays(duration, new Date(dates[index-1]))
+                }
+                else {
+                    dates[index] = addDays(1, new Date(dates[index-1]))
+                }
+                index++;
+            }
+        }
+
+        await UserSchema.findOneAndUpdate(
+            { email: userEmail }, 
+            { $set: {period_lastDay: lastDay, period_how_long: how_long, period_mc_duration: duration, period_dates: dates} }
+        );
+
+        res.status(200).json({
+            success: true,
+            data: dates
+        })
+
+    }
+    catch (err) {
+        res.status(500).json({
+            success: false,
+            message: err.message,
+        });
+    }
+}
+
 module.exports = {
     createUser,
     loginUser,
@@ -298,4 +348,5 @@ module.exports = {
     updateUser,
     uploadMedical,
     uploadInsurance,
+    periodTracker
 };
