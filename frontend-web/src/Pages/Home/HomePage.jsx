@@ -1,4 +1,4 @@
-import { Grid, Typography, Card } from "@mui/material";
+import { Box, Grid, Typography, Card } from "@mui/material";
 import CardCarousel from "./CardCarousel";
 import logo from '../../Assets/logo.png';
 import YouTube from "react-youtube";
@@ -19,15 +19,15 @@ export default function HomePage() {
 
   return (
     <div>
-      <div>
-        <div sx={{ marginLeft: 5 }}>
+      <Box>
+        <Box sx={{ marginLeft: 5 }}>
           <Typography variant='h6' sx={{ color: '#537FE7', fontWeight: 'bold' }}>Buy medicines from..</Typography>
-        </div>
-        <div sx={{ margin: 5 }}>
+        </Box>
+        <Box sx={{ margin: 5 }}>
           {/* <CardCarousel/> */}
-        </div>
-      </div>
-      <div>
+        </Box>
+      </Box>
+      <Box sx={{ml: 5}}>
         <Typography variant='h6' sx={{ color: '#537FE7', fontWeight: 'bold', marginBottom: 5 }}>Mindful exercises..</Typography>
         <Grid container justifyContent='center'>
             <YouTube videoId="4A0-aTZpR8M" opts={opts} onReady={(e) => e.target.pauseVideo()} />
@@ -53,7 +53,7 @@ export default function HomePage() {
             ))}
           </Grid>
         </div>
-      </div>
+      </Box>
 
     </div>
   )

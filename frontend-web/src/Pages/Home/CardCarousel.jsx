@@ -1,4 +1,4 @@
-import { Typography, Card, Box, Grid } from '@mui/material';
+import { Typography, Card, Box } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
@@ -14,6 +14,7 @@ const CardCarousel = () => {
         .then(res => setMedicines(res.data.posts))
       },[])
 
+      console.log(medicines);
     const imageStyle = { height: 65, width: 65}
     const responsive = {
         superLargeDesktop: {
@@ -54,8 +55,7 @@ const CardCarousel = () => {
                             </Box>
                         </Box>
                     </Card>
-                )
-                
+                )               
             )} 
         </Carousel>
         </>

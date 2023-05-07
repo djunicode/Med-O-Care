@@ -1,21 +1,20 @@
 .signup-container {
     display: flex;
-    margin-left: 100px; 
-    margin-top: 30px;
+    margin: 0% 6%; 
 }
 
 .signup-box {
     background-color: #82aae36d;
-    margin-top: 5px;
+    margin: 0% 0.3% 0 3%;
     border: #537FE7 2px solid;
     border-radius: 20px;
-    padding: 20px 10px 0px;
+    padding: 1.5% 5%;
     flex: 45%;
 }
 
 .signup-div {
     padding: 2px 50px;
-    margin: 3px;
+    margin: 2px;
 }
 
 .dob-gender-grid {
@@ -39,27 +38,30 @@
     flex-direction: column;
     justify-content: center;
 }
+
 #signup-btn {
     background-color: #537FE7;
     border-radius: 20px;
     margin: 10px 0;
     padding: 8px 80px;
 }
+
 .signup-images {
     flex: 40%;
     display: flex;
     flex-direction: column;
-    margin-left: 150px;
+    margin-left: 10%;
+    justify-content: space-around;
 }
 
 #logo-image {
-    height: 400px;
-    width: 400px;
+    height: 42vh;
+    width: 25vw;
 }
 
 #doctor-image {
-    height: 320px;
-    width: 400px;
+    height: 32vh;
+    width: 30vw;
 }
 
 #medicine-image {
@@ -75,9 +77,6 @@
         flex-direction: column-reverse;
         margin: 0px 5px;
     }
-    /* .signup-box {
-        flex: 0
-    } */
     .signup-images {
         margin: auto;
         flex-direction: row;
