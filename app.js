@@ -31,6 +31,11 @@ app.use("/user", userRoutes);
 //exercises
 app.use("/exercise", exerciseRoutes);
 
+// Covering all invalid URLs
+app.get('*', (req, res) => {
+    res.status(404).send('404! This is an invalid URL.');
+  });
+
 app.listen(process.env.PORT || 3001, () =>
     console.log(`Listening on port ${process.env.PORT}`)
 );
