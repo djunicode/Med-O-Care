@@ -4,6 +4,7 @@ import "./Home.css";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useEffect, useState } from "react";
 import { useApp } from "../../Context/app-context";
+import CardCarousel from "./CardCarousel";
 // var getYouTubeID = require("get-youtube-id");
 
 export default function HomePage() {
@@ -11,12 +12,9 @@ export default function HomePage() {
   const [isLoading, setIsLoading] = useState(true);
   const [excercise, setExcercise] = useState([]);
   const opts = {
-    height: "300",
-    width: "400",
     playerVars: {
-      // https://developers.google.com/youtube/player_parameters
       autoplay: 0,
-    },
+    },   
   };
   const dealingWithYoutubeVideo = (e) => {
     setIsLoading(false);
@@ -43,8 +41,8 @@ export default function HomePage() {
 
   return (
     <div>
-      <div style={{ marginBottom: "20px" }}>
-        <div sx={{ marginLeft: 5 }}>
+      <div class='buy-med-container'>
+        <div id='buy-title'>
           <Typography
             variant="h6"
             sx={{ color: "#537FE7", fontWeight: "bold" }}
@@ -52,16 +50,19 @@ export default function HomePage() {
             Buy medicines from..
           </Typography>
         </div>
-        <div sx={{ margin: 5 }}>{/* <CardCarousel/> */}</div>
+        <div id='medicine-carousel'>
+          <CardCarousel/>
+        </div>
       </div>
 
+    <div class='buy-med-container'>
       <Typography
         variant="h6"
         sx={{
           color: "#537FE7",
           fontWeight: "bold",
-          marginBottom: 3,
-          textAlign: "center",
+          // marginBottom: 3,
+          // textAlign: "center",
         }}
       >
         Mindful exercise:
@@ -70,20 +71,21 @@ export default function HomePage() {
       <div style={{ display: "flex", justifyContent: "center" }}>
         {isLoading && <CircularProgress />}
       </div>
-
-      <Grid container justifyContent="center">
+  </div>
+      <Grid container justifyContent='center'>
         <YouTube
           height="100%"
           width="100%"
-          videoId="4A0-aTZpR8M"
+          videoId="7KSNmziMqog"
           opts={opts}
+          iframeClassName='youtube-exercise' 
           onReady={(e) => {
             dealingWithYoutubeVideo(e);
           }}
         />
       </Grid>
 
-      <div style={{ display: "flex", justifyContent: "center" }}>
+      <div class='exercise-container'>
         <Grid
           container
           spacing={{ xs: 2, md: 3 }}
@@ -102,12 +104,12 @@ export default function HomePage() {
                       border: 2,
                       minWidth: "250px",
                       maxWidth: "350px",
-                      height: "480px",
+                      height: "350px",
                     }}
                   >
                     <Box width={"100%"}>
-                      <Box top={0} left={0} bottom={0} right={0}>
-                        <img src={excercise[i]?.gifUrl} alt="excersise gif" />
+                      <Box top={0} left={0} bottom={0} right={0} sx={{pl: 5}}>
+                        <img src={excercise[i]?.gifUrl} alt="excersise gif" id='exercise-gif'/>
                       </Box>
                     </Box>
 
@@ -140,7 +142,7 @@ export default function HomePage() {
                           fontStyle={"italic"}
                           display={"inline-block"}
                         >
-                          {excercise[i]?.target}
+                          {excercise[i]?.target}.
                         </Typography>
                       </Typography>
                     </Box>

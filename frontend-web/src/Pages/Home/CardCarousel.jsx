@@ -7,28 +7,27 @@ import axios from 'axios'
 
 const CardCarousel = () => {
 
-    const [medicines, setMedicines] = useState();
+    const [medicines, setMedicines] = useState([]);
 
     useEffect(() => {
         axios.get('https://dummyjson.com/posts')
         .then(res => setMedicines(res.data.posts))
       },[])
 
-      console.log(medicines);
     const imageStyle = { height: 65, width: 65}
     const responsive = {
         superLargeDesktop: {
           // the naming can be any, depends on you.
-          breakpoint: { max: 4000, min: 3000 },
+          breakpoint: { max: 4000, min: 1400 },
           items: 5
         },
         desktop: {
-          breakpoint: { max: 3000, min: 1024 },
-          items: 5
+          breakpoint: { max: 1400, min: 1024 },
+          items: 4
         },
         tablet: {
           breakpoint: { max: 1024, min: 464 },
-          items: 1
+          items: 3
         },
         mobile: {
           breakpoint: { max: 464, min: 0 },
@@ -38,9 +37,12 @@ const CardCarousel = () => {
 
   return (
     <>
-    <Carousel responsive={responsive}>
-            {medicines?.map(medicine => (
-                    <Card sx={{height: 120, width: 220, backgroundColor: '#82AAE3', borderRadius: 5, display: 'flex', padding: 2}}>
+    <Carousel responsive={responsive}
+      removeArrowOnDeviceType={["tablet", "mobile"]}
+      autoPlay={true}
+      autoPlaySpeed={2000}>
+            {medicines?.map((medicine) => (
+                    <Card sx={{height: 120, width: 220, backgroundColor: '#82AAE3', borderRadius: 5, display: 'flex', padding: 2}} key={medicine.id}>
                         <Box sx={{flex: 40}}>
                             <img src={logo} alt='' style={imageStyle}/>
                             <Typography variant='h6'>₹50</Typography>

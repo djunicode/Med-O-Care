@@ -1,0 +1,67 @@
+
+.buy-med-container {
+    margin: 0 5% 2%;
+}
+
+.exercise-container {
+    margin: 0 5% 2%;
+}
+
+#buy-title {
+    margin-bottom: 15px;
+}
+
+.youtube-exercise {
+    border-radius: 20px;
+}
+
+#exercise-gif {
+    height: 200px;
+    width: 200px;
+}
+
+
+.account-page-container {
+    display: flex;
+    flex-direction: column;
+}
+
+#account-page-details {
+    display: flex;
+    align-content: space-around;
+    margin: 3%;
+}
+#account-page-avatar {
+    float: left;
+    margin: 0 5%;
+}
+#profile-user {
+    font-size: 20px;
+    font-weight: bold;
+}
+.sliding-pane {
+    height: 560px;
+    z-index: 2;
+    background-color: #E9F8F9;
+    padding-right: 2%;
+}
+#account-page-btns {
+    display: flex;
+    justify-content: space-between;
+}
+@media (max-width: 480px) {
+    .buy-med-container {
+        margin: 1% 20% 2%;
+    }
+    .exercise-container {
+        margin: 0;
+    }
+    #excerise-gif {
+        height: 150;
+        width: 150;
+    }
+    .youtube-exercise {
+        height: 280px;
+        width: 350px;
+    }
+}
