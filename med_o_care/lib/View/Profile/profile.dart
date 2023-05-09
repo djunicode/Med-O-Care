@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:med_o_care/View/Auth/services/auth_service.dart';
 
-class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
+class ProfileTemporary extends StatefulWidget {
+  const ProfileTemporary({super.key});
 
   @override
-  State<ProfilePage> createState() => _ProfilePageState();
+  State<ProfileTemporary> createState() => _ProfileTemporaryState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
+class _ProfileTemporaryState extends State<ProfileTemporary> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 15),
-      child: Center(
+    return Scaffold(
+      body: Center(
         child: ElevatedButton(
           child: Text("Logout"),
           onPressed: () {

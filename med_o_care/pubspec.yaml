@@ -24,6 +24,8 @@ dependencies:
   form_field_validator: ^1.1.0
   http:
   shared_preferences:
+  file_picker:
+  image_picker:
 
 dev_dependencies:
   flutter_test:
