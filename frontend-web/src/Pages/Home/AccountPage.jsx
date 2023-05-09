@@ -1,5 +1,4 @@
 import * as React from "react";
-import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 // import Modal from '@mui/material/Modal';
@@ -11,6 +10,7 @@ import "react-sliding-pane/dist/react-sliding-pane.css";
 import { useApp } from "../../Context/app-context";
 import { addYears, format } from "date-fns";
 import { differenceInYears } from "date-fns";
+import axios from "axios";
 
 const style = {
   position: "relative",
@@ -105,6 +105,10 @@ const genders = ["Male", "Female", "Other"];
 const AccountPage = ({ open, close }) => {
   const { currentUser } = useApp();
 
+  const dealingWithAgeKeyDown = (e) => {
+    e.preventDefault();
+  };
+
   const [dateOfBirth, setDateOfBirth] = useState(
     format(new Date(currentUser.dob), "yyyy-MM-dd")
   );
@@ -118,9 +122,22 @@ const AccountPage = ({ open, close }) => {
     setEdit(true);
   };
 
-  const dealingWithSave = () => {
-    console.log(gender);
-    console.log(dateOfBirth);
+  const dealingWithSave = async () => {
+    const options = {
+      method: "PUT",
+      url: `${process.env.REACT_APP_API_ENDPOINT}/user/editUserInfo`,
+      body: {
+        gender,
+        DOB: dateOfBirth,
+        ...currentUser,
+      },
+    };
+
+    const resp = await axios.request(options);
+    //display toast or alert
+    if (resp.data.success){
+      close();
+    } 
   };
 
   return (
@@ -188,33 +205,27 @@ const AccountPage = ({ open, close }) => {
             <Typography sx={{ marginLeft: 2, fontSize: "large" }}>
               Age
             </Typography>
-            
+
             <TextField
               value={differenceInYears(new Date(), new Date(dateOfBirth))}
               sx={{ borderColor: "#537FE7" }}
+              onKeyDown={dealingWithAgeKeyDown}
               onChange={(e) => {
-                // setDateOfBirth(
-                //   format(
-                //     addYears(
-                //       new Date(dateOfBirth),
-                //       e.target.value -
-                //         differenceInYears(new Date(), new Date(dateOfBirth))
-                //     ),
-                //     "yyyy-MM-dd"
-                //   )
-                // )
-                console.log(
+                setDateOfBirth(
                   format(
                     addYears(
                       new Date(dateOfBirth),
-                      e.target.value -
+                      -(
+                        e.target.value -
                         differenceInYears(new Date(), new Date(dateOfBirth))
+                      )
                     ),
                     "yyyy-MM-dd"
                   )
                 );
               }}
               InputProps={{
+                type: "number",
                 readOnly: edit ? false : true,
                 sx: {
                   borderRadius: 10,
@@ -237,7 +248,6 @@ const AccountPage = ({ open, close }) => {
               value={dateOfBirth}
               onChange={(e) => {
                 setDateOfBirth(format(new Date(e.target.value), "yyyy-MM-dd"));
-                console.log();
               }}
               InputProps={{
                 readOnly: edit ? false : true,
