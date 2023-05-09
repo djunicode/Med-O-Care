@@ -29,7 +29,7 @@ class Data {
     required this.email,
     required this.phone,
     required this.dob,
-    required this.gender,
+    this.gender,
     required this.location,
     required this.password,
     required this.medicalFiles,
@@ -50,26 +50,26 @@ class Data {
   });
   late final String id;
   late final String fName;
-  late final Null lName;
+  late final String? lName;
   late final String role;
-  late final Null pfp;
+  late final String? pfp;
   late final String email;
   late final int phone;
   late final String dob;
-  late final String gender;
-  late final String location;
+  late final String? gender;
+  late final String? location;
   late final String password;
   late final List<dynamic> medicalFiles;
   late final int medicalFileCount;
   late final List<dynamic> insuranceFiles;
   late final int insuranceFileCount;
-  late final Null height;
-  late final Null weight;
-  late final Null healthScore;
-  late final Null periodHowLong;
-  late final Null periodMcDuration;
+  late final int? height;
+  late final int? weight;
+  late final int? healthScore;
+  late final int? periodHowLong;
+  late final int? periodMcDuration;
   late final List<dynamic> periodDates;
-  late final Null OTP;
+  late final int? OTP;
   late final List<dynamic> pillReminder;
   late final String createdAt;
   late final String updatedAt;
@@ -91,13 +91,13 @@ class Data {
     medicalFileCount = json['medicalFileCount'];
     insuranceFiles = List.castFrom<dynamic, dynamic>(json['insuranceFiles']);
     insuranceFileCount = json['insuranceFileCount'];
-    height = null;
-    weight = null;
-    healthScore = null;
-    periodHowLong = null;
-    periodMcDuration = null;
+    height = json['height'];
+    weight = json['weight'];
+    healthScore = json['health_score'];
+    periodHowLong = json['period_how_long'];
+    periodMcDuration = json['period_mc_duration'];
     periodDates = List.castFrom<dynamic, dynamic>(json['period_dates']);
-    OTP = null;
+    OTP = json['OTP'];
     pillReminder = List.castFrom<dynamic, dynamic>(json['pill_reminder']);
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
@@ -105,33 +105,33 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['_id'] = id;
-    _data['fName'] = fName;
-    _data['lName'] = lName;
-    _data['role'] = role;
-    _data['pfp'] = pfp;
-    _data['email'] = email;
-    _data['phone'] = phone;
-    _data['dob'] = dob;
-    _data['gender'] = gender;
-    _data['location'] = location;
-    _data['password'] = password;
-    _data['medicalFiles'] = medicalFiles;
-    _data['medicalFileCount'] = medicalFileCount;
-    _data['insuranceFiles'] = insuranceFiles;
-    _data['insuranceFileCount'] = insuranceFileCount;
-    _data['height'] = height;
-    _data['weight'] = weight;
-    _data['health_score'] = healthScore;
-    _data['period_how_long'] = periodHowLong;
-    _data['period_mc_duration'] = periodMcDuration;
-    _data['period_dates'] = periodDates;
-    _data['OTP'] = OTP;
-    _data['pill_reminder'] = pillReminder;
-    _data['createdAt'] = createdAt;
-    _data['updatedAt'] = updatedAt;
-    _data['__v'] = V;
-    return _data;
+    final data = <String, dynamic>{};
+    data['_id'] = id;
+    data['fName'] = fName;
+    data['lName'] = lName;
+    data['role'] = role;
+    data['pfp'] = pfp;
+    data['email'] = email;
+    data['phone'] = phone;
+    data['dob'] = dob;
+    data['gender'] = gender;
+    data['location'] = location;
+    data['password'] = password;
+    data['medicalFiles'] = medicalFiles;
+    data['medicalFileCount'] = medicalFileCount;
+    data['insuranceFiles'] = insuranceFiles;
+    data['insuranceFileCount'] = insuranceFileCount;
+    data['height'] = height;
+    data['weight'] = weight;
+    data['health_score'] = healthScore;
+    data['period_how_long'] = periodHowLong;
+    data['period_mc_duration'] = periodMcDuration;
+    data['period_dates'] = periodDates;
+    data['OTP'] = OTP;
+    data['pill_reminder'] = pillReminder;
+    data['createdAt'] = createdAt;
+    data['updatedAt'] = updatedAt;
+    data['__v'] = V;
+    return data;
   }
 }
