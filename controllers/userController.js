@@ -188,7 +188,7 @@ const updateUser = async (req, res) => {
     let email = req.user.email;
 
     const updates = Object.keys(req.body);
-    const allowedUpdates = ["fName", "lName", "number", "password", "email","height","weight", "health_score", "period_dates", "period_how_long", "period_mc_duration", "pill_reminder"];
+    const allowedUpdates = ["fName", "lName","location","DOB", "phone", "gender", "password", "email","height","weight", "health_score", "period_dates", "period_how_long", "period_mc_duration", "pill_reminder"];
     const isValidOperation = updates.every((update) =>
         allowedUpdates.includes(update)
     );
@@ -296,9 +296,9 @@ const uploadInsurance = async (req, res) => {
 const periodTracker = async(req, res) => {
     try {
         const userEmail = req.user.email;
-        const lastDay = req.params.lastDay;
-        const how_long = req.params.how_long;
-        const duration = req.params.duration;
+        const lastDay = req.body.lastDay;
+        const how_long = req.body.howLong;
+        const duration = req.body.duration;
 
         function addDays (days, date) {
             date.setDate(date.getDate() + parseInt(days));
@@ -341,6 +341,36 @@ const periodTracker = async(req, res) => {
     }
 }
 
+const getPeriodDates = async(req,res) => {
+    try{
+        const user = req.user
+        const lastDay = user.period_lastDay
+        const how_long = user.period_how_long;
+        const duration = user.period_mc_duration
+
+        if(lastDay.length == 0){
+            res.status(200).json({
+                success: true,
+                message: "No dates entered"
+            })
+        }
+
+        res.status(200).json({
+            success: true,
+            lastDay : lastDay,
+            how_long : how_long,
+            duration : duration
+        })
+
+    }catch(err){
+        res.status(500).json({
+            success: false,
+            message: err.message,
+        })
+    }
+
+}
+
 const medicineDosage = async (req,res) => {
     try{
       const email = req.user.email
@@ -381,5 +411,6 @@ module.exports = {
     uploadMedical,
     uploadInsurance,
     periodTracker,
-    medicineDosage
+    medicineDosage,
+    getPeriodDates
 };
