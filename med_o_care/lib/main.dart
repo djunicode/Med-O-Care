@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:med_o_care/View/Auth/login.dart';
 import 'package:med_o_care/View/Auth/services/auth_service.dart';
+import 'package:med_o_care/View/Auth/sign_up.dart';
+import 'package:med_o_care/View/Profile/editProfile.dart';
 import 'package:med_o_care/View/Screens/home.dart';
+import 'package:med_o_care/View/Profile/myprofile.dart';
 import 'package:med_o_care/View/Upload/add_document.dart';
 
 void main() {

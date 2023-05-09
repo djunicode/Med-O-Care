@@ -11,6 +11,11 @@ class score_tracker extends StatefulWidget {
 }
 
 class _score_trackerState extends State<score_tracker> {
+  final _formkey = GlobalKey<FormState>();
+  TextEditingController weightcontroller = TextEditingController();
+  TextEditingController heightcontroller = TextEditingController();
+  TextEditingController repasscontroller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -22,19 +27,19 @@ class _score_trackerState extends State<score_tracker> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SizedBox(height: size.height * 0.01625),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SizedBox(
-                  width: size.width * 0.045,
-                ),
-                Image.asset(
-                  logo,
-                  height: size.height * 0.08125,
-                  width: size.height * 0.08125,
-                ),
-              ],
-            ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.start,
+            //   children: [
+            //     SizedBox(
+            //       width: size.width * 0.045,
+            //     ),
+            //     Image.asset(
+            //       logo,
+            //       height: size.height * 0.08125,
+            //       width: size.height * 0.08125,
+            //     ),
+            //   ],
+            // ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

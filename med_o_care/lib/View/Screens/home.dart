@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:med_o_care/Constant/colors.dart';
 import 'package:med_o_care/View/Medicines/medicines_page.dart';
-import 'package:med_o_care/View/Profile/profile.dart';
-import 'package:med_o_care/View/Screens/healthscore1.dart';
-import 'package:med_o_care/View/Screens/healthscore2.dart';
-import 'package:med_o_care/View/Screens/myprofile.dart';
 
+import 'package:med_o_care/View/Profile/myprofile.dart';
+import 'package:med_o_care/View/Screens/score_tracker.dart';
 import 'package:med_o_care/View/Upload/my_files.dart';
 
 class Home extends StatefulWidget {
@@ -21,9 +19,8 @@ class _HomeState extends State<Home> {
   final List<Widget> _navigationScreens = [
     const MedicinesPage(),
     const UploadFiles(),
-    const healthscore_data(),
-    const MyProfile(),
-    const ProfileTemporary()
+    score_tracker(),
+    MyProfile()
   ];
 
   List<NavigationItem> items = [
@@ -58,7 +55,10 @@ class _HomeState extends State<Home> {
                   width: 65,
                 ),
                 IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => MyProfile()));
+                    },
                     icon: SvgPicture.asset("assets/icons/icon _menu_.svg"))
               ],
             ),
