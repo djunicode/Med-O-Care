@@ -67,11 +67,9 @@ const userSchema = new Schema(
         medicalFiles: [{
             name : {
                 type : String,
-                required : true
             },
             file : {
-                type : Buffer,
-                required : true
+                type : String,
             }
         }],
         medicalFileCount: {
@@ -81,11 +79,9 @@ const userSchema = new Schema(
         insuranceFiles: [{
             name : {
                 type : String,
-                required : true
             },
             file : {
-                type : Buffer,
-                required : true
+                type : String,
             }
         }],
         insuranceFileCount: {

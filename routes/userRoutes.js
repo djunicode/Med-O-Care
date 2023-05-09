@@ -40,7 +40,11 @@ router.post(
 );
 
 // period tracker
-router.get("/periodTracker/:lastDay/:how_long/:duration", auth.verifyToken, userC.periodTracker)
+router.post("/periodTracker", auth.verifyToken, userC.periodTracker)
+
+// get period dates
+router.get("/getPeriodDates", auth.verifyToken, userC.getPeriodDates)
+
 //upload medicine and dosage information 
 router.post("/medicineDosage", auth.verifyToken, userC.medicineDosage)
 
