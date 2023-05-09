@@ -202,7 +202,7 @@ class _final_healthscoreState extends State<final_healthscore> {
                             color: Colors.black),
                       ),
                       SizedBox(
-                        width: 88,
+                        width: size.width * 0.228,
                       ),
                       Container(
                         height: size.height * 0.05625,
