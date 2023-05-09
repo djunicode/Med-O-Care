@@ -39,6 +39,8 @@ router.post(
     userC.uploadInsurance
 );
 
+// period tracker
+router.get("/periodTracker/:lastDay/:how_long/:duration", auth.verifyToken, userC.periodTracker)
 //upload medicine and dosage information 
 router.post("/medicineDosage", auth.verifyToken, userC.medicineDosage)
 
