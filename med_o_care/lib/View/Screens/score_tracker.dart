@@ -17,7 +17,7 @@ class _score_trackerState extends State<score_tracker> {
 
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.all(0.5),
+        padding: const EdgeInsets.all(0.5),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -52,7 +52,7 @@ class _score_trackerState extends State<score_tracker> {
                     child: Center(
                       child: Container(
                         decoration: BoxDecoration(
-                            color: Color(0XFF82AAE3).withOpacity(0.55),
+                            color: const Color(0XFF82AAE3).withOpacity(0.55),
                             borderRadius: BorderRadius.circular(5)),
                         width: size.width * 0.75,
                         height: size.height * 0.5475,
@@ -66,7 +66,7 @@ class _score_trackerState extends State<score_tracker> {
                             InkWell(
                               onTap: () {
                                 Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => healthscore_data()));
+                                    builder: (context) => const healthscore_data()));
                               },
                               child: Container(
                                 height: size.height * 0.0625,

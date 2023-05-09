@@ -37,17 +37,17 @@ class MyApp extends StatelessWidget {
               snapshot.data!.isNotEmpty &&
               snapshot.data != 'no_token') {
             // User is logged in, navigate to home page
-            return Home();
+            return const Home();
           } else {
             // User is not logged in, navigate to login page
-            return LoginScreen();
+            return const LoginScreen();
           }
         },
       ),
       routes: {
-        '/add_files': (context) => AddDocument(),
-        '/navbar': (context) => Home(),
-        '/login': (context) => LoginScreen()
+        '/add_files': (context) => const AddDocument(),
+        '/navbar': (context) => const Home(),
+        '/login': (context) => const LoginScreen(),
       },
     );
   }

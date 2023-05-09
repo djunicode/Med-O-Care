@@ -5,7 +5,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:intl/intl.dart';
 import 'package:med_o_care/Constant/constants.dart';
 import 'package:med_o_care/View/Auth/services/auth_service.dart';
-import 'package:med_o_care/models/user.dart';
+import 'package:med_o_care/Model/user.dart';
 import 'login.dart';
 
 class SignUpScreen extends StatefulWidget {

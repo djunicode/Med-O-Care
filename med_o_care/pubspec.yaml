@@ -24,6 +24,7 @@ dependencies:
   form_field_validator: ^1.1.0
   http:
   shared_preferences:
+  flutter_speed_dial:
 
 dev_dependencies:
   flutter_test:

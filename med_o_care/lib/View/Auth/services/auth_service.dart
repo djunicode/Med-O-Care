@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
-import 'package:med_o_care/models/user.dart';
+import 'package:med_o_care/Model/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {

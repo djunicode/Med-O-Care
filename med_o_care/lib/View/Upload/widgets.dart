@@ -26,20 +26,20 @@ class _UploadFileWidgetState extends State<UploadFileWidget> {
           children: [
             Text(
               widget.title,
-              style: TextStyle(fontSize: 18),
+              style: const TextStyle(fontSize: 18),
             ),
             Text(
               widget.type,
-              style: TextStyle(color: Colors.grey),
+              style: const TextStyle(color: Colors.grey),
             )
           ],
         ),
         Container(
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           decoration: BoxDecoration(
               color: ResourceColors.colorPrimaryLightTheme,
               borderRadius: BorderRadius.circular(30)),
-          child: Center(
+          child: const Center(
               child: Text(
             "Edit",
             style: TextStyle(color: Colors.white),

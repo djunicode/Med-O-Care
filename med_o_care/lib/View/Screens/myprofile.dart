@@ -1,3 +1,5 @@
+// ignore_for_file: sized_box_for_whitespace, avoid_unnecessary_containers
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:med_o_care/Constant/constants.dart';
@@ -16,7 +18,7 @@ class _MyProfileState extends State<MyProfile> {
 
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.all(0.5),
+        padding: const EdgeInsets.all(0.5),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -38,8 +40,8 @@ class _MyProfileState extends State<MyProfile> {
             Row(
               children: [
                 SizedBox(width: size.width * 0.05),
-                IconButton(onPressed: () {}, icon: Icon(Icons.arrow_back)),
-                SizedBox(width: 7.5),
+                IconButton(onPressed: () {}, icon: const Icon(Icons.arrow_back)),
+                const SizedBox(width: 7.5),
                 Container(
                   child: Text('My Profile',
                       style: GoogleFonts.poppins(
@@ -110,7 +112,7 @@ class _MyProfileState extends State<MyProfile> {
                 ),
               ],
             ),
-            SizedBox(height: 4),
+            const SizedBox(height: 4),
             Container(
               width: double.infinity,
               child: Row(
@@ -122,7 +124,7 @@ class _MyProfileState extends State<MyProfile> {
                     child: Text('Gender',
                         style: GoogleFonts.poppins(
                           fontSize: 15,
-                          color: Color.fromRGBO(0, 0, 0, 0.7),
+                          color: const Color.fromRGBO(0, 0, 0, 0.7),
                           fontWeight: FontWeight.w500,
                         )),
                   ),
@@ -133,14 +135,14 @@ class _MyProfileState extends State<MyProfile> {
                     child: Text('Date of Birth',
                         style: GoogleFonts.poppins(
                           fontSize: 15,
-                          color: Color.fromRGBO(0, 0, 0, 0.7),
+                          color: const Color.fromRGBO(0, 0, 0, 0.7),
                           fontWeight: FontWeight.w500,
                         )),
                   ),
                 ],
               ),
             ),
-            SizedBox(height: 4),
+            const SizedBox(height: 4),
             Container(
               width: double.infinity,
               child: Row(
@@ -178,7 +180,7 @@ class _MyProfileState extends State<MyProfile> {
                     child: Text('Weight',
                         style: GoogleFonts.poppins(
                           fontSize: 15,
-                          color: Color.fromRGBO(0, 0, 0, 0.7),
+                          color: const Color.fromRGBO(0, 0, 0, 0.7),
                           fontWeight: FontWeight.w500,
                         )),
                   ),
@@ -189,14 +191,14 @@ class _MyProfileState extends State<MyProfile> {
                     child: Text('Height',
                         style: GoogleFonts.poppins(
                           fontSize: 15,
-                          color: Color.fromRGBO(0, 0, 0, 0.7),
+                          color: const Color.fromRGBO(0, 0, 0, 0.7),
                           fontWeight: FontWeight.w500,
                         )),
                   ),
                 ],
               ),
             ),
-            SizedBox(height: 4),
+            const SizedBox(height: 4),
             Container(
               width: double.infinity,
               child: Row(
@@ -243,7 +245,7 @@ class _MyProfileState extends State<MyProfile> {
                         )),
                   ),
                   SizedBox(width: size.width * 0.275),
-                  Icon(Icons.arrow_forward_ios)
+                  const Icon(Icons.arrow_forward_ios)
                 ],
               ),
             ),

@@ -13,7 +13,7 @@ class _AddDocumentState extends State<AddDocument> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "Add Document",
           style: TextStyle(
               color: ResourceColors.colorPrimaryLightTheme,
@@ -21,7 +21,7 @@ class _AddDocumentState extends State<AddDocument> {
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
-        iconTheme: IconThemeData(color: ResourceColors.colorPrimaryLightTheme),
+        iconTheme: const IconThemeData(color: ResourceColors.colorPrimaryLightTheme),
       ),
     );
   }
