@@ -20,7 +20,8 @@ function Navbar() {
   const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [open, setOpen] = React.useState(false);
-  const { userDetails } = useApp();
+  const { currentUser } = useApp();
+  console.log(currentUser)
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -34,7 +35,7 @@ function Navbar() {
     routing(page);
   };
   let pages = [];
-  if (userDetails?.email) {
+  if (currentUser?.email) {
     pages = ["Upload", "Healthscore", "Period tracker"];
   } else {
     pages = ["Healthscore"];
@@ -144,7 +145,7 @@ function Navbar() {
                   </MenuItem>
                 ))}
 
-                {userDetails?.email && (
+                {currentUser?.email && (
                   <>
                     <MenuItem
                       onClick={() => {
@@ -178,7 +179,7 @@ function Navbar() {
                   {page}
                 </Button>
               ))}
-              {!userDetails?.email && (
+              {!currentUser?.email && (
                 <>
                   {" "}
                   <Box
@@ -222,7 +223,7 @@ function Navbar() {
               )}
             </Box>
 
-            {userDetails?.email && (
+            {currentUser?.email && (
               <Tooltip title="My accounts">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   <Avatar alt="avatar" src="/static/images/avatar/2.jpg" />
