@@ -12,7 +12,6 @@ import {
 import {
     EmailOutlined,
     LockOutlined,
-    VisibilityOffOutlined,
     Google,
     VisibilityOff,
     Visibility,

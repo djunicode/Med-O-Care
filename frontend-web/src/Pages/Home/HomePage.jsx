@@ -10,6 +10,7 @@ import CardCarousel from "./CardCarousel";
 export default function HomePage() {
   const { currentUser } = useApp();
   const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingExcersise,setIsLoadingExcersise] = useState(true)
   const [excercise, setExcercise] = useState([]);
   const opts = {
     playerVars: {
@@ -27,8 +28,11 @@ export default function HomePage() {
         method: "GET",
       }
     );
-    const respINJSON = await resp.json();
-    setExcercise(respINJSON.data);
+    if(resp.status===200){
+      const respINJSON = await resp.json();
+      setIsLoadingExcersise(false)
+      setExcercise(respINJSON.data);
+    }
   };
 
   useEffect(() => {
@@ -93,7 +97,7 @@ export default function HomePage() {
           justifyContent="space-around"
           sx={{ pt: 3, pr: 5, pl: 5 }}
         >
-          {excercise[1] &&
+          {!isLoadingExcersise &&
             Array.from(Array(6)).map((_, index) => {
               let i = getRandomIndex();
               return (
