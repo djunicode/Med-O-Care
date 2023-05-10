@@ -16,6 +16,11 @@ let mailTransporter = nodemailer.createTransport({
     port: 4,
 });
 
+function addDays (days, date = new Date()) {
+    date.setDate(date.getDate() + parseInt(days));
+    return date;
+}
+
 // New user
 const createUser = async (req, res) => {
     try {
@@ -300,11 +305,7 @@ const periodTracker = async(req, res) => {
         const how_long = req.body.howLong;
         const duration = req.body.duration;
 
-        function addDays (days, date) {
-            date.setDate(date.getDate() + parseInt(days));
-            return date;
-        }
-
+        
         let index = 0;
         let dates = [];
         for (var i = 0; i < 3; i++) {
@@ -347,6 +348,7 @@ const getPeriodDates = async(req,res) => {
         const lastDay = user.period_lastDay
         const how_long = user.period_how_long;
         const duration = user.period_mc_duration
+        const period_dates = user.period_dates
 
         if(lastDay.length == 0){
             res.status(200).json({
@@ -355,11 +357,20 @@ const getPeriodDates = async(req,res) => {
             })
         }
 
+        // The case where the user hasn't entered the recent dates, so the dates are old
+        if (new Date(Date.now()) > addDays(2*duration, new Date(period_dates[0]))) {
+            res.status(200).json({
+                success: true,
+                message: "Dates are old, need to be updated"
+            })
+        }
+
         res.status(200).json({
             success: true,
             lastDay : lastDay,
             how_long : how_long,
-            duration : duration
+            duration : duration,
+            period_dates: period_dates
         })
 
     }catch(err){
