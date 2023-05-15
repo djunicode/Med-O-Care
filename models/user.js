@@ -94,11 +94,9 @@ const userSchema = new Schema(
         period_lastDay: Date, // not sure
         period_how_long: Number,
         period_mc_duration: Number,
-        period_dates: [
-            {
-                type: Date, // unsure
-            },
-        ],
+        period_dates: [[{   // Array of array of dates in each month
+            type: Date,
+        }]],
         pill_reminder: [
             {
                 name: Date,

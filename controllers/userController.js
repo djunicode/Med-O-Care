@@ -305,7 +305,7 @@ const periodTracker = async(req, res) => {
         const how_long = req.body.howLong;
         const duration = req.body.duration;
 
-        
+        // Calculating the dates
         let index = 0;
         let dates = [];
         for (var i = 0; i < 3; i++) {
@@ -323,14 +323,27 @@ const periodTracker = async(req, res) => {
             }
         }
 
+        // Organizing dates in separate arrays for each month
+        let month = new Date(dates[0]).getMonth();
+        let month_i = 0;
+        dates_array = [[], []];
+        for (i in dates) {
+            if (new Date(dates[i]).getMonth() != month) {
+                month = new Date(dates[i]).getMonth();
+                month_i++;
+                dates_array[month_i] = []
+            }
+            dates_array[month_i].push(dates[i]);
+        }
+
         await UserSchema.findOneAndUpdate(
             { email: userEmail }, 
-            { $set: {period_lastDay: lastDay, period_how_long: how_long, period_mc_duration: duration, period_dates: dates} }
+            { $set: {period_lastDay: lastDay, period_how_long: how_long, period_mc_duration: duration, period_dates: dates_array} }
         );
 
         res.status(200).json({
             success: true,
-            data: dates
+            data: dates_array
         })
 
     }
@@ -358,7 +371,7 @@ const getPeriodDates = async(req,res) => {
         }
 
         // The case where the user hasn't entered the recent dates, so the dates are old
-        if (new Date(Date.now()) > addDays(2*duration, new Date(period_dates[0]))) {
+        if (new Date(Date.now()) > addDays(2*duration, new Date(period_dates[0][0]))) {
             res.status(200).json({
                 success: true,
                 message: "Dates are old, need to be updated"
