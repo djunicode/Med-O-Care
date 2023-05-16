@@ -6,7 +6,7 @@ import {
     RouterProvider,
 } from "react-router-dom";
 import RootLayout from "./Layouts/RootLayout";
-import HomePage from "./Pages/HomePage";
+import HomePage from "./Pages/Home/HomePage";
 import SignupPage from "./Pages/SignupPage";
 import LoginPage from "./Pages/LoginPage";
 import ForgotPasswordPage from "./Pages/ForgotPasswordPage";
@@ -21,10 +21,10 @@ import PeriodTracker2 from "./Pages/PeriodTracker2";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/">
-      <Route path="signup" element={<SignupPage />} />
-      <Route path="login" element={<LoginPage />} />
 
       <Route element={<RootLayout />}>
+      <Route path="signup" element={<SignupPage />} />
+      <Route path="login" element={<LoginPage />} />
         <Route index element={<HomePage />} />
         <Route path="uploadrecords" element={<UploadRecords />} />
         <Route path="healthscore" element={<Healthscore />} />

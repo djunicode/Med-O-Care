@@ -1,0 +1,111 @@
+.signup-container {
+    display: flex;
+    margin-left: 100px; 
+    margin-top: 30px;
+}
+
+.signup-box {
+    background-color: #82aae36d;
+    margin-top: 5px;
+    border: #537FE7 2px solid;
+    border-radius: 20px;
+    padding: 20px 10px 0px;
+    flex: 45%;
+}
+
+.signup-div {
+    padding: 2px 50px;
+    margin: 3px;
+}
+
+.dob-gender-grid {
+    padding: 2px 50px;
+    display: flex;
+    flex-direction: row;
+}
+
+#signup-dob {
+    flex: 50%;
+    margin-right: 10px;
+}
+
+#signup-gender {
+    flex: 50%;
+    margin-left: 10px;
+}
+
+.signup-btns {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+#signup-btn {
+    background-color: #537FE7;
+    border-radius: 20px;
+    margin: 10px 0;
+    padding: 8px 80px;
+}
+.signup-images {
+    flex: 40%;
+    display: flex;
+    flex-direction: column;
+    margin-left: 150px;
+}
+
+#logo-image {
+    height: 400px;
+    width: 400px;
+}
+
+#doctor-image {
+    height: 320px;
+    width: 400px;
+}
+
+#medicine-image {
+    height: 0;
+}
+
+#medocare-image {
+    height: 0;
+}
+
+@media (max-width: 780px) {
+    .signup-container {
+        flex-direction: column-reverse;
+        margin: 0px 5px;
+    }
+    /* .signup-box {
+        flex: 0
+    } */
+    .signup-images {
+        margin: auto;
+        flex-direction: row;
+    }
+    #logo-image {
+        height: 0px;
+        width: 0px
+    }
+    #doctor-image {
+        height: 0px;
+        width: 0px;
+    }
+    #medicine-image {
+        height: 100px;
+        width: 100px;
+    }
+    #medocare-image {
+        height: 100px;
+        width: 160px;
+    }
+    .dob-gender-grid {
+        display: flex;
+        flex-direction: column;
+    }
+    #signup-dob {
+        margin: 0px;
+    }
+    #signup-gender {
+        margin: 0px;
+    }
+}

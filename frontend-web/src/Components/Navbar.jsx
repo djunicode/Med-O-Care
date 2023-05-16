@@ -13,36 +13,44 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import logo from "../Assets/logo.png";
 import { useNavigate } from "react-router-dom";
-import Navbar2 from "./Navbar2";
-
-const pages = ["Upload", "Healthscore", "Period tracker"];
+import AccountPage from "../Pages/Home/AccountPage";
+import { useApp } from "../Context/app-context";
 
 function Navbar() {
   const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const [open, setOpen] = React.useState(false);
+  const { currentUser } = useApp();
+  console.log(currentUser)
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
   const handleOpenUserMenu = (event) => {
-    //display modal
+    setOpen(true);
   };
 
   const handleCloseNavMenu = (page) => {
     setAnchorElNav(null);
     routing(page);
   };
+  let pages = [];
+  if (currentUser?.email) {
+    pages = ["Upload", "Healthscore", "Period tracker"];
+  } else {
+    pages = ["Healthscore"];
+  }
 
   const routing = (page) => {
-    page == "login" && navigate("login");
-    page == "signup" && navigate("signup");
-    page == "Upload" && navigate("uploadrecords");
-    page == "Healthscore" && navigate("healthscore");
-    page == "Period tracker" && navigate("periodtracker");
+    page === "login" && navigate("login");
+    page === "signup" && navigate("signup");
+    page === "Upload" && navigate("uploadrecords");
+    page === "Healthscore" && navigate("healthscore");
+    page === "Period tracker" && navigate("periodtracker");
   };
 
   const handleCloseUserMenu = () => {
-    //remove modal
+    setOpen(false);
   };
 
   return (
@@ -137,13 +145,24 @@ function Navbar() {
                   </MenuItem>
                 ))}
 
-                <MenuItem
-                  onClick={() => {
-                    handleCloseNavMenu("signup");
-                  }}
-                >
-                  <Typography textAlign="center">Sign Up</Typography>
-                </MenuItem>
+                {currentUser?.email && (
+                  <>
+                    <MenuItem
+                      onClick={() => {
+                        handleCloseNavMenu("signup");
+                      }}
+                    >
+                      <Typography textAlign="center">Sign Up</Typography>
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        handleCloseNavMenu("login");
+                      }}
+                    >
+                      <Typography textAlign="center">Login </Typography>
+                    </MenuItem>
+                  </>
+                )}
               </Menu>
             </Box>
 
@@ -160,50 +179,61 @@ function Navbar() {
                   {page}
                 </Button>
               ))}
-              <Box
-                sx={{
-                  display: "flex",
-                  my: 2,
-                  bgcolor: "#537FE7",
-                  justifyContent: "center",
-                  borderRadius: "10px",
-                  height: "40px",
-                  width: "90px",
-                  mr: 4,
-                }}
-              >
-                <Button
-                  sx={{ display: "block", color: "white" }}
-                  onClick={() => {
-                    handleCloseNavMenu("signup");
-                  }}
-                >
-                  Signup
-                </Button>
-              </Box>
-
-              <Box
-                sx={{ flexGrow: 1, display: { xs: "none", md: "flex" }, mr: 4 }}
-              >
-                <Button
-                  sx={{ my: 2, color: "black" }}
-                  onClick={() => {
-                    handleCloseNavMenu("login");
-                  }}
-                >
-                  Login
-                </Button>
-              </Box>
+              {!currentUser?.email && (
+                <>
+                  {" "}
+                  <Box
+                    sx={{
+                      display: "flex",
+                      my: 2,
+                      bgcolor: "#537FE7",
+                      justifyContent: "center",
+                      borderRadius: "10px",
+                      height: "40px",
+                      width: "90px",
+                      mr: 4,
+                    }}
+                  >
+                    <Button
+                      sx={{ display: "block", color: "white" }}
+                      onClick={() => {
+                        handleCloseNavMenu("signup");
+                      }}
+                    >
+                      Signup
+                    </Button>
+                  </Box>
+                  <Box
+                    sx={{
+                      flexGrow: 1,
+                      display: { xs: "none", md: "flex" },
+                      mr: 4,
+                    }}
+                  >
+                    <Button
+                      sx={{ my: 2, color: "black" }}
+                      onClick={() => {
+                        handleCloseNavMenu("login");
+                      }}
+                    >
+                      Login
+                    </Button>
+                  </Box>
+                </>
+              )}
             </Box>
 
-            <Tooltip title="My accounts">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="avatar" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
+            {currentUser?.email && (
+              <Tooltip title="My accounts">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <Avatar alt="avatar" src="/static/images/avatar/2.jpg" />
+                </IconButton>
+              </Tooltip>
+            )}
           </Toolbar>
         </Container>
       </AppBar>
+      {open && <AccountPage open={open} close={handleCloseUserMenu} />}
     </>
   );
 }

@@ -12,7 +12,6 @@ import {
 import {
     EmailOutlined,
     LockOutlined,
-    VisibilityOffOutlined,
     Google,
     VisibilityOff,
     Visibility,
@@ -86,7 +85,7 @@ const LoginPage = () => {
     };
 
     return (
-        <div class="login-grid-container">
+        <div className="login-grid-container">
             <div id="logininfo">
                 <span hidden id="error">
                     Invalid email or password!
@@ -161,7 +160,7 @@ const LoginPage = () => {
                         ),
                     }}
                 ></TextField>
-                <div class="login-flex-btns">
+                <div clasName="login-flex-btns">
                     <div id="rm">
                         <input
                             type="checkbox"
