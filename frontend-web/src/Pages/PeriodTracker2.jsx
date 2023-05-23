@@ -43,24 +43,34 @@ export const PeriodTracker2 = () => {
 
     return (
         <div>
-            <span style={{
-                color: "rgba(83, 127, 231, 1)",
-                paddingLeft: "90px",
-                paddingTop: "149px",
-                fontSize: "18",
-                fontWeight: "bold",
-                fontFamily: "Poppins"
-            }}>Period tracker</span>
+            <span
+                style={{
+                    color: "rgba(83, 127, 231, 1)",
+                    paddingLeft: "90px",
+                    paddingTop: "149px",
+                    fontSize: "18",
+                    fontWeight: "bold",
+                    fontFamily: "Poppins",
+                }}
+            >
+                Period tracker
+            </span>
             <br></br>
             <br></br>
-            <Grid container spacing={0} sx={{
-                paddingLeft: '140px'
-            }}>
+            <Grid
+                container
+                spacing={0}
+                sx={{
+                    paddingLeft: "140px",
+                }}
+            >
                 <Grid>
-                    <Grid sx={{
-                        backgroundColor: 'white',
-                        borderRadius: '5px'
-                    }}>
+                    <Grid
+                        sx={{
+                            backgroundColor: "white",
+                            borderRadius: "5px",
+                        }}
+                    >
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DateRangeCalendar calendars={1}
                             value={arr1}
@@ -69,13 +79,17 @@ export const PeriodTracker2 = () => {
                         </LocalizationProvider>
                     </Grid>
                 </Grid>
-                <Grid sx={{
-                    paddingLeft: '20px'
-                }}>
-                    <Grid sx={{
-                        backgroundColor: 'white',
-                        borderRadius: '5px'
-                    }}>
+                <Grid
+                    sx={{
+                        paddingLeft: "20px",
+                    }}
+                >
+                    <Grid
+                        sx={{
+                            backgroundColor: "white",
+                            borderRadius: "5px",
+                        }}
+                    >
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DateRangeCalendar calendars={1}
                                 value={arr2}
@@ -84,13 +98,17 @@ export const PeriodTracker2 = () => {
                         </LocalizationProvider>
                     </Grid>
                 </Grid>
-                <Grid sx={{
-                    paddingLeft: '20px'
-                }}>
-                    <Grid sx={{
-                        backgroundColor: 'white',
-                        borderRadius: '5px'
-                    }}>
+                <Grid
+                    sx={{
+                        paddingLeft: "20px",
+                    }}
+                >
+                    <Grid
+                        sx={{
+                            backgroundColor: "white",
+                            borderRadius: "5px",
+                        }}
+                    >
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DateRangeCalendar calendars={1}
                                 value={arr3}
@@ -102,61 +120,76 @@ export const PeriodTracker2 = () => {
             </Grid>
             <br></br>
             <br></br>
-            <Grid container spacing={2} sx={{
-                paddingLeft: "50px"
-            }}>
-                <Grid >
-                    <Link to='/periodtracker'>
+            <Grid
+                container
+                spacing={2}
+                sx={{
+                    paddingLeft: "50px",
+                }}
+            >
+                <Grid>
+                    <Link to="/period-tracker">
                         <Button
-                            variant='contained'
+                            variant="contained"
                             fullWidth
                             sx={{
-                                borderRadius: '50px',
-                                border: ' 2px solid rgba(83, 127, 231, 1)',
+                                borderRadius: "50px",
+                                border: " 2px solid rgba(83, 127, 231, 1)",
                                 backgroundColor: "rgba(83, 127, 231, 1)",
                                 fontFamily: "Poppins",
                                 fontSize: "18",
                                 fontWeight: "medium",
                                 color: "white",
-                                height: '50px',
-                                width: '196px'
-                            }}>
+                                height: "50px",
+                                width: "196px",
+                            }}
+                        >
                             <ArrowBack />
                             Start Over
                         </Button>
                     </Link>
                 </Grid>
-                <Grid sx={{
-                    paddingLeft: "250px",
-                }}>
+                <Grid
+                    sx={{
+                        paddingLeft: "250px",
+                    }}
+                >
                     <Button
-                        variant='contained'
+                        variant="contained"
                         fullWidth
                         sx={{
-                            borderRadius: '50px',
-                            border: ' 2px solid rgba(83, 127, 231, 1)',
+                            borderRadius: "50px",
+                            border: " 2px solid rgba(83, 127, 231, 1)",
                             backgroundColor: "white",
                             fontFamily: "Poppins",
                             fontSize: "18",
                             fontWeight: "medium",
-                            color: 'rgba(83, 127, 231, 1)',
-                            width: '320px',
-                            height: '50px'
-                        }}>Send reminder through mail</Button>
+                            color: "rgba(83, 127, 231, 1)",
+                            width: "320px",
+                            height: "50px",
+                        }}
+                    >
+                        Send reminder through mail
+                    </Button>
                 </Grid>
-                <Grid sx={{
-                    paddingLeft: '150px'
-                }}>
+                <Grid
+                    sx={{
+                        paddingLeft: "150px",
+                    }}
+                >
                     <br></br>
-                    <img src={calendar} alt='calendar' style={{
-                        height: '219px',
-                        width: '268px'
-                    }} />
+                    <img
+                        src={calendar}
+                        alt="calendar"
+                        style={{
+                            height: "219px",
+                            width: "268px",
+                        }}
+                    />
                 </Grid>
             </Grid>
-
         </div>
-    )
-}
+    );
+};
 
 export default PeriodTracker2;

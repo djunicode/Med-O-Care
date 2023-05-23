@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Healthscore() {
+export default function HealthScore() {
   return (
     <div>Healthscore</div>
   )

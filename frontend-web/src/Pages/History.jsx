@@ -1,9 +1,29 @@
 import React from 'react';
 import reminder from '../Assets/reminder.svg';
 import { ArrowBack } from '@mui/icons-material';
-import { Box, Button } from '@mui/material';
+import { Box, Button, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { useState } from 'react';
 
 export const History = () => {
+    const [all, setAll] = useState('');
+
+    // fetch('', options)
+    //     .then(response => response.json())
+    //     .then(response => {
+    //         console.log('');
+    //         let tabdata = [];
+    //         response.map((values) => {
+    //             tabdata += `
+    //             <tr>
+    //             <td></td>
+    //             <td><button id='open'>Open</button><button id='edit'></button></td>
+    //             </tr>
+    //             `
+    //         });
+    //         document.getElementById('content').innerHTML = tabdata;
+    //     })
+    //     .catch(err => console.error(err));
+
     return (
         <div>
             <table>
@@ -44,14 +64,36 @@ export const History = () => {
                                         </div>
                                     </td>
                                     <td>
-                                        <div class='two' style={{ paddingLeft: '539px' }}>
-                                            <span>All</span>
+                                        <div class='two' style={{ paddingLeft: '460px' }}>
+                                            <FormControl sx={{
+                                                m: 1,
+                                                p: 1,
+                                                minWidth: 120
+                                            }} size="small">
+                                                <InputLabel id='demo-select-small-label' >All</InputLabel>
+                                                <Select labelId='demo-select-small-label'
+                                                    id='demo-select-small'
+                                                    value={all}
+                                                    label='All'
+                                                    // onChange={handleChange}
+                                                    sx={{
+                                                        width: '169px',
+                                                        height: '29px',
+                                                        backgroundColor: 'rgba(192, 238, 242, 1)',
+                                                        color: 'black',
+                                                        borderRadius: '50px'
+                                                    }}
+                                                >
+                                                    <MenuItem id='prescrition'>Prescription</MenuItem>
+                                                    <MenuItem id='insurance'>Insurance</MenuItem>
+                                                </Select>
+                                            </FormControl>
                                         </div>
                                     </td>
                                 </tr>
                             </table>
                             <div style={{ paddingLeft: "86px" }}>
-                                <table style={{
+                                <table id='content' style={{
                                     borderRadius: '10px',
                                     backgroundColor: '#FFFFFF',
                                     width: '680px',
@@ -80,126 +122,6 @@ export const History = () => {
                                         </td>
                                         <td>
                                             <div style={{ paddingLeft: '325px' }}>
-                                                <Button sx={{ color: 'black' }}>Open</Button>
-                                                <Button variant='contained' sx={{
-                                                    color: 'white',
-                                                    borderRadius: '50px',
-                                                    backgroundColor: 'rgba(83, 127, 231, 1)'
-                                                }}>Edit</Button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </table>
-                                <br></br>
-                                <table style={{
-                                    borderRadius: '10px',
-                                    backgroundColor: '#FFFFFF',
-                                    width: '680px',
-                                    height: '65px',
-                                    boxShadow: '1px 1px 3px black'
-                                }}>
-                                    <tr>
-                                        <td>
-                                            <div style={{ paddingLeft: "33px" }}>
-                                                <span style={{
-                                                    color: 'rgba(0, 0, 0, 1)',
-                                                    textAlign: "left",
-                                                    fontFamily: "Poppins",
-                                                    fontWeight: "medium",
-                                                    fontSize: "16"
-                                                }}>Doctor's presc</span>
-                                                <br></br>
-                                                <span style={{
-                                                    color: 'rgba(0, 0, 0, 0.55)',
-                                                    textAlign: "left",
-                                                    fontFamily: "Poppins",
-                                                    fontWeight: "medium",
-                                                    fontSize: "13"
-                                                }}>Prescription</span>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div style={{ paddingLeft: "325px" }}>
-                                                <Button sx={{ color: 'black' }}>Open</Button>
-                                                <Button variant='contained' sx={{
-                                                    color: 'white',
-                                                    borderRadius: '50px',
-                                                    backgroundColor: 'rgba(83, 127, 231, 1)'
-                                                }}>Edit</Button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </table>
-                                <br></br>
-                                <table style={{
-                                    borderRadius: '10px',
-                                    backgroundColor: '#FFFFFF',
-                                    width: '680px',
-                                    height: '65px',
-                                    boxShadow: '1px 1px 3px black'
-                                }}>
-                                    <tr>
-                                        <td>
-                                            <div style={{ paddingLeft: "33px" }}>
-                                                <span style={{
-                                                    color: 'rgba(0, 0, 0, 1)',
-                                                    textAlign: "left",
-                                                    fontFamily: "Poppins",
-                                                    fontWeight: "medium",
-                                                    fontSize: "16"
-                                                }}>Doctor's presc</span>
-                                                <br></br>
-                                                <span style={{
-                                                    color: 'rgba(0, 0, 0, 0.55)',
-                                                    textAlign: "left",
-                                                    fontFamily: "Poppins",
-                                                    fontWeight: "medium",
-                                                    fontSize: "13"
-                                                }}>Prescription</span>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div style={{ paddingLeft: "325px" }}>
-                                                <Button sx={{ color: 'black' }}>Open</Button>
-                                                <Button variant='contained' sx={{
-                                                    color: 'white',
-                                                    borderRadius: '50px',
-                                                    backgroundColor: 'rgba(83, 127, 231, 1)'
-                                                }}>Edit</Button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </table>
-                                <br></br>
-                                <table style={{
-                                    borderRadius: '10px',
-                                    backgroundColor: '#FFFFFF',
-                                    width: '680px',
-                                    height: '65px',
-                                    boxShadow: '1px 1px 3px black'
-                                }}>
-                                    <tr>
-                                        <td>
-                                            <div style={{ paddingLeft: "33px" }}>
-                                                <span style={{
-                                                    color: 'rgba(0, 0, 0, 1)',
-                                                    textAlign: "left",
-                                                    fontFamily: "Poppins",
-                                                    fontWeight: "medium",
-                                                    fontSize: "16"
-                                                }}>LIC</span>
-                                                <br></br>
-                                                <span style={{
-                                                    color: 'rgba(0, 0, 0, 0.55)',
-                                                    textAlign: "left",
-                                                    fontFamily: "Poppins",
-                                                    fontWeight: "medium",
-                                                    fontSize: "13"
-                                                }}>Insurance</span>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div style={{ paddingLeft: "360px" }}>
                                                 <Button sx={{ color: 'black' }}>Open</Button>
                                                 <Button variant='contained' sx={{
                                                     color: 'white',

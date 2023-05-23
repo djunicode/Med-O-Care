@@ -7,6 +7,7 @@ const AppContext = createContext(defaultProviderValues);
 export const AppProvider = ({ children }) => {
     const [currentUser, setCurrentUser] = useState("");
     const [userToken, setUserToken] = useState("");
+    const [exerciseData, setExerciseData] = useState([]);
 
     return (
         <AppContext.Provider
@@ -15,6 +16,8 @@ export const AppProvider = ({ children }) => {
                 setCurrentUser,
                 userToken,
                 setUserToken,
+                exerciseData,
+                setExerciseData,
             }}
         >
             {children}
