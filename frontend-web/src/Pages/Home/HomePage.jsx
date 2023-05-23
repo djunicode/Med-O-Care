@@ -80,7 +80,7 @@ export default function HomePage() {
           justifyContent="space-around"
           sx={{ pt: 3, pr: 5, pl: 5 }}
         >
-          {!isLoadingExcersise &&
+          {isLoadingExcersise &&
             Array.from(Array(6)).map((_, index) => {
               let i = getRandomIndex();
               return (
@@ -99,44 +99,6 @@ export default function HomePage() {
                         <img src={excercise[i]?.gifUrl} alt="excersise gif" id='exercise-gif'/>
                       </Box>
                     </Box>
-
-            {/* <div style={{ display: "flex", justifyContent: "center" }}>
-                <Grid
-                    container
-                    spacing={{ xs: 2, md: 3 }}
-                    columns={{ xs: 2, sm: 8, md: 12 }}
-                    justifyContent="space-around"
-                    sx={{ pt: 3, pr: 5, pl: 5 }}
-                >
-                    {exerciseData.length !== 0 &&
-                        Array.from(Array(6)).map((_, index) => {
-                            let i = getRandomIndex();
-                            return (
-                                <Grid item xs={2} sm={4} md={4} key={index}>
-                                    <Card
-                                        sx={{
-                                            borderRadius: 3,
-                                            border: 2,
-                                            minWidth: "250px",
-                                            maxWidth: "350px",
-                                            height: "480px",
-                                        }}
-                                    >
-                                        <Box width={"100%"}>
-                                            <Box
-                                                top={0}
-                                                left={0}
-                                                bottom={0}
-                                                right={0}
-                                            >
-                                                <img
-                                                    src={
-                                                        exerciseData[i]?.gifUrl
-                                                    }
-                                                    alt="excersise gif"
-                                                />
-                                            </Box>
-                                        </Box> */}
 
                                         <Box pl={1} textAlign={"center"}>
                                             <Typography>

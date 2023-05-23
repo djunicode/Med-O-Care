@@ -69,71 +69,84 @@ const AccountPage = ({ open, close }) => {
     };
 
     return (
+        <SlidingPane isOpen={state.isPaneOpen} hideHeader className="sliding-pane" width="400px">
+        <div class='account-page-container'>
         <div>
-            <SlidingPane isOpen={state.isPaneOpen} hideHeader width="400px" className="sliding-pane">
-                <Grid container justifyContent="space-between">
-                <div>
-                    <Button sx={{ color: "black" }} onClick={close}>
-                        <ArrowBackIosIcon sx={{float: 'top-left'}}/>
-                    </Button>
-                </div>
-                <div>
-                    <Button
-                        sx={{ marginRight: 5, color: "#537FE7", float: 'right' }}
-                        size="large"
-                        onClick={handleEdit}
-                        >
-                        Edit
-                    </Button>
-                </div>
-                </Grid>
-                <div id='account-profile-details'>
-                    <div id='account-page-avatar'>
-                        <Avatar sx={{ width: 85, height: 80, float: 'left' }}>
-                        {/* display pfp img here*/}
-                        </Avatar>
-                    </div>
-                    <div>
-                        <div id='profile-user'>
-                            {currentUser?.fName}
-                        </div>
-                        <div>{currentUser?.phone}</div>
-                        <div>{currentUser?.email}</div>
-                    </div>
-                </div>
-                <Grid container sx={{ marginTop: 3, ml: 2 }}>
-                    <Typography variant="h5" sx={{ fontWeight: "bold", ml: 2 }}>
-                        About You
-                    </Typography>
-                    <Grid item xs={12} sx={{ mt: 2 }}>
-                        <Typography sx={{ marginLeft: 2, fontSize: "large" }}>
-                            Gender
-                        </Typography>
-                        <TextField
-                            select
-                            value={gender}
-                            onChange={(e) => setGender(e.target.value)}
-                            sx={{ borderColor: "#537FE7" }}
-                            InputProps={{
-                                readOnly: edit ? false : true,
-                                sx: {
-                                    borderRadius: 10,
-                                    backgroundColor: "white",
-                                    height: 40,
-                                    width: 300,
-                                    borderColor: "#537FE7",
-                                },
-                            }}
-                        >
-                            {genders.map((option) => (
-                                <MenuItem key={option} value={option}>
-                                    {option}
-                                </MenuItem>
-                            ))}
-                        </TextField>
-                    </Grid>
-
-                    <Grid item xs={12} sx={{ mt: 1 }}>
+          <Button sx={{ color: "black" }} onClick={close}>
+            <ArrowBackIosIcon sx={{float: 'top-left'}}/>
+          </Button>
+        </div>
+        <div>
+          <Button
+              sx={{ marginRight: 5, color: "#537FE7", float: 'right' }}
+              size="large"
+              onClick={handleEdit}
+            >
+              Edit
+          </Button>
+        </div>
+        <div id='account-profile-details'>
+          <div id='account-page-avatar'>
+            <Avatar sx={{ width: 85, height: 80, float: 'left' }}>
+              {/* display pfp img here*/}
+            </Avatar>
+          </div>
+          <div>
+            <div id='profile-user'>
+              {currentUser?.fName}
+            </div>
+            <div>{currentUser?.phone}</div>
+            <div>{currentUser?.email}</div>
+          </div>
+        </div>
+        <Grid container sx={{ marginTop: 3, ml: 2 }}>
+          <Typography variant="h5" sx={{ fontWeight: "bold", ml: 2 }}>
+            About You
+          </Typography>
+          <Grid item xs={12} sx={{ mt: 2 }}>
+            <Typography sx={{ marginLeft: 2, fontSize: "large" }}>
+              Gender
+            </Typography>
+            {edit &&
+            <TextField
+              select  
+              value={gender}
+              onChange={(e) => setGender(e.target.value)}
+              sx={{ borderColor: "#537FE7" }}
+              InputProps={{
+                sx: {
+                  borderRadius: 10,
+                  backgroundColor: "white",
+                  height: 40,
+                  width: 300,
+                  borderColor: "#537FE7",
+                },
+              }}
+            >
+              {genders.map((option) => (
+                <MenuItem key={option} value={option}>
+                  {option}
+                </MenuItem>
+              ))}
+            </TextField>}
+            {!edit && 
+            <TextField
+            value={gender}
+            onChange={(e) => setGender(e.target.value)}
+            sx={{ borderColor: "#537FE7" }}
+            InputProps={{
+              readOnly: true,
+              sx: {
+                borderRadius: 10,
+                backgroundColor: "white",
+                height: 40,
+                width: 300,
+                borderColor: "#537FE7",
+              },
+            }}
+          />}
+          </Grid>
+          <Grid item xs={12} sx={{ mt: 1 }}>
                         <Typography sx={{ marginLeft: 2, fontSize: "large" }}>
                             Age
                         </Typography>
@@ -203,36 +216,23 @@ const AccountPage = ({ open, close }) => {
                             }}
                         />
                     </Grid>
-
-                    {/* <Grid item xs={12} sx={{mt: 1}}>
-              <Typography sx={{marginLeft: 2, fontSize: 'large'}}>Height</Typography>
-                    <TextField defaultValue='5' sx={{borderColor: '#537FE7'}}
-                            InputProps={{
-                              readOnly: edit ? false : true,
-                              sx: { borderRadius: 10, backgroundColor: 'white', height: 40, width: 300, borderColor: '#537FE7' },}}>
-                    </TextField>
-            </Grid> */}
                 </Grid>
 
                 <Grid container justifyContent="space-between">
-                    <Button
-                        sx={{ marginLeft: 2, color: "#537FE7", mt: 2 }}
-                        size="large"
-                        onClick={() => logUserOut()}
-                    >
-                        Logout
-                    </Button>
-                    <Button
-                        onClick={dealingWithSave}
-                        sx={{ marginRight: 10, color: "#537FE7", mt: 2 }}
-                        size="large"
-                    >
-                        Save
-                    </Button>
-                </Grid>
-            </SlidingPane>
-        </div>
-    );
+          <Button sx={{ marginLeft: 2, color: "#537FE7", mt: 2 }} size="large" onClick={() => logUserOut()}>
+            Logout
+          </Button>
+          <Button
+            onClick={dealingWithSave}
+            sx={{ marginRight: 5, color: "#537FE7", mt: 2, float: 'right' }}
+            size="large"
+          >
+            Save
+          </Button>
+        </Grid>
+    </div>
+      </SlidingPane>
+  );
 };
 
 export default AccountPage;
