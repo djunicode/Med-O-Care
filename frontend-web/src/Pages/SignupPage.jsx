@@ -44,7 +44,6 @@ const SignupPage = () => {
 
     
     const [formData, setFormData] = useState(initialState);
-
     const [emailErr, setEmailErr] = useState(false);
     const [pwdError, setPwdError] = useState(false);
     const [phoneError, setPhoneError] = useState(false);

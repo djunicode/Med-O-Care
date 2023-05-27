@@ -4,7 +4,6 @@ import "./Home.css";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useEffect, useState } from "react";
 import { useApp } from "../../Context/app-context";
-// var getYouTubeID = require("get-youtube-id");
 
 export default function HomePage() {
   const { currentUser } = useApp();

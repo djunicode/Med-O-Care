@@ -146,7 +146,7 @@ function Navbar() {
                 ))}
 
                 {currentUser?.email && (
-                  <>
+                  <div>
                     <MenuItem
                       onClick={() => {
                         handleCloseNavMenu("signup");
@@ -161,7 +161,7 @@ function Navbar() {
                     >
                       <Typography textAlign="center">Login </Typography>
                     </MenuItem>
-                  </>
+                  </div>
                 )}
               </Menu>
             </Box>

@@ -14,6 +14,7 @@ import documentplusimage from "../Assets/documentplusimage.png"
 export default function UploadRecords() {
   const [title, setTitle] = useState();
   const gridStyle = { paddingLeft: 10, paddingRight: 10, paddingTop: 0.7 };
+  
   const dealingWithSave = () => {};
 
   return (
