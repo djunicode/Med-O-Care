@@ -55,7 +55,7 @@ export default function Navbar2() {
   return (
     <>
       <Box width={"100%"} paddingTop={"10px"}>
-        <FormGroup>
+        <FormGroup sx={{float: 'right'}}>
           <FormControlLabel
           style={{right:0}}
             control={<MaterialUISwitch sx={{ m: 1 }} defaultChecked />}

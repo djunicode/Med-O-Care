@@ -127,7 +127,7 @@ const SignupPage = () => {
         <div class='signup-container'>
             <div class='signup-box'>
                 <div class='signup-div'>
-                    <Typography sx={{ marginLeft: 2, fontSize: "large" }}>
+                    <Typography sx={{ marginLeft: 2, fontSize: "medium" }}>
                         Email
                     </Typography>
                     <TextField
@@ -147,6 +147,7 @@ const SignupPage = () => {
                                 borderRadius: 10,
                                 color: "#000",
                                 backgroundColor: "white",
+                                height: '5vh',
                             },
                         }}
                         onChange={(e) =>
@@ -165,7 +166,7 @@ const SignupPage = () => {
                 </div>
 
                 <div class='signup-div'>
-                    <Typography sx={{ marginLeft: 2, fontSize: "large" }}>
+                    <Typography sx={{ marginLeft: 2, fontSize: "medium" }}>
                         Name
                     </Typography>
                     <TextField
@@ -187,12 +188,13 @@ const SignupPage = () => {
                                 borderRadius: 10,
                                 color: "region",
                                 backgroundColor: "white",
+                                height: '5vh',
                             },
                         }}
                     />
                 </div>
                 <div class='signup-div'>
-                    <Typography sx={{ marginLeft: 2, fontSize: "large" }}>
+                    <Typography sx={{ marginLeft: 2, fontSize: "medium" }}>
                         Phone number
                     </Typography>
                     <TextField
@@ -210,6 +212,7 @@ const SignupPage = () => {
                                 borderRadius: 10,
                                 color: "region",
                                 backgroundColor: "white",
+                                height: '5vh',
                             },
                         }}
                         onChange={(e) =>
@@ -228,7 +231,7 @@ const SignupPage = () => {
                 </div>
                 <div class='dob-gender-grid'>
                     <div id='signup-dob'>
-                        <Typography sx={{ marginLeft: 2, fontSize: "large" }}>
+                        <Typography sx={{ marginLeft: 2, fontSize: "medium" }}>
                             Date of Birth
                         </Typography>
                         <TextField
@@ -247,12 +250,13 @@ const SignupPage = () => {
                                     borderRadius: 10,
                                     color: "#a4a4a4",
                                     backgroundColor: "white",
+                                    height: '5vh',
                                 },
                             }}
                         />
                     </div>
                     <div id='signup-gender'>
-                        <Typography sx={{ marginLeft: 2, fontSize: "large" }}>
+                        <Typography sx={{ marginLeft: 2, fontSize: "medium" }}>
                             Gender
                         </Typography>
                         <TextField
@@ -272,6 +276,7 @@ const SignupPage = () => {
                                 sx: {
                                     backgroundColor: "white",
                                     borderRadius: 10,
+                                    height: '5vh',
                                 },
                             }}
                         >
@@ -284,7 +289,7 @@ const SignupPage = () => {
                     </div>
                 </div>
                 <div class='signup-div'>
-                    <Typography sx={{ marginLeft: 2, fontSize: "large" }}>
+                    <Typography sx={{ marginLeft: 2, fontSize: "medium" }}>
                         Location
                     </Typography>
                     <TextField
@@ -303,6 +308,7 @@ const SignupPage = () => {
                                 borderRadius: 10,
                                 color: "region",
                                 backgroundColor: "white",
+                                height: '5vh',
                             },
                         }}
                         fullWidth
@@ -315,7 +321,7 @@ const SignupPage = () => {
                     </TextField>
                 </div>
                 <div class='signup-div'>
-                    <Typography sx={{ marginLeft: 2, fontSize: "large" }}>
+                    <Typography sx={{ marginLeft: 2, fontSize: "medium" }}>
                         Password
                     </Typography>
                     <TextField
@@ -350,6 +356,7 @@ const SignupPage = () => {
                                 borderRadius: 10,
                                 color: "#000",
                                 backgroundColor: "white",
+                                height: '5vh',
                             },
                         }}
                         error={pwdError}
@@ -364,7 +371,7 @@ const SignupPage = () => {
                     )}
                 </div>
                 <div class='signup-div'>
-                    <Typography sx={{ marginLeft: 2, fontSize: "large" }}>
+                    <Typography sx={{ marginLeft: 2, fontSize: "medium" }}>
                         Confirm Password
                     </Typography>
                     <TextField
@@ -399,6 +406,7 @@ const SignupPage = () => {
                                 borderRadius: 10,
                                 color: "#000",
                                 backgroundColor: "white",
+                                height: '5vh',
                             },
                         }}
                         error={confirmPasswordError}
@@ -421,7 +429,7 @@ const SignupPage = () => {
                         </Button>
                 </Grid>
                 <Grid container justifyContent='center'>
-                    <Typography>Already have an account?<Button onClick={() => navigate='/login'}>LogIn</Button></Typography>
+                    <Typography>Already have an account?<Button onClick={() => navigate('/login')}>LogIn</Button></Typography>
                 </Grid>
             </div>
             <div class='signup-images'>
