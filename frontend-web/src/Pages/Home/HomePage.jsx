@@ -2,33 +2,32 @@ import { Grid, Typography, Card, Box } from "@mui/material";
 import YouTube from "react-youtube";
 import "./Home.css";
 import CircularProgress from "@mui/material/CircularProgress";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useApp } from "../../Context/app-context";
 import CardCarousel from "./CardCarousel";
 
 export default function HomePage() {
   const { exerciseData } = useApp();
   const [isLoading, setIsLoading] = useState(true);
-  const [isLoadingExcersise,setIsLoadingExcersise] = useState(true)
-  const [excercise, setExcercise] = useState([]);
+  const [isLoadingExcersise, setIsLoadingExcersise] = useState(true);
+
   const opts = {
     playerVars: {
       autoplay: 0,
-    },   
+    },
   };
   const dealingWithYoutubeVideo = (e) => {
     setIsLoading(false);
   };
 
-    const getRandomIndex = () => {
-        return Math.floor(Math.random() * 1325);
-    };
-
+  const getRandomIndex = () => {
+    return Math.floor(Math.random() * 1325);
+  };
 
   return (
     <div>
-      <div class='buy-med-container'>
-        <div id='buy-title'>
+      <div class="buy-med-container">
+        <div id="buy-title">
           <Typography
             variant="h6"
             sx={{ color: "#537FE7", fontWeight: "bold" }}
@@ -36,42 +35,42 @@ export default function HomePage() {
             Buy medicines from..
           </Typography>
         </div>
-        <div id='medicine-carousel'>
-          <CardCarousel/>
+        <div id="medicine-carousel">
+          <CardCarousel />
         </div>
       </div>
 
-    <div class='buy-med-container'>
-      <Typography
-        variant="h6"
-        sx={{
-          color: "#537FE7",
-          fontWeight: "bold",
-          // marginBottom: 3,
-          // textAlign: "center",
-        }}
-      >
-        Mindful exercise:
-      </Typography>
+      <div class="buy-med-container">
+        <Typography
+          variant="h6"
+          sx={{
+            color: "#537FE7",
+            fontWeight: "bold",
+            // marginBottom: 3,
+            // textAlign: "center",
+          }}
+        >
+          Mindful exercise:
+        </Typography>
 
-      <div style={{ display: "flex", justifyContent: "center" }}>
-        {isLoading && <CircularProgress />}
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          {isLoading && <CircularProgress />}
+        </div>
       </div>
-  </div>
-      <Grid container justifyContent='center'>
+      <Grid container justifyContent="center">
         <YouTube
           height="100%"
           width="100%"
           videoId="7KSNmziMqog"
           opts={opts}
-          iframeClassName='youtube-exercise' 
+          iframeClassName="youtube-exercise"
           onReady={(e) => {
             dealingWithYoutubeVideo(e);
           }}
         />
       </Grid>
 
-      <div class='exercise-container'>
+      <div class="exercise-container">
         <Grid
           container
           spacing={{ xs: 2, md: 3 }}
@@ -94,53 +93,55 @@ export default function HomePage() {
                     }}
                   >
                     <Box width={"100%"}>
-                      <Box top={0} left={0} bottom={0} right={0} sx={{pl: 5}}>
-                        <img src={excercise[i]?.gifUrl} alt="excersise gif" id='exercise-gif'/>
+                      <Box top={0} left={0} bottom={0} right={0} sx={{ pl: 5 }}>
+                        <img
+                          src={exerciseData[i]?.gifUrl}
+                          alt="excersise gif"
+                          id="exercise-gif"
+                        />
                       </Box>
                     </Box>
 
-                                        <Box pl={1} textAlign={"center"}>
-                                            <Typography>
-                                                <Typography
-                                                    component={"span"}
-                                                    fontWeight={"bold"}
-                                                    display={"inline-block"}
-                                                >
-                                                    Body Part involved:
-                                                </Typography>
-                                                {exerciseData[i]?.bodyPart}
-                                            </Typography>
-                                        </Box>
+                    <Box pl={1} textAlign={"center"}>
+                      <Typography>
+                        <Typography
+                          component={"span"}
+                          fontWeight={"bold"}
+                          display={"inline-block"}
+                        >
+                          Body Part involved:
+                        </Typography>
+                        {exerciseData[i]?.bodyPart}
+                      </Typography>
+                    </Box>
 
-                                        <Box pl={3}>
-                                            <Typography>
-                                                The exercise is called{" "}
-                                                {exerciseData[i]?.name} &
-                                                requires{" "}
-                                                <Typography
-                                                    component={"span"}
-                                                    fontStyle={"italic"}
-                                                    display={"inline-block"}
-                                                >
-                                                    {exerciseData[i]
-                                                        ?.equipment + "."}
-                                                </Typography>{" "}
-                                                It targets the{" "}
-                                                <Typography
-                                                    component={"span"}
-                                                    fontStyle={"italic"}
-                                                    display={"inline-block"}
-                                                >
-                                                    {exerciseData[i]?.target}
-                                                </Typography>
-                                            </Typography>
-                                        </Box>
-                                    </Card>
-                                </Grid>
-                            );
-                        })}
+                    <Box pl={3}>
+                      <Typography>
+                        The exercise is called {exerciseData[i]?.name} &
+                        requires{" "}
+                        <Typography
+                          component={"span"}
+                          fontStyle={"italic"}
+                          display={"inline-block"}
+                        >
+                          {exerciseData[i]?.equipment + "."}
+                        </Typography>{" "}
+                        It targets the{" "}
+                        <Typography
+                          component={"span"}
+                          fontStyle={"italic"}
+                          display={"inline-block"}
+                        >
+                          {exerciseData[i]?.target}
+                        </Typography>
+                      </Typography>
+                    </Box>
+                  </Card>
                 </Grid>
-            </div>
-        </div>
-    );
+              );
+            })}
+        </Grid>
+      </div>
+    </div>
+  );
 }
