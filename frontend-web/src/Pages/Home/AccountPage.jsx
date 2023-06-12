@@ -9,6 +9,8 @@ import "react-sliding-pane/dist/react-sliding-pane.css";
 import { useApp } from "../../Context/app-context";
 import { addYears, format } from "date-fns";
 import { differenceInYears } from "date-fns";
+import { useEffect } from "react";
+import './Home.css';
 import axios from "axios";
 import CloudinaryImage from "../../Components/Cloudinary/CloudinaryImage";
 import { AdvancedImage } from "@cloudinary/react";
