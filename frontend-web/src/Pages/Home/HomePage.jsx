@@ -5,7 +5,6 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { useEffect, useState } from "react";
 import { useApp } from "../../Context/app-context";
 import CardCarousel from "./CardCarousel";
-// var getYouTubeID = require("get-youtube-id");
 
 export default function HomePage() {
   const { exerciseData } = useApp();

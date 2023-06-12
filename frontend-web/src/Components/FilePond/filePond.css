@@ -1,0 +1,42 @@
+.signupPageFilePondDiv{
+    margin: 1rem auto;
+    width: 80%;
+}
+
+.uploadPageFilePondDiv{
+    
+}
+
+/* .dark .filepond--label-action {
+    text-decoration-color: #e5dc36;
+}
+
+.dark .filepond--drop-label {
+    color: white;
+}
+
+.dark .filepond--panel-root {
+    background-color: #413543;
+} */
+
+/* .dark .filepond--panel-root {
+    border: 3px dashed #625D63;
+} */
+
+.filepond--label-action {
+    text-decoration-color: #537FE7;
+}
+
+.filepond--drop-label {
+    color: black;
+}
+
+.filepond--panel-root {
+    background-color: white;
+}
+/* E9F8F9 */
+
+.filepond--panel-root {
+    border: 3px dashed #000000;
+}
+

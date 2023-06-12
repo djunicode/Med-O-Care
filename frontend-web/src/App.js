@@ -1,9 +1,9 @@
 import "./Styles/App.css";
 import {
-    createBrowserRouter,
-    Route,
-    createRoutesFromElements,
-    RouterProvider,
+  createBrowserRouter,
+  Route,
+  createRoutesFromElements,
+  RouterProvider,
 } from "react-router-dom";
 import RootLayout from "./Layouts/RootLayout";
 import HomePage from "./Pages/Home/HomePage";
@@ -24,28 +24,27 @@ import { setupAuthHeaderForNetworkCalls } from "./Services/SetupAuthHeaders";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 import { useApp } from "./Context/app-context";
+import ViewAPage from "./Pages/ViewAPage";
 
 const router = createBrowserRouter(
-    createRoutesFromElements(
-        <Route path="/">
-            <Route element={<RootLayout />}>
-                <Route path="signup" element={<SignupPage />} />
-                <Route path="login" element={<LoginPage />} />
-                <Route index element={<HomePage />} />
-                <Route path="upload-records" element={<UploadRecords />} />
-                <Route path="health-score" element={<HealthScore />} />
-                <Route path="period-tracker" element={<PeriodTracker />} />
-                <Route
-                    path="forgot-password"
-                    element={<ForgotPasswordPage />}
-                />
-                <Route path="otp" element={<OTPPage />} />
-                <Route path="reset-password" element={<ResetPassword />} />
-                <Route path="history" element={<History />} />
-                <Route path="periodtracker2" element={<PeriodTracker2 />} />
-            </Route>
-        </Route>
-    )
+  createRoutesFromElements(
+    <Route path="/">
+      <Route element={<RootLayout />}>
+        <Route path="view" element={<ViewAPage />} />
+        <Route path="signup" element={<SignupPage />} />
+        <Route path="login" element={<LoginPage />} />
+        <Route index element={<HomePage />} />
+        <Route path="uploadrecords" element={<UploadRecords />} />
+        <Route path="healthscore" element={<HealthScore />} />
+        <Route path="periodtracker" element={<PeriodTracker />} />
+        <Route path="forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="otp" element={<OTPPage />} />
+        <Route path="reset-password" element={<ResetPassword />} />
+        <Route path="history" element={<History />} />
+        <Route path="periodtracker2" element={<PeriodTracker2 />} />
+      </Route>
+    </Route>
+  )
 );
 
 function App() {
