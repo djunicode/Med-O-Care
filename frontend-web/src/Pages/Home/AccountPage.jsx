@@ -10,13 +10,15 @@ import { useApp } from "../../Context/app-context";
 import { addYears, format } from "date-fns";
 import { differenceInYears } from "date-fns";
 import axios from "axios";
-import CloudinaryImage from "../../Components/CloudinaryImage";
+import CloudinaryImage from "../../Components/Cloudinary/CloudinaryImage";
 import { AdvancedImage } from "@cloudinary/react";
-
+import { setupAuthHeaderForNetworkCalls } from "../../Services/SetupAuthHeaders";
+import { useNavigate } from "react-router-dom";
+import CloudinaryImageTransformations from "../../Components/Cloudinary/CloudinaryImageTransformations";
 
 const AccountPage = ({ open, close }) => {
   const genders = ["Male", "Female", "Other"];
-  const { currentUser, setCurrentUser } = useApp();
+  const { currentUser, setUserToken, setCurrentUser } = useApp();
 
   const dealingWithAgeKeyDown = (e) => {
     e.preventDefault();
@@ -54,6 +56,16 @@ const AccountPage = ({ open, close }) => {
       console.error("An error occurred:", err);
     }
   };
+  const navigate = useNavigate();
+
+  const logUserOut = () => {
+    setupAuthHeaderForNetworkCalls(null);
+    setUserToken("");
+    localStorage.removeItem("userToken");
+    setCurrentUser("");
+    localStorage.removeItem("currentUser");
+    localStorage.removeItem("isAuthorized");
+  };
 
   return (
     <div>
@@ -72,10 +84,11 @@ const AccountPage = ({ open, close }) => {
         </Grid>
         <Grid container spacing={1} sx={{ mt: 3, ml: 4 }}>
           <Grid item xs={3}>
-            <Avatar sx={{ width: 80, height: 80 }}>
+            <Avatar size={"sm"}
+            >
               <AdvancedImage
-                cldImg={CloudinaryImage(
-                  "v4cxrkhydhyeedtzqdum",
+                cldImg={CloudinaryImageTransformations(
+                  currentUser.profilePicPublic_id,
                   "profilePic",
                   80,
                   80
@@ -125,43 +138,6 @@ const AccountPage = ({ open, close }) => {
 
           <Grid item xs={12} sx={{ mt: 1 }}>
             <Typography sx={{ marginLeft: 2, fontSize: "large" }}>
-              Age
-            </Typography>
-
-            <TextField
-              value={differenceInYears(new Date(), new Date(dateOfBirth))}
-              sx={{ borderColor: "#537FE7" }}
-              onKeyDown={dealingWithAgeKeyDown}
-              onChange={(e) => {
-                setDateOfBirth(
-                  format(
-                    addYears(
-                      new Date(dateOfBirth),
-                      -(
-                        e.target.value -
-                        differenceInYears(new Date(), new Date(dateOfBirth))
-                      )
-                    ),
-                    "yyyy-MM-dd"
-                  )
-                );
-              }}
-              InputProps={{
-                type: "number",
-                readOnly: edit ? false : true,
-                sx: {
-                  borderRadius: 10,
-                  backgroundColor: "white",
-                  height: 40,
-                  width: 300,
-                  borderColor: "#537FE7",
-                },
-              }}
-            ></TextField>
-          </Grid>
-
-          <Grid item xs={12} sx={{ mt: 1 }}>
-            <Typography sx={{ marginLeft: 2, fontSize: "large" }}>
               Date of Birth
             </Typography>
             <TextField
@@ -185,7 +161,11 @@ const AccountPage = ({ open, close }) => {
         </Grid>
 
         <Grid container justifyContent="space-between">
-          <Button sx={{ marginLeft: 2, color: "#537FE7", mt: 2 }} size="large">
+          <Button
+            sx={{ marginLeft: 2, color: "#537FE7", mt: 2 }}
+            size="large"
+            onClick={() => logUserOut()}
+          >
             Logout
           </Button>
           <Button

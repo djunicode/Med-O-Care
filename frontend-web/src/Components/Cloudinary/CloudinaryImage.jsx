@@ -8,7 +8,7 @@ export default function CloudinaryImage(publicID, options, height, width) {
     
   const cloud = new Cloudinary({
     cloud: {
-      cloudName: process.env.REACT_APP_CLOUD_NAME,
+      cloudName: process.env.REACT_APP_CLOUD_NAME
     },
   });
 
