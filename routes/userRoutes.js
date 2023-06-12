@@ -23,6 +23,9 @@ router.post("/verifyOTP", auth.verifyToken, userC.verifyOTP); //then hit edit us
 //edit user details
 router.put("/editUserInfo", auth.verifyToken, userC.updateUser);
 
+//get cloudinary signature so that later on when we get pfps public id we can confirm that this is valid and not some scripted malicious link
+router.get("/getCloudinarySignature",userC.getCloudinarySignature)
+
 //upload medical records
 router.post(
     "/uploadMedical",
