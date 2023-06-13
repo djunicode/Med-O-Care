@@ -240,15 +240,13 @@ function Navbar() {
             {currentUser?.email && (
               <Tooltip title="My accounts">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar
-                    size={"sm"}
-                  >
+                  <Avatar size={"sm"}>
                     <AdvancedImage
                       cldImg={CloudinaryImageTransformations(
-                        currentUser.profilePicPublic_id,
+                        currentUser.pfpPublicID,
                         "profilePic",
-                        80,
-                        80
+                        50,
+                        50
                       )}
                     />
                   </Avatar>

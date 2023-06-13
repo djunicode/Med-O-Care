@@ -40,6 +40,7 @@ const CardCarousel = () => {
     <Carousel responsive={responsive}
       removeArrowOnDeviceType={["tablet", "mobile"]}
       autoPlay={true}
+      infinite={true}
       autoPlaySpeed={2000}>
             {medicines?.map((medicine) => (
                     <Card sx={{height: 120, width: 220, backgroundColor: '#82AAE3', borderRadius: 5, display: 'flex', padding: 2}} key={medicine.id}>

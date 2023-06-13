@@ -442,11 +442,11 @@ const SignupPage = () => {
         </div>
         <div className="signupPageFilePondDiv">
           <FilePondComponent
-            profilePic={profilePic}
-            setLogic={setProfilePicLogic}
+            publicIdOfFileToBeUploaded={profilePic}
+            setpublicIdOfFileToBeUploaded={setProfilePicLogic}
             deleteLogic={deleteProfilePicLogic}
             doYouWantCustomPublicId={false}
-            setIsPictureOnlySelectedAndNotUploaded={
+            setIsFileOnlySelectedAndNotUploaded={
               setIsPictureOnlySelectedAndNotUploaded
             }
             files={files}
