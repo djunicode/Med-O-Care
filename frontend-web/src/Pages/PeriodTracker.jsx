@@ -54,6 +54,7 @@ export default function PeriodTracker() {
                       borderRadius: 10,
                       color: "#000",
                       backgroundColor: "white",
+                      border: '2px solid #537fe7'
                   },
               }}
               onChange={(e) => setLastDay(e.target.value)}
@@ -74,6 +75,7 @@ export default function PeriodTracker() {
                       borderRadius: 10,
                       color: "#000",
                       backgroundColor: "white",
+                      border: '2px solid #537fe7'
                   },
               }}
               onChange={(e) => setHowLong(e.target.value)}
@@ -81,7 +83,7 @@ export default function PeriodTracker() {
         </Grid>
         <Grid item xs={12} sm={12} md={4}>
           <Typography sx={{ marginLeft: 2, fontSize: "large" }}>
-              duration of Menstrual Cycle
+              Duration of Menstrual Cycle
           </Typography>
         <TextField
               placeholder="Enter number"
@@ -94,6 +96,7 @@ export default function PeriodTracker() {
                       borderRadius: 10,
                       color: "#000",
                       backgroundColor: "white",
+                      border: '2px solid #537fe7'
                   },
               }}
               onChange={(e) => setDuration(e.target.value)}
