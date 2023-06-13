@@ -264,19 +264,25 @@ const updateUser = async (req, res) => {
 };
 
 //upload medical records
-
 const uploadMedical = async (req, res) => {
   try {
     const userEmail = req.user.email;
     const files = req.body.files;
+    const medicalFiles = [];
 
-    await UserSchema.findOneAndUpdate(
+    for (const file of files) {
+      medicalFiles.push({
+        name: file.name,
+        fileSecure_url: file.secure_url,
+        delete_token: file.delete_token,
+      });
+    }
+
+    const data = await UserSchema.findOneAndUpdate(
       { email: userEmail },
       {
-        $push: {
-          medicalFiles: { name: files.name, filepublidID: files.filepublidID },
-        },
-        $inc: { medicalFileCount: 1 },
+        $push: { medicalFiles: { $each: medicalFiles } },
+        $inc: { medicalFileCount: files.length },
       }
     );
 
@@ -297,31 +303,34 @@ const uploadMedical = async (req, res) => {
 const uploadInsurance = async (req, res) => {
   try {
     const userEmail = req.user.email;
+    const files = req.body.files;
+    const insuranceFiles = [];
 
-    const buffer = req.file;
-    // const arrOfPosts = [];
-    // var fileCount = 0;
-    // for (var i = 0; i < buffer.length; i++) {
-    //   arrOfPosts[i] = buffer[i].buffer;
-    //   fileCount++;
-    // }
-
-    await UserSchema.findOneAndUpdate(
+    for (const file of files) {
+      insuranceFiles.push({
+        name: file.name,
+        fileSecure_url: file.secure_url,
+        delete_token: file.delete_token,
+      });
+    }
+    const data = await UserSchema.findOneAndUpdate(
       { email: userEmail },
       {
-        $push: { insuranceFiles: { name: req.body.name, file: buffer.buffer } },
-        $inc: { insuranceFileCount: 1 },
+        $push: { insuranceFiles: { $each: insuranceFiles } },
+        $inc: { insuranceFileCount: files.length },
       }
     );
+
     res.status(201).json({
       success: true,
-      message: "Record uploaded succedfully!",
+      message: "Records uploaded successfully!",
     });
   } catch (err) {
     res.status(500).json({
       success: false,
       message: err.message,
     });
+    console.log(err);
   }
 };
 

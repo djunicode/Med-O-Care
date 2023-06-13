@@ -65,7 +65,10 @@ const userSchema = new Schema(
         name: {
           type: String,
         },
-        filepublidID: {
+        fileSecure_url: {
+          type: String,
+        },
+        delete_token: {
           type: String,
         },
       },
@@ -79,7 +82,10 @@ const userSchema = new Schema(
         name: {
           type: String,
         },
-        filepublidID: {
+        fileSecure_url: {
+          type: String,
+        },
+        delete_token: {
           type: String,
         },
       },

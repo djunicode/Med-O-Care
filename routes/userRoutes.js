@@ -30,7 +30,7 @@ router.get("/getCloudinarySignature",userC.getCloudinarySignature)
 router.post(
     "/uploadMedical",
     auth.verifyToken,
-    fileVerify.fileVerifyPfp.single('file'),
+    // fileVerify.fileVerifyPfp.single('file'),
     userC.uploadMedical
 );
 
@@ -38,7 +38,7 @@ router.post(
 router.post(
     "/uploadInsurance",
     auth.verifyToken,
-    fileVerify.fileVerifyPfp.single('file'),
+    // fileVerify.fileVerifyPfp.single('file'),
     userC.uploadInsurance
 );
 
