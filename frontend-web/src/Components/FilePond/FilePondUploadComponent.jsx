@@ -12,6 +12,7 @@ import {
   makeUploadRequest,
 } from "../Cloudinary/CloudinaryHelper";
 import { useApp } from "../../Context/app-context";
+import { v4 as uuidv4 } from "uuid";
 
 registerPlugin(
   FilePondPluginImagePreview,
@@ -23,16 +24,14 @@ registerPlugin(
 export function FilePondComponent(props) {
   const logic = props.setpublicIdOfFileToBeUploaded;
   const deleteLogic = props.deleteLogic;
-  const doYouWantCustomPublicId = props.doYouWantCustomPublicId
+  const doYouWantCustomPublicId = props.doYouWantCustomPublicId;
   const { currentUser } = useApp();
+  // eslint-disable-next-line no-unused-vars
+  const files = props.files;
 
-  useEffect(() => {
-    if (props.files[0] && !props.publicIdOfFileToBeUploaded) {
-      props.setIsFileOnlySelectedAndNotUploaded(true);
-    } else if (props.files[0] && props.publicIdOfFileToBeUploaded) {
-      props.setIsFileOnlySelectedAndNotUploaded(false);
-    }
-  }, [props.files]);
+  const publicIdLogic =  () => {
+        return `${currentUser.email} ${uuidv4()}`;
+      }
 
   //   useEffect(() => {
   //     if(colorMode==='dark'){
@@ -41,7 +40,6 @@ export function FilePondComponent(props) {
   //       document.getElementById("filePondDiv").classList.remove(`dark`);
   //     }
   //   }, [colorMode]);
-
 
   const revert = (token, successCallback, errorCallback) => {
     makeDeleteRequest(
@@ -73,8 +71,9 @@ export function FilePondComponent(props) {
         errorCallback: error,
         progressCallback: progress,
       },
-      logic,doYouWantCustomPublicId,
-      // publicIdReturningFunction
+      logic,
+      doYouWantCustomPublicId,
+      publicIdLogic
     );
 
     return {
@@ -85,7 +84,6 @@ export function FilePondComponent(props) {
     };
   };
 
-  //accepted files ko bhi array se pass karo
 
   return (
     <div id="filePondDiv">
@@ -94,7 +92,7 @@ export function FilePondComponent(props) {
         files={props.files}
         onupdatefiles={props.setFiles}
         allowFileTypeValidation={true}
-        instantUpload={false}
+        instantUpload={true}
         dropValidation={true}
         name="file"
         labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'

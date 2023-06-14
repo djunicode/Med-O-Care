@@ -17,10 +17,6 @@ import { useNavigate } from "react-router-dom";
 export default function UploadRecords() {
   const navigate = useNavigate()
   const [title, setTitle] = useState();
-  const [
-    isFileOnlySelectedAndNotUploaded,
-    setIsFileOnlySelectedAndNotUploaded,
-  ] = useState(false);
   const [files, setFiles] = useState([]);
   const [typeOfDocument, setTypeOfDocument] = useState();
   const [publicIdOfFiles, setPublicIdOfFiles] = useState([
@@ -44,6 +40,7 @@ export default function UploadRecords() {
     ) {
       setPublicIdOfFiles([
         {
+          secure_url:cloudinaryObject.secure_url,
           public_id: cloudinaryObject.public_id,
           signature: cloudinaryObject.signature,
           version: cloudinaryObject.version,
@@ -54,6 +51,7 @@ export default function UploadRecords() {
       setPublicIdOfFiles([
         ...publicIdOfFiles,
         {
+          secure_url:cloudinaryObject.secure_url,
           public_id: cloudinaryObject.public_id,
           signature: cloudinaryObject.signature,
           version: cloudinaryObject.version,
@@ -64,6 +62,9 @@ export default function UploadRecords() {
   };
 
   const deletePublicIdOfFiles = (token) => {
+
+    //send request to delete it from backend here if we dont navigate the page on saving files.
+
     setPublicIdOfFiles(
       publicIdOfFiles.filter((currentFile) => {
         return currentFile.delete_token !== token;
@@ -71,10 +72,21 @@ export default function UploadRecords() {
     );
   };
 
+ const dealingWithHistoryNavigation = () =>{
+  navigate('/history')
+ }
+
   const gridStyle = { paddingLeft: 10, paddingRight: 10, paddingTop: 0.7 };
 
   const dealingWithSave = async (e) => {
     e.preventDefault();
+    
+    //in the future split the documents based on if they are insurance/medical and split the data. Now make 2 seperate requests.
+    //also use different colors in react select and same color in filepond to map it beautifully :o 
+    publicIdOfFiles.forEach((data)=>{
+      data.name = title
+    })
+
     const options = {
       url: `${process.env.REACT_APP_API_ENDPOINT}/user/${
         typeOfDocument === "Medical records"
@@ -82,10 +94,16 @@ export default function UploadRecords() {
           : "uploadInsurance"
       }`,
       method: "POST",
-      data: JSON.stringify({ publicIdOfFiles }),
+      data: { files:publicIdOfFiles },
+      
     };
     const response = await axios.request(options);
+    console.log(response)
     if (response.data.success) {
+      alert(`WOW OMG UPLOADED 😏 `)
+      navigate('/history')
+    }else{
+      alert(`error 🫠`)
     }
   };
 
@@ -156,10 +174,6 @@ export default function UploadRecords() {
                 setpublicIdOfFileToBeUploaded={settingPublicIdOfFiles}
                 deleteLogic={deletePublicIdOfFiles}
                 doYouWantCustomPublicId={true}
-                // publicIdReturningFunction={publicIdLogic}
-                setIsFileOnlySelectedAndNotUploaded={
-                  setIsFileOnlySelectedAndNotUploaded
-                }
                 files={files}
                 setFiles={setFiles}
                 acceptedFileType={["application/pdf"]}
@@ -193,8 +207,8 @@ export default function UploadRecords() {
 
         <Grid sx={gridStyle}>
           <Button
-          onClick={navigate('/history')}
-            endIcon={<ArrowForwardIcon fontSize="large" />}
+          onClick={dealingWithHistoryNavigation}
+endIcon={<ArrowForwardIcon fontSize="large" />}
             sx={{
               marginTop: "2rem",
               backgroundColor: "white",

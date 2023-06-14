@@ -8,11 +8,8 @@ import SlidingPane from "react-sliding-pane";
 import "react-sliding-pane/dist/react-sliding-pane.css";
 import { useApp } from "../../Context/app-context";
 import { addYears, format } from "date-fns";
-import { differenceInYears } from "date-fns";
-import { useEffect } from "react";
-import './Home.css';
+import "./Home.css";
 import axios from "axios";
-import CloudinaryImage from "../../Components/Cloudinary/CloudinaryImage";
 import { AdvancedImage } from "@cloudinary/react";
 import { setupAuthHeaderForNetworkCalls } from "../../Services/SetupAuthHeaders";
 import { useNavigate } from "react-router-dom";
@@ -86,14 +83,13 @@ const AccountPage = ({ open, close }) => {
         </Grid>
         <Grid container spacing={1} sx={{ mt: 3, ml: 4 }}>
           <Grid item xs={3}>
-            <Avatar size={"sm"}
-            >
+            <Avatar sx={{ width: '5.6rem', height: '5.6rem' }}>
               <AdvancedImage
                 cldImg={CloudinaryImageTransformations(
-                  currentUser.profilePicPublic_id,
+                  currentUser.pfpPublicID,
                   "profilePic",
-                  80,
-                  80
+                  100,
+                  100
                 )}
               />
             </Avatar>

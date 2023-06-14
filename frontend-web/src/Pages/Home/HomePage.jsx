@@ -10,7 +10,7 @@ export default function HomePage() {
   const { exerciseData } = useApp();
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingExcersise, setIsLoadingExcersise] = useState(true);
-
+  const [excercise, setExcercise] = useState([]);
   const opts = {
     playerVars: {
       autoplay: 0,
@@ -89,7 +89,9 @@ export default function HomePage() {
                       border: 2,
                       minWidth: "250px",
                       maxWidth: "350px",
-                      height: "350px",
+                      height: `${
+                        excercise[0]?.gifUrl ? `21.875rem` : `6.25rem`
+                      }`,
                     }}
                   >
                     <Box width={"100%"}>

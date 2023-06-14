@@ -46,8 +46,8 @@ function Navbar() {
     page === "login" && navigate("login");
     page === "signup" && navigate("signup");
     page === "Upload" && navigate("uploadrecords");
-    page === "Healthscore" && navigate("health-score");
-    page === "Period tracker" && navigate("period-tracker");
+    page === "Healthscore" && navigate("healthscore");
+    page === "Period tracker" && navigate("periodtracker");
   };
 
   const handleCloseUserMenu = () => {
@@ -240,15 +240,13 @@ function Navbar() {
             {currentUser?.email && (
               <Tooltip title="My accounts">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar
-                    size={"sm"}
-                  >
+                  <Avatar size={"sm"}>
                     <AdvancedImage
                       cldImg={CloudinaryImageTransformations(
-                        currentUser.profilePicPublic_id,
+                        currentUser.pfpPublicID,
                         "profilePic",
-                        80,
-                        80
+                        50,
+                        50
                       )}
                     />
                   </Avatar>
