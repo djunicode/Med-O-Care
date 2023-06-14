@@ -3,6 +3,7 @@ require("./db.js");
 require("dotenv").config();
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const morgan = require("morgan")
 
 const userRoutes = require("./routes/userRoutes");
 const exerciseRoutes = require("./routes/exerciseRoutes");
@@ -10,6 +11,7 @@ const exerciseRoutes = require("./routes/exerciseRoutes");
 const app = express();
 app.use(bodyParser.json());
 app.use(express.json());
+app.use(morgan(":method :url :req[header] :status\n"))
 
 const whitelist = [""]; // add our hosted frontend url later
 
@@ -37,5 +39,6 @@ app.get('*', (req, res) => {
   });
 
 app.listen(process.env.PORT || 3001, () =>
+    // http://localhost:4000
     console.log(`Listening on port ${process.env.PORT}`)
 );
