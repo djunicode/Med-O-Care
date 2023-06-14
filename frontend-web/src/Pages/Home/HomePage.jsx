@@ -2,7 +2,7 @@ import { Grid, Typography, Card, Box } from "@mui/material";
 import YouTube from "react-youtube";
 import "./Home.css";
 import CircularProgress from "@mui/material/CircularProgress";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useApp } from "../../Context/app-context";
 import CardCarousel from "./CardCarousel";
 
@@ -97,7 +97,7 @@ export default function HomePage() {
                     <Box width={"100%"}>
                       <Box top={0} left={0} bottom={0} right={0} sx={{ pl: 5 }}>
                         <img
-                          src={excercise[i]?.gifUrl}
+                          src={exerciseData[i]?.gifUrl}
                           alt="excersise gif"
                           id="exercise-gif"
                         />
@@ -142,7 +142,6 @@ export default function HomePage() {
                 </Grid>
               );
             })}
-            
         </Grid>
       </div>
     </div>
