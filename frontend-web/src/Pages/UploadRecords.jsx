@@ -63,7 +63,7 @@ export default function UploadRecords() {
 
   const deletePublicIdOfFiles = (token) => {
 
-    //send request to delete it from backend here 
+    //send request to delete it from backend here if we dont navigate the page on saving files.
 
     setPublicIdOfFiles(
       publicIdOfFiles.filter((currentFile) => {
@@ -80,9 +80,9 @@ export default function UploadRecords() {
 
   const dealingWithSave = async (e) => {
     e.preventDefault();
+    
     //in the future split the documents based on if they are insurance/medical and split the data. Now make 2 seperate requests.
     //also use different colors in react select and same color in filepond to map it beautifully :o 
-
     publicIdOfFiles.forEach((data)=>{
       data.name = title
     })
@@ -101,6 +101,7 @@ export default function UploadRecords() {
     console.log(response)
     if (response.data.success) {
       alert(`WOW OMG UPLOADED 😏 `)
+      navigate('/history')
     }else{
       alert(`error 🫠`)
     }

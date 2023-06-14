@@ -17,7 +17,6 @@ export default function CloudinaryImageTransformations(
   });
 
   const img = cloud.image(publicID);
-  console.log(img)
 
   if (options === "profilePic") {
     img

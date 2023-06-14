@@ -46,8 +46,8 @@ function Navbar() {
     page === "login" && navigate("login");
     page === "signup" && navigate("signup");
     page === "Upload" && navigate("uploadrecords");
-    page === "Healthscore" && navigate("health-score");
-    page === "Period tracker" && navigate("period-tracker");
+    page === "Healthscore" && navigate("healthscore");
+    page === "Period tracker" && navigate("periodtracker");
   };
 
   const handleCloseUserMenu = () => {

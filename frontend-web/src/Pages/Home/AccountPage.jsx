@@ -83,7 +83,7 @@ const AccountPage = ({ open, close }) => {
         </Grid>
         <Grid container spacing={1} sx={{ mt: 3, ml: 4 }}>
           <Grid item xs={3}>
-            <Avatar size={"xl"}>
+            <Avatar sx={{ width: '5.6rem', height: '5.6rem' }}>
               <AdvancedImage
                 cldImg={CloudinaryImageTransformations(
                   currentUser.pfpPublicID,
