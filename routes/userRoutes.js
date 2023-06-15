@@ -42,6 +42,12 @@ router.post(
     userC.uploadInsurance
 );
 
+//upload the number of times a files is viewed 
+router.post("/updateViewCount", auth.verifyToken, userC.updateViewCount)
+
+//get the files
+router.get("/getFiles", auth.verifyToken, userC.getFiles)
+
 // period tracker
 router.post("/periodTracker", auth.verifyToken, userC.periodTracker)
 
@@ -50,5 +56,6 @@ router.get("/getPeriodDates", auth.verifyToken, userC.getPeriodDates)
 
 //upload medicine and dosage information 
 router.post("/medicineDosage", auth.verifyToken, userC.medicineDosage)
+
 
 module.exports = router;
