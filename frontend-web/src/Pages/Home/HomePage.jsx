@@ -90,7 +90,7 @@ export default function HomePage() {
                       minWidth: "250px",
                       maxWidth: "350px",
                       height: `${
-                        excercise[0]?.gifUrl ? `21.875rem` : `6.25rem`
+                        exerciseData[0]?.gifUrl ? `21rem` : `6.25rem`
                       }`,
                     }}
                   >
