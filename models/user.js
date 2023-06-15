@@ -71,6 +71,13 @@ const userSchema = new Schema(
         delete_token: {
           type: String,
         },
+        viewCount:{
+          type:Number,
+          default:0
+        },
+        dateOfUpload:{
+          type:Date
+        }
       },
     ],
     medicalFileCount: {
@@ -88,6 +95,13 @@ const userSchema = new Schema(
         delete_token: {
           type: String,
         },
+        viewCount:{
+          type:Number,
+          default:0
+        },
+        dateOfUpload:{
+          type:Date,
+        }
       },
     ],
     insuranceFileCount: {

@@ -79,7 +79,9 @@ const loginUser = async (req, res) => {
   try {
     const email = req.body.email;
     const password = req.body.password;
-    const user = await UserSchema.findOne({ email: email });
+    const user = await UserSchema.findOne({ email: email }).select(
+      "-medicalFiles -medicalFileCount -insuranceFiles -insuranceFileCount -period_lastDay -period_how_long -period_mc_duration -OTP"
+    );
 
     if (!user) {
       return res.status(400).json({
@@ -238,18 +240,18 @@ const updateUser = async (req, res) => {
 
   try {
     await UserSchema.findOneAndUpdate({ email: email }, { $set: req.body });
+    let newPswd;
     if (req.body.password) {
       const salt = await bcrypt.genSalt();
       const hashedPassword = await bcrypt.hash(req.body.password, salt);
-      let newPswd = await UserSchema.findOneAndUpdate(
+      newPswd = await UserSchema.findOneAndUpdate(
         { email: email },
         { password: hashedPassword }
+      ).select(
+        "-medicalFiles -medicalFileCount -insuranceFiles -insuranceFileCount -period_lastDay -period_how_long -period_mc_duration -OTP"
       );
     }
-    let pass = await UserSchema.findById(
-      { _id: req.user._id },
-      { password: 0 }
-    ); //to hide hashed pswd
+    newPswd.password = null;
 
     res.status(201).json({
       success: true,
@@ -259,6 +261,69 @@ const updateUser = async (req, res) => {
     res.status(500).json({
       success: false,
       message: err.message,
+    });
+  }
+};
+
+//get the files data
+const getFiles = async (req, res) => {
+  const userEmail = req.user.email;
+
+  try {
+    const user = await UserSchema.findOne(
+      { email: userEmail },
+      {
+        medicalFiles: 1,
+        medicalFileCount: 1,
+        insuranceFiles: 1,
+        insuranceFileCount: 1,
+      }
+    );
+
+    if (!user) {
+      return res.status(400).json({
+        error: "User does not exist",
+      });
+    }
+
+    const medicalFiles = user.medicalFiles.map((file) => ({
+      type: "medical",
+      name: file.name,
+      fileSecure_url: file.fileSecure_url,
+      delete_token: file.delete_token,
+      viewCount: file.viewCount,
+      dateOfUpload: file.dateOfUpload,
+    }));
+
+    const insuranceFiles = user.insuranceFiles.map((file) => ({
+      type: "insurance",
+      name: file.name,
+      fileSecure_url: file.fileSecure_url,
+      delete_token: file.delete_token,
+      viewCount: file.viewCount,
+      dateOfUpload: file.dateOfUpload,
+    }));
+    const medicalFileCount = user.medicalFileCount;
+    console.log(medicalFiles);
+    console.log(insuranceFiles);
+    const insuranceFileCount = user.insuranceFileCount;
+
+    // Merge medicalFiles and insuranceFiles into a single state object
+    const filesState = {
+      files: [...medicalFiles, ...insuranceFiles],
+      medicalFileCount: medicalFileCount,
+      insuranceFileCount: insuranceFileCount,
+    };
+
+    console.log(filesState);
+    res.status(200).json({
+      success: true,
+      data: filesState,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: error.message,
     });
   }
 };
@@ -275,6 +340,7 @@ const uploadMedical = async (req, res) => {
         name: file.name,
         fileSecure_url: file.secure_url,
         delete_token: file.delete_token,
+        dateOfUpload: new Date(),
       });
     }
 
@@ -284,7 +350,8 @@ const uploadMedical = async (req, res) => {
         $push: { medicalFiles: { $each: medicalFiles } },
         $inc: { medicalFileCount: files.length },
       }
-    );
+    ).select("-_id");
+    console.log(data);
 
     res.status(201).json({
       success: true,
@@ -298,8 +365,53 @@ const uploadMedical = async (req, res) => {
   }
 };
 
-//upload insurance records
+const updateViewCount = async (req, res) => {
+  try {
+    const name = req.body.name;
+    const userEmail = req.user.email;
+    const fileType = req.body.fileType;
 
+    let updateQuery = {};
+
+    if (fileType === "medical") {
+      updateQuery = {
+        $inc: {
+          "medicalFiles.$[file].viewCount": 1,
+        },
+      };
+    } else if (fileType === "insurance") {
+      updateQuery = {
+        $inc: {
+          "insuranceFiles.$[file].viewCount": 1,
+        },
+      };
+    } else {
+      throw new Error("Invalid file type");
+    }
+
+    const userObject = await UserSchema.findOneAndUpdate(
+      {
+        email: userEmail,
+        $or: [{ "medicalFiles.name": name }, { "insuranceFiles.name": name }],
+      },
+      updateQuery,
+      {
+        arrayFilters: [{ "file.name": name }],
+      }
+    );
+    res
+      .status(200)
+      .json({ success: true, message: "View count updated successfully" });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      success: false,
+      error: "Could not update count, please try again",
+    });
+  }
+};
+
+//upload insurance records
 const uploadInsurance = async (req, res) => {
   try {
     const userEmail = req.user.email;
@@ -311,6 +423,7 @@ const uploadInsurance = async (req, res) => {
         name: file.name,
         fileSecure_url: file.secure_url,
         delete_token: file.delete_token,
+        dateOfUpload: new Date(),
       });
     }
     const data = await UserSchema.findOneAndUpdate(
@@ -320,6 +433,7 @@ const uploadInsurance = async (req, res) => {
         $inc: { insuranceFileCount: files.length },
       }
     );
+    console.log(data);
 
     res.status(201).json({
       success: true,
@@ -478,5 +592,7 @@ module.exports = {
   periodTracker,
   getCloudinarySignature,
   medicineDosage,
+  getFiles,
+  updateViewCount,
   getPeriodDates,
 };
