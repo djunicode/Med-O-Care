@@ -12,7 +12,6 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { useApp } from "../Context/app-context";
 import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress";
 
@@ -26,43 +25,48 @@ export const History = () => {
     "Insurance Files",
   ];
   const [data, setData] = useState([]);
+
+  const dealingWithDeleteAFile = async (delete_token) => {
+    try {
+      const response = await axios.delete(
+        `${process.env.REACT_APP_API_ENDPOINT}/user/deleteFile/${delete_token}`,
+        {
+          delete_token,
+        }
+      );
+      // File deleted successfully, update the data
+      if(response.success){
+        getData();
+      }else{
+        throw new Error('oops')
+      }
+
+    } catch (error) {
+      console.error(error);
+      alert(
+        "An error occurred while deleting the file. Please try again later."
+      );
+    }
+  };
+
+  //!ye thoda sa gadbad vala h but thike isko rehne de mai dekhta hu
   const perFormSorting = () => {
     if (typeOfSorting === "Frequently visited") {
-      // Sort files based on frequency of visits
-      setData((prevData) => {
-        // Sort the files based on the visitCount property in descending order
-        const sortedData = [...prevData].sort(
-          (a, b) => b.visitCount - a.visitCount
-        );
-        return sortedData;
-      });
+      setData((prevData) =>
+        [...prevData].sort((a, b) => b.viewCount - a.viewCount)
+      );
     } else if (typeOfSorting === "Latest uploaded") {
-      // Sort files based on the date of upload
-      setData((prevData) => {
-        // Sort the files based on the dateOfUpload property in descending order
-        const sortedData = [...prevData].sort(
+      setData((prevData) =>
+        [...prevData].sort(
           (a, b) => new Date(b.dateOfUpload) - new Date(a.dateOfUpload)
-        );
-        return sortedData;
-      });
+        )
+      );
     } else if (typeOfSorting === "Medical Files") {
-      // Filter and display only medical files
-      setData((prevData) => {
-        // Filter the files based on their type or any other condition
-        const filteredData = prevData.filter(
-          (file) => file.fileType === "Medical"
-        );
-        return filteredData;
-      });
+      setData((prevData) => prevData.filter((file) => file.type === "medical"));
     } else if (typeOfSorting === "Insurance Files") {
-      // Filter and display only insurance files
-      setData((prevData) => {
-        // Filter the files based on their type or any other condition
-        const filteredData = prevData.filter(
-          (file) => file.fileType === "Insurance"
-        );
-        return filteredData;
-      });
+      setData((prevData) =>
+        prevData.filter((file) => file.type === "insurance")
+      );
     } else {
       // Display all documents
       // No additional sorting or filtering needed
@@ -70,7 +74,6 @@ export const History = () => {
   };
 
   const dealingWithSorting = () => {
-    console.log(typeOfSorting);
     const previousType = localStorage.getItem("typeOfDisplay");
     if (previousType && validtypes(previousType)) {
       setTypeOfSorting(previousType);
@@ -89,6 +92,7 @@ export const History = () => {
     });
     return isValid;
   };
+
   const [typeOfSorting, setTypeOfSorting] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
@@ -110,6 +114,7 @@ export const History = () => {
     if (renderCount.current === 1) {
       return null;
     }
+    console.log(typeOfSorting);
     setIsLoading(true);
     dealingWithSorting();
     setIsLoading(false);
@@ -129,7 +134,7 @@ export const History = () => {
     };
     const response = await axios.request(options);
     medicalFileCount = response.data.medicalFileCount;
-    insuranceFileCount = response.data.insuranceFileCount
+    insuranceFileCount = response.data.insuranceFileCount;
     console.log(medicalFileCount);
     console.log(insuranceFileCount);
     if (response.data.success) {
@@ -143,10 +148,13 @@ export const History = () => {
     navigate("/uploadrecords");
   };
 
-  const dealingWithOpeningAPdf = (nameOfFile) => {
-    navigate(`view:${nameOfFile}`);
+  const dealingWithOpeningAPdf = (secure_url) => {
+    navigate(`view:${secure_url}`);
   };
 
+  //TODO ye sabh html ko react me karde aur ek maine jo test vala state banaya hai osko map karde
+  //TODO aur responive bhi karna
+  //TODO br ye sabh hata de aur basically acha ui bana de phir mai karta baaki ka
   return (
     <div>
       <table>
@@ -201,117 +209,157 @@ export const History = () => {
                       </p>
                     </div>
                   </td>
-                  <td>
-                    <div class="two" style={{ paddingLeft: "460px" }}>
-                      <FormControl
-                        sx={{
-                          m: 1,
-                          p: 1,
-                          minWidth: 120,
-                        }}
-                        size="small"
-                      >
-                        <InputLabel id="demo-select-small-label">
-                          All
-                        </InputLabel>
-                        <Select
-                          labelId="demo-select-small-label"
-                          id="demo-select-small"
-                          value={typeOfSorting}
-                          label="Filter"
-                          defaultValue="All Documents"
-                          onChange={(e) => {
-                            localStorage.setItem(
-                              "typeOfDisplay",
-                              e.target.value
-                            );
-                            setTypeOfSorting(e.target.value);
-                          }}
+
+                  {data[0]?.fileSecure_url && (
+                    <td>
+                      <div class="two" style={{ paddingLeft: "460px" }}>
+                        <FormControl
                           sx={{
-                            width: "169px",
-                            height: "29px",
-                            backgroundColor: "rgba(192, 238, 242, 1)",
-                            color: "black",
-                            borderRadius: "50px",
+                            m: 1,
+                            p: 1,
+                            minWidth: 120,
                           }}
+                          size="small"
                         >
-                          {validTypesOfSorting.map((type, index) => {
-                            return <MenuItem key={index}>{type}</MenuItem>;
-                          })}
-                        </Select>
-                      </FormControl>
-                    </div>
-                  </td>
+                          <InputLabel id="demo-select-small-label">
+                            All
+                          </InputLabel>
+                          <Select
+                            labelId="demo-select-small-label"
+                            id="demo-select-small"
+                            value={typeOfSorting}
+                            label="Filter"
+                            defaultValue="All Documents"
+                            onChange={(e) => {
+                              localStorage.setItem(
+                                "typeOfDisplay",
+                                e.target.value
+                              );
+                              setTypeOfSorting(e.target.value);
+                            }}
+                            sx={{
+                              width: "169px",
+                              height: "29px",
+                              backgroundColor: "rgba(192, 238, 242, 1)",
+                              color: "black",
+                              borderRadius: "50px",
+                            }}
+                          >
+                            {validTypesOfSorting.map((type, index) => {
+                              return <MenuItem key={index}>{type}</MenuItem>;
+                            })}
+                          </Select>
+                        </FormControl>
+                      </div>
+                    </td>
+                  )}
                 </tr>
               </table>
 
-              <div style={{ paddingLeft: "86px" }}>
-                <table
-                  id="content"
-                  style={{
-                    borderRadius: "10px",
-                    backgroundColor: "#FFFFFF",
-                    width: "680px",
-                    height: "65px",
-                    boxShadow: "1px 1px 3px black",
-                  }}
-                >
-                  {!isLoading ? (
-                    <tr>
-                      <td>
-                        <div style={{ paddingLeft: "33px" }}>
-                          <span
-                            style={{
-                              color: "rgba(0, 0, 0, 1)",
-                              textAlign: "left",
-                              fontFamily: "Poppins",
-                              fontWeight: "medium",
-                              fontSize: "16",
-                            }}
-                          >
-                            Doctor's presc
-                          </span>
-                          <br></br>
-                          <span
-                            style={{
-                              color: "rgba(0, 0, 0, 0.55)",
-                              textAlign: "left",
-                              fontFamily: "Poppins",
-                              fontWeight: "medium",
-                              fontSize: "13",
-                            }}
-                          >
-                            Prescription
-                          </span>
-                        </div>
-                      </td>
+              {
+                //TODO yaha kuch acha ui bana de to display ki ab tak kuch upload nahi kiya hai
+                !data[0]?.fileSecure_url ? (
+                  <> No data </>
+                ) : (
+                  <div style={{ paddingLeft: "86px" }}>
+                    <table
+                      id="content"
+                      style={{
+                        borderRadius: "10px",
+                        backgroundColor: "#FFFFFF",
+                        width: "680px",
+                        height: "65px",
+                        boxShadow: "1px 1px 3px black",
+                      }}
+                    >
+                      {!isLoading ? (
+                        <>
+                          {data.map((fileDetails, index) => {
+                            return (
+                              <tr>
+                                <td>
+                                  <div style={{ paddingLeft: "33px" }}>
+                                    <span
+                                      style={{
+                                        color: "rgba(0, 0, 0, 1)",
+                                        textAlign: "left",
+                                        fontFamily: "Poppins",
+                                        fontWeight: "medium",
+                                        fontSize: "16",
+                                      }}
+                                    >
+                                      {/* //TODO yaha ek chiz yaad rakhna hi name wrap hona chahiye agar bada hai toh next line me jaise my accounts me kara tha vaise hi kuch */}
+                                      {fileDetails?.name}
+                                    </span>
+                                    <br></br>
+                                    <span
+                                      style={{
+                                        color: "rgba(0, 0, 0, 0.55)",
+                                        textAlign: "left",
+                                        fontFamily: "Poppins",
+                                        fontWeight: "medium",
+                                        fontSize: "13",
+                                      }}
+                                    >
+                                      {/* //TODO Yaha date- 12 Monday,June aise format me dikhana... agar jagah nhi mil rha toh ye math dikha chalega  */}
+                                      {fileDetails?.dateOfUpload}
+                                    </span>
+                                    <span
+                                      style={{
+                                        color: "rgba(0, 0, 0, 0.55)",
+                                        textAlign: "left",
+                                        fontFamily: "Poppins",
+                                        fontWeight: "medium",
+                                        fontSize: "13",
+                                      }}
+                                    >
+                                      {fileDetails?.type}
+                                    </span>
+                                    {/*//TODO yaha extenal vala icon */}
+                                  </div>
+                                </td>
 
-                      <td>
-                        <div style={{ paddingLeft: "325px" }}>
-                          <Button
-                            sx={{ color: "black" }}
-                            onClick={dealingWithOpeningAPdf}
-                          >
-                            Open
-                          </Button>
-                          <Button
-                            variant="contained"
-                            sx={{
-                              color: "white",
-                              borderRadius: "50px",
-                              backgroundColor: "rgba(83, 127, 231, 1)",
-                            }}
-                          >
-                            Edit
-                          </Button>
-                        </div>
-                      </td>
-                    </tr>
-                  ) : (
-                    <CircularProgress />
-                  )}
-                </table>
-              </div>
+                                <td>
+                                  <div style={{ paddingLeft: "325px" }}>
+                                    <Button
+                                      sx={{ color: "black" }}
+                                      onClick={() => {
+                                        dealingWithOpeningAPdf(
+                                          fileDetails.fileSecure_url
+                                        );
+                                      }}
+                                    >
+                                      View in app
+                                    </Button>
+                                    <Button
+                                      variant="contained"
+                                      sx={{
+                                        color: "white",
+                                        borderRadius: "50px",
+                                        backgroundColor:
+                                          "rgba(83, 127, 231, 1)",
+                                      }}
+                                      onClick={() => {
+                                        dealingWithDeleteAFile(
+                                          fileDetails.delete_token
+                                        );
+                                      }}
+                                    >
+                                      Delete
+                                    </Button>
+                                  </div>
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </>
+                      ) : (
+                        <CircularProgress />
+                      )}
+                    </table>
+                  </div>
+                )
+              }
             </div>
           </td>
         </tr>
