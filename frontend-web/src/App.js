@@ -42,7 +42,7 @@ const router = createBrowserRouter(
         <Route path="otp" element={<OTPPage />} />
         <Route path="reset-password" element={<ResetPassword />} />
         <Route path="history" element={<History />}>
-          <Route path="view:id" element={<ViewAPage />} />
+          <Route path="view" element={<ViewAPage />} />
         </Route>
         <Route path="periodtracker2" element={<PeriodTracker2 />} />
         <Route path="*" element={<ErrorPage />} />
