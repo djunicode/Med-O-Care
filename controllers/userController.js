@@ -315,7 +315,6 @@ const getFiles = async (req, res) => {
       insuranceFileCount: insuranceFileCount,
     };
 
-    console.log(filesState);
     res.status(200).json({
       success: true,
       data: filesState,
@@ -336,8 +335,31 @@ const uploadMedical = async (req, res) => {
     const medicalFiles = [];
 
     for (const file of files) {
+      let fileName = file.name;
+      const duplicateFileCount = await UserSchema.countDocuments({
+        email: userEmail,
+        "medicalFiles.name": new RegExp(`^${fileName}(?: \\(\\d+\\))?$`, "i"),
+      });
+
+      if (duplicateFileCount > 0) {
+        let count = 1;
+        let originalFileName = fileName;
+
+        // Check if the file name already has a count appended in parentheses
+        const countMatch = fileName.match(/^(.*) \((\d+)\)$/);
+
+        if (countMatch) {
+          // If count is present, extract the original file name and increment the count
+          originalFileName = countMatch[1];
+          count = parseInt(countMatch[2]) + 1;
+        }
+
+        // Append the count to the file name
+        fileName = `${originalFileName} (${count})`;
+      }
+
       medicalFiles.push({
-        name: file.name,
+        name: fileName,
         fileSecure_url: file.secure_url,
         delete_token: file.delete_token,
         dateOfUpload: new Date(),
@@ -351,11 +373,10 @@ const uploadMedical = async (req, res) => {
         $inc: { medicalFileCount: files.length },
       }
     ).select("-_id");
-    console.log(data);
 
     res.status(201).json({
       success: true,
-      message: "Record uploaded succedfully!",
+      message: "Record uploaded successfully!",
     });
   } catch (err) {
     res.status(500).json({
@@ -419,13 +440,37 @@ const uploadInsurance = async (req, res) => {
     const insuranceFiles = [];
 
     for (const file of files) {
+      let fileName = file.name;
+      const duplicateFileCount = await UserSchema.countDocuments({
+        email: userEmail,
+        "insuranceFiles.name": new RegExp(`^${fileName}(?: \\(\\d+\\))?$`, "i"),
+      });
+
+      if (duplicateFileCount > 0) {
+        let count = 1;
+        let originalFileName = fileName;
+
+        // Check if the file name already has a count appended in parentheses
+        const countMatch = fileName.match(/^(.*) \((\d+)\)$/);
+
+        if (countMatch) {
+          // If count is present, extract the original file name and increment the count
+          originalFileName = countMatch[1];
+          count = parseInt(countMatch[2]) + 1;
+        }
+
+        // Append the count to the file name
+        fileName = `${originalFileName} (${count})`;
+      }
+
       insuranceFiles.push({
-        name: file.name,
+        name: fileName,
         fileSecure_url: file.secure_url,
         delete_token: file.delete_token,
         dateOfUpload: new Date(),
       });
     }
+
     const data = await UserSchema.findOneAndUpdate(
       { email: userEmail },
       {
@@ -433,7 +478,6 @@ const uploadInsurance = async (req, res) => {
         $inc: { insuranceFileCount: files.length },
       }
     );
-    console.log(data);
 
     res.status(201).json({
       success: true,
@@ -444,7 +488,6 @@ const uploadInsurance = async (req, res) => {
       success: false,
       message: err.message,
     });
-    console.log(err);
   }
 };
 
