@@ -25,6 +25,7 @@ export const History = () => {
     "Insurance Files",
   ];
   const [data, setData] = useState([]);
+  const [sortedData, setSortedData] = useState([]);
 
   const dealingWithDeleteAFile = async (delete_token) => {
     try {
@@ -35,12 +36,11 @@ export const History = () => {
         }
       );
       // File deleted successfully, update the data
-      if(response.success){
+      if (response.success) {
         getData();
-      }else{
-        throw new Error('oops')
+      } else {
+        throw new Error("oops");
       }
-
     } catch (error) {
       console.error(error);
       alert(
@@ -50,82 +50,74 @@ export const History = () => {
   };
 
   //!ye thoda sa gadbad vala h but thike isko rehne de mai dekhta hu
-  const perFormSorting = () => {
+  const performSorting = () => {
+    console.log("the data is being sorted");
     if (typeOfSorting === "Frequently visited") {
-      setData((prevData) =>
-        [...prevData].sort((a, b) => b.viewCount - a.viewCount)
-      );
+      setSortedData([...data].sort((a, b) => b.viewCount - a.viewCount));
     } else if (typeOfSorting === "Latest uploaded") {
-      setData((prevData) =>
-        [...prevData].sort(
+      setSortedData(
+        [...data].sort(
           (a, b) => new Date(b.dateOfUpload) - new Date(a.dateOfUpload)
         )
       );
     } else if (typeOfSorting === "Medical Files") {
-      setData((prevData) => prevData.filter((file) => file.type === "medical"));
+      setSortedData([...data].filter((file) => file.type === "medical"));
     } else if (typeOfSorting === "Insurance Files") {
-      setData((prevData) =>
-        prevData.filter((file) => file.type === "insurance")
-      );
+      setSortedData([...data].filter((file) => file.type === "insurance"));
     } else {
-      // Display all documents
-      // No additional sorting or filtering needed
+      setSortedData(data); // No additional sorting or filtering needed
     }
   };
 
   const dealingWithSorting = () => {
     const previousType = localStorage.getItem("typeOfDisplay");
-    if (previousType && validtypes(previousType)) {
+  if (previousType && validTypes(previousType)) {
       setTypeOfSorting(previousType);
     } else {
       setTypeOfSorting("Frequently visited");
     }
-    perFormSorting();
   };
 
-  const validtypes = (previousType) => {
-    let isValid = false;
-    validTypesOfSorting.forEach((type) => {
-      if (previousType === type) {
-        isValid = true;
-      }
-    });
-    return isValid;
+  //checking if the type i
+  const validTypes = (previousType) => {
+    return validTypesOfSorting.includes(previousType);
   };
-
+  
   const [typeOfSorting, setTypeOfSorting] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    setIsLoading(true);
-    const previousType = localStorage.getItem("typeOfDisplay");
-    getData();
+    const initializeData = async () => {
 
-    //initial render vala case kyuki sirph tabhi hume data lana hai varna nhi lana hai
-    if (previousType && validtypes(previousType) && renderCount.current === 1) {
-      setTypeOfSorting(previousType);
-    }
-    dealingWithSorting();
-    setIsLoading(false);
+      try {
+        setIsLoading(true);
+        dealingWithSorting();
+        await getData();
+        performSorting();
+      } catch (err) {
+        // Handle error
+      } finally {
+        setIsLoading(false);
+      }
+    };
+  
+    initializeData();
   }, []);
-
-  useMemo(() => {
-    renderCount.current++;
-    if (renderCount.current === 1) {
-      return null;
-    }
-    console.log(typeOfSorting);
-    setIsLoading(true);
-    dealingWithSorting();
-    setIsLoading(false);
+  
+  useEffect(() => {
+    performSorting();
+    localStorage.setItem("typeOfDisplay", typeOfSorting);
   }, [typeOfSorting]);
 
+
   const navigate = useNavigate();
-  let medicalFileCount, insuranceFileCount;
 
   useEffect(() => {
-    console.log(data);
-  }, [data]);
+    if (renderCount.current !== 0 || renderCount.current!==1) {
+      console.log(sortedData);
+    }
+  }, [sortedData]);
+
 
   const getData = async () => {
     const options = {
@@ -133,10 +125,6 @@ export const History = () => {
       method: "GET",
     };
     const response = await axios.request(options);
-    medicalFileCount = response.data.medicalFileCount;
-    insuranceFileCount = response.data.insuranceFileCount;
-    console.log(medicalFileCount);
-    console.log(insuranceFileCount);
     if (response.data.success) {
       setData(response.data.data.files);
     } else {
@@ -149,7 +137,7 @@ export const History = () => {
   };
 
   const dealingWithOpeningAPdf = (secure_url) => {
-    navigate(`view:${secure_url}`);
+    navigate(`view`);
   };
 
   //TODO ye sabh html ko react me karde aur ek maine jo test vala state banaya hai osko map karde
@@ -231,10 +219,6 @@ export const History = () => {
                             label="Filter"
                             defaultValue="All Documents"
                             onChange={(e) => {
-                              localStorage.setItem(
-                                "typeOfDisplay",
-                                e.target.value
-                              );
                               setTypeOfSorting(e.target.value);
                             }}
                             sx={{
@@ -245,6 +229,9 @@ export const History = () => {
                               borderRadius: "50px",
                             }}
                           >
+                            <MenuItem value="" disabled>
+                              Select an option
+                            </MenuItem>
                             {validTypesOfSorting.map((type, index) => {
                               return <MenuItem key={index}>{type}</MenuItem>;
                             })}
@@ -275,6 +262,7 @@ export const History = () => {
                       {!isLoading ? (
                         <>
                           {data.map((fileDetails, index) => {
+                            console.log(fileDetails);
                             return (
                               <tr>
                                 <td>

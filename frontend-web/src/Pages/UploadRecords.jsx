@@ -3,6 +3,7 @@ import {
   Button,
   Grid,
   MenuItem,
+  Select,
   TextField,
   Typography,
 } from "@mui/material";
@@ -15,7 +16,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 export default function UploadRecords() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [title, setTitle] = useState();
   const [files, setFiles] = useState([]);
   const [typeOfDocument, setTypeOfDocument] = useState();
@@ -28,7 +29,7 @@ export default function UploadRecords() {
   ]);
 
   useEffect(() => {
-    console.log(publicIdOfFiles)
+    console.log(publicIdOfFiles);
   }, [publicIdOfFiles]);
 
   const settingPublicIdOfFiles = (cloudinaryObject) => {
@@ -40,29 +41,28 @@ export default function UploadRecords() {
     ) {
       setPublicIdOfFiles([
         {
-          secure_url:cloudinaryObject.secure_url,
+          secure_url: cloudinaryObject.secure_url,
           public_id: cloudinaryObject.public_id,
           signature: cloudinaryObject.signature,
           version: cloudinaryObject.version,
-          delete_token:cloudinaryObject.delete_token
+          delete_token: cloudinaryObject.delete_token,
         },
       ]);
     } else {
       setPublicIdOfFiles([
         ...publicIdOfFiles,
         {
-          secure_url:cloudinaryObject.secure_url,
+          secure_url: cloudinaryObject.secure_url,
           public_id: cloudinaryObject.public_id,
           signature: cloudinaryObject.signature,
           version: cloudinaryObject.version,
-          delete_token:cloudinaryObject.delete_token
+          delete_token: cloudinaryObject.delete_token,
         },
       ]);
     }
   };
 
   const deletePublicIdOfFiles = (token) => {
-
     //send request to delete it from backend here if we dont navigate the page on saving files.
 
     setPublicIdOfFiles(
@@ -72,20 +72,20 @@ export default function UploadRecords() {
     );
   };
 
- const dealingWithHistoryNavigation = () =>{
-  navigate('/history')
- }
+  const dealingWithHistoryNavigation = () => {
+    navigate("/history");
+  };
 
   const gridStyle = { paddingLeft: 10, paddingRight: 10, paddingTop: 0.7 };
 
   const dealingWithSave = async (e) => {
     e.preventDefault();
-    
+
     //in the future split the documents based on if they are insurance/medical and split the data. Now make 2 seperate requests.
-    //also use different colors in react select and same color in filepond to map it beautifully :o 
-    publicIdOfFiles.forEach((data)=>{
-      data.name = title
-    })
+    //also use different colors in react select and same color in filepond to map it beautifully :o
+    publicIdOfFiles.forEach((data) => {
+      data.name = title;
+    });
 
     const options = {
       url: `${process.env.REACT_APP_API_ENDPOINT}/user/${
@@ -94,16 +94,15 @@ export default function UploadRecords() {
           : "uploadInsurance"
       }`,
       method: "POST",
-      data: { files:publicIdOfFiles },
-      
+      data: { files: publicIdOfFiles },
     };
     const response = await axios.request(options);
-    console.log(response)
+    console.log(response);
     if (response.data.success) {
-      alert(`WOW OMG UPLOADED 😏 `)
-      navigate('/history')
-    }else{
-      alert(`error 🫠`)
+      alert(`WOW OMG UPLOADED 😏 `);
+      navigate("/history");
+    } else {
+      alert(`error 🫠`);
     }
   };
 
@@ -139,25 +138,26 @@ export default function UploadRecords() {
           <Typography sx={{ marginLeft: 2, fontSize: "large" }}>
             Select type of document
           </Typography>
-          <TextField
+          <Select
             id="documentType"
             placeholder="Type of document"
             select
-            value={typeOfDocument}
-            onChange={setTypeOfDocument}
-            InputProps={{
+            value={typeOfDocument || ""}
+            onChange={(e) => {
+              setTypeOfDocument(e.target.value)
+            }}
+            sx={ {
               placeholder: "Type of document",
-              sx: {
-                borderRadius: 10,
-                color: "region",
-                backgroundColor: "white",
-              },
+              borderRadius: 10,
+              color: "region",
+              backgroundColor: "white",
             }}
             fullWidth
           >
-            <MenuItem>Insurance records</MenuItem>
-            <MenuItem> Medical records</MenuItem>
-          </TextField>
+            <MenuItem value="" disabled>Select an option</MenuItem>
+            <MenuItem value="Insurance records">Insurance records</MenuItem>
+            <MenuItem value="Medical records">Medical records</MenuItem>
+          </Select>
         </Grid>
 
         <Grid sx={gridStyle}>
@@ -207,8 +207,8 @@ export default function UploadRecords() {
 
         <Grid sx={gridStyle}>
           <Button
-          onClick={dealingWithHistoryNavigation}
-endIcon={<ArrowForwardIcon fontSize="large" />}
+            onClick={dealingWithHistoryNavigation}
+            endIcon={<ArrowForwardIcon fontSize="large" />}
             sx={{
               marginTop: "2rem",
               backgroundColor: "white",
