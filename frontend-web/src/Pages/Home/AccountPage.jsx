@@ -7,7 +7,7 @@ import { useState } from "react";
 import SlidingPane from "react-sliding-pane";
 import "react-sliding-pane/dist/react-sliding-pane.css";
 import { useApp } from "../../Context/app-context";
-import { addYears, format } from "date-fns";
+import { format } from "date-fns";
 import "./Home.css";
 import axios from "axios";
 import { AdvancedImage } from "@cloudinary/react";
@@ -68,7 +68,7 @@ const AccountPage = ({ open, close }) => {
 
   return (
     <div>
-      <SlidingPane isOpen={state.isPaneOpen} hideHeader width="450px">
+      <SlidingPane isOpen={state.isPaneOpen} hideHeader zIndex={1001} width="450px" >
         <Grid container justifyContent="space-between">
           <Button sx={{ color: "black" }} onClick={close}>
             <ArrowBackIosIcon />
