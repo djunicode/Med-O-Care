@@ -34,6 +34,12 @@ router.post(
     userC.uploadMedical
 );
 
+//delete medical records
+router.post("/deleteMedical", auth.verifyToken, userC.deleteMedical)
+
+//delete Insurance records
+router.post("/deleteInsurance", auth.verifyToken, userC.deleteInsurance)
+
 //upload insurance records
 router.post(
     "/uploadInsurance",

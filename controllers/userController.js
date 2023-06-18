@@ -386,6 +386,51 @@ const uploadMedical = async (req, res) => {
   }
 };
 
+//delete a medial record
+const deleteMedical = async (req, res) => {
+  try {
+    const token = req.body.deleteToken;
+
+    const deleteDoc = await UserSchema.updateOne(
+      { "medicalFiles.delete_token": token },
+      { $pull: { medicalFiles: { delete_token: token } } }
+    );
+
+    res.status(200).json({
+      success : true,
+      data : deleteDoc
+    })
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
+  }
+};
+
+//delete insurance record
+
+const deleteInsurance = async (req, res) => {
+  try {
+    const token = req.body.deleteToken;
+
+    const deleteDoc = await UserSchema.updateOne(
+      { "insuranceFiles.delete_token": token },
+      { $pull: { insuranceFiles: { delete_token: token } } }
+    );
+
+    res.status(200).json({
+      success : true,
+      data : deleteDoc
+    })
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
+  }
+};
+
 const updateViewCount = async (req, res) => {
   try {
     const name = req.body.name;
@@ -633,9 +678,11 @@ module.exports = {
   uploadMedical,
   uploadInsurance,
   periodTracker,
-  getCloudinarySignature,
+  getCloudinarySignature, 
   medicineDosage,
   getFiles,
   updateViewCount,
   getPeriodDates,
+  deleteMedical,
+  deleteInsurance
 };
