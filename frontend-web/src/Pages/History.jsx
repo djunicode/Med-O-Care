@@ -71,7 +71,7 @@ export const History = () => {
 
   const dealingWithSorting = () => {
     const previousType = localStorage.getItem("typeOfDisplay");
-  if (previousType && validTypes(previousType)) {
+    if (previousType && validTypes(previousType)) {
       setTypeOfSorting(previousType);
     } else {
       setTypeOfSorting("Frequently visited");
@@ -82,13 +82,12 @@ export const History = () => {
   const validTypes = (previousType) => {
     return validTypesOfSorting.includes(previousType);
   };
-  
+
   const [typeOfSorting, setTypeOfSorting] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const initializeData = async () => {
-
       try {
         setIsLoading(true);
         dealingWithSorting();
@@ -100,24 +99,22 @@ export const History = () => {
         setIsLoading(false);
       }
     };
-  
+
     initializeData();
   }, []);
-  
+
   useEffect(() => {
     performSorting();
     localStorage.setItem("typeOfDisplay", typeOfSorting);
   }, [typeOfSorting]);
 
-
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (renderCount.current !== 0 || renderCount.current!==1) {
+    if (renderCount.current !== 0 || renderCount.current !== 1) {
       console.log(sortedData);
     }
   }, [sortedData]);
-
 
   const getData = async () => {
     const options = {
@@ -136,8 +133,11 @@ export const History = () => {
     navigate("/uploadrecords");
   };
 
-  const dealingWithOpeningAPdf = (secure_url) => {
-    navigate(`view`);
+  const dealingWithOpeningAPdf = (file) => {
+    const encodedFileName = encodeURIComponent(file.name);
+    navigate(`view/${encodedFileName}`, {
+      state: { fileData: file, fromHistoryPage: true },
+    });
   };
 
   //TODO ye sabh html ko react me karde aur ek maine jo test vala state banaya hai osko map karde
@@ -312,9 +312,7 @@ export const History = () => {
                                     <Button
                                       sx={{ color: "black" }}
                                       onClick={() => {
-                                        dealingWithOpeningAPdf(
-                                          fileDetails.fileSecure_url
-                                        );
+                                        dealingWithOpeningAPdf(fileDetails);
                                       }}
                                     >
                                       View in app

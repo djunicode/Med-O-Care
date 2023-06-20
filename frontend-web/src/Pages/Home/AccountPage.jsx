@@ -7,7 +7,7 @@ import { useState } from "react";
 import SlidingPane from "react-sliding-pane";
 import "react-sliding-pane/dist/react-sliding-pane.css";
 import { useApp } from "../../Context/app-context";
-import { format } from "date-fns";
+import { addYears, differenceInYears, format } from "date-fns";
 import "./Home.css";
 import axios from "axios";
 import { AdvancedImage } from "@cloudinary/react";
@@ -66,117 +66,179 @@ const AccountPage = ({ open, close }) => {
     localStorage.removeItem("isAuthorized");
   };
 
+  
   return (
+    <SlidingPane isOpen={state.isPaneOpen} hideHeader className="sliding-pane" width="400px">
+    <div class='account-page-container'>
     <div>
-      <SlidingPane isOpen={state.isPaneOpen} hideHeader zIndex={1001} width="450px" >
-        <Grid container justifyContent="space-between">
-          <Button sx={{ color: "black" }} onClick={close}>
-            <ArrowBackIosIcon />
-          </Button>
-          <Button
-            sx={{ marginRight: 5, color: "#537FE7" }}
-            size="large"
-            onClick={handleEdit}
-          >
-            Edit
-          </Button>
-        </Grid>
-        <Grid container spacing={1} sx={{ mt: 3, ml: 4 }}>
-          <Grid item xs={3}>
-            <Avatar sx={{ width: '5.6rem', height: '5.6rem' }}>
-              <AdvancedImage
-                cldImg={CloudinaryImageTransformations(
-                  currentUser.pfpPublicID,
-                  "profilePic",
-                  100,
-                  100
-                )}
-              />
-            </Avatar>
-          </Grid>
-          <Grid item xs={8}>
-            <Typography variant="h5" sx={{ fontWeight: "bold" }}>
-              {currentUser?.fName}
-            </Typography>
-            <Typography variant="h6">{currentUser?.phone}</Typography>
-            <Typography variant="h6">{currentUser?.email}</Typography>
-          </Grid>
-        </Grid>
-        <Grid container sx={{ marginTop: 3, ml: 2 }}>
-          <Typography variant="h5" sx={{ fontWeight: "bold", ml: 2 }}>
-            About You
-          </Typography>
-          <Grid item xs={12} sx={{ mt: 2 }}>
-            <Typography sx={{ marginLeft: 2, fontSize: "large" }}>
-              Gender
-            </Typography>
-            <TextField
-              select
-              value={gender}
-              onChange={(e) => setGender(e.target.value)}
-              sx={{ borderColor: "#537FE7" }}
-              InputProps={{
-                readOnly: edit ? false : true,
-                sx: {
-                  borderRadius: 10,
-                  backgroundColor: "white",
-                  height: 40,
-                  width: 300,
-                  borderColor: "#537FE7",
-                },
-              }}
-            >
-              {genders.map((option) => (
-                <MenuItem key={option} value={option}>
-                  {option}
-                </MenuItem>
-              ))}
-            </TextField>
-          </Grid>
-
-          <Grid item xs={12} sx={{ mt: 1 }}>
-            <Typography sx={{ marginLeft: 2, fontSize: "large" }}>
-              Date of Birth
-            </Typography>
-            <TextField
-              variant="outlined"
-              type="date"
-              value={dateOfBirth}
-              onChange={(e) => {
-                setDateOfBirth(format(new Date(e.target.value), "yyyy-MM-dd"));
-              }}
-              InputProps={{
-                readOnly: edit ? false : true,
-                sx: {
-                  borderRadius: 10,
-                  backgroundColor: "white",
-                  height: 40,
-                  width: 300,
-                },
-              }}
-            />
-          </Grid>
-        </Grid>
-
-        <Grid container justifyContent="space-between">
-          <Button
-            sx={{ marginLeft: 2, color: "#537FE7", mt: 2 }}
-            size="large"
-            onClick={() => logUserOut()}
-          >
-            Logout
-          </Button>
-          <Button
-            onClick={dealingWithSave}
-            sx={{ marginRight: 10, color: "#537FE7", mt: 2 }}
-            size="large"
-          >
-            Save
-          </Button>
-        </Grid>
-      </SlidingPane>
+      <Button sx={{ color: "black" }} onClick={close}>
+        <ArrowBackIosIcon sx={{float: 'top-left'}}/>
+      </Button>
     </div>
-  );
+    <div>
+      <Button
+          sx={{ marginRight: 5, color: "#537FE7", float: 'right' }}
+          size="large"
+          onClick={handleEdit}
+        >
+          Edit
+      </Button>
+    </div>
+    <div id='account-profile-details'>
+      <div id='account-page-avatar'>
+        <Avatar sx={{ width: "5.6rem", height: "5.6rem" }}>
+          <AdvancedImage
+            cldImg={CloudinaryImageTransformations(
+              currentUser.pfpPublicID,
+              "profilePic",
+              100,
+              100
+            )}
+          />
+        </Avatar>
+      </div>
+      <div>
+        <div id='profile-user'>
+          {currentUser?.fName}
+        </div>
+        <div>{currentUser?.phone}</div>
+        <div>{currentUser?.email}</div>
+      </div>
+    </div>
+    <Grid container sx={{ marginTop: 3, ml: 2 }}>
+      <Typography variant="h5" sx={{ fontWeight: "bold", ml: 2 }}>
+        About You
+      </Typography>
+      <Grid item xs={12} sx={{ mt: 2 }}>
+        <Typography sx={{ marginLeft: 2, fontSize: "large" }}>
+          Gender
+        </Typography>
+        {edit &&
+        <TextField
+          select  
+          value={gender}
+          onChange={(e) => setGender(e.target.value)}
+          sx={{ borderColor: "#537FE7" }}
+          InputProps={{
+            sx: {
+              borderRadius: 10,
+              backgroundColor: "white",
+              height: 40,
+              width: 300,
+              borderColor: "#537FE7",
+            },
+          }}
+        >
+          {genders.map((option) => (
+            <MenuItem key={option} value={option}>
+              {option}
+            </MenuItem>
+          ))}
+        </TextField>}
+        {!edit && 
+        <TextField
+        value={gender}
+        onChange={(e) => setGender(e.target.value)}
+        sx={{ borderColor: "#537FE7" }}
+        InputProps={{
+          readOnly: true,
+          sx: {
+            borderRadius: 10,
+            backgroundColor: "white",
+            height: 40,
+            width: 300,
+            borderColor: "#537FE7",
+          },
+        }}
+      />}
+      </Grid>
+      <Grid item xs={12} sx={{ mt: 1 }}>
+                    <Typography sx={{ marginLeft: 2, fontSize: "large" }}>
+                        Age
+                    </Typography>
+
+                    <TextField
+                        value={differenceInYears(
+                            new Date(),
+                            new Date(dateOfBirth)
+                        )}
+                        sx={{ borderColor: "#537FE7" }}
+                        onKeyDown={dealingWithAgeKeyDown}
+                        onChange={(e) => {
+                            setDateOfBirth(
+                                format(
+                                    addYears(
+                                        new Date(dateOfBirth),
+                                        -(
+                                            e.target.value -
+                                            differenceInYears(
+                                                new Date(),
+                                                new Date(dateOfBirth)
+                                            )
+                                        )
+                                    ),
+                                    "yyyy-MM-dd"
+                                )
+                            );
+                        }}
+                        InputProps={{
+                            type: "number",
+                            readOnly: edit ? false : true,
+                            sx: {
+                                borderRadius: 10,
+                                backgroundColor: "white",
+                                height: 40,
+                                width: 300,
+                                borderColor: "#537FE7",
+                            },
+                        }}
+                    ></TextField>
+                </Grid>
+
+                <Grid item xs={12} sx={{ mt: 1 }}>
+                    <Typography sx={{ marginLeft: 2, fontSize: "large" }}>
+                        Date of Birth
+                    </Typography>
+                    <TextField
+                        variant="outlined"
+                        type="date"
+                        value={dateOfBirth}
+                        onChange={(e) => {
+                            setDateOfBirth(
+                                format(
+                                    new Date(e.target.value),
+                                    "yyyy-MM-dd"
+                                )
+                            );
+                        }}
+                        InputProps={{
+                            readOnly: edit ? false : true,
+                            sx: {
+                                borderRadius: 10,
+                                backgroundColor: "white",
+                                height: 40,
+                                width: 300,
+                            },
+                        }}
+                    />
+                </Grid>
+            </Grid>
+
+            <Grid container justifyContent="space-between">
+      <Button sx={{ marginLeft: 2, color: "#537FE7", mt: 2 }} size="large" onClick={() => logUserOut()}>
+        Logout
+      </Button>
+      <Button
+        onClick={dealingWithSave}
+        sx={{ marginRight: 5, color: "#537FE7", mt: 2, float: 'right' }}
+        size="large"
+      >
+        Save
+      </Button>
+    </Grid>
+</div>
+  </SlidingPane>
+);
 };
 
 export default AccountPage;
