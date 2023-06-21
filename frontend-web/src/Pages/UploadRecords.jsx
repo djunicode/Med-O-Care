@@ -186,7 +186,7 @@ export default function UploadRecords() {
                                 files={files}
                                 setFiles={setFiles}
                                 acceptedFileType={["application/pdf"]}
-                                allowMultiple={false}
+                                allowMultiple={true}
                             />
                         </div>
                     </Box>
