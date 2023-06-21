@@ -125,6 +125,7 @@ export const History = () => {
       method: "GET",
     };
     const response = await axios.request(options);
+    console.log(response.data)
     if (response.data.success) {
       setData(response.data.data.files);
     } else {
@@ -198,7 +199,7 @@ export const History = () => {
                     </div>
                   </td>
 
-                  {data[0]?.fileSecure_url && (
+                  {data[0]?.name && (
                     <td>
                       <div class="two" style={{ paddingLeft: "460px" }}>
                         <FormControl
@@ -245,7 +246,7 @@ export const History = () => {
 
               {
                 //TODO yaha kuch acha ui bana de to display ki ab tak kuch upload nahi kiya hai
-                !data[0]?.fileSecure_url ? (
+                !data[0]?.name ? (
                   <> No data </>
                 ) : (
                   <div style={{ paddingLeft: "86px" }}>
@@ -313,7 +314,7 @@ export const History = () => {
                                       sx={{ color: "black" }}
                                       onClick={() => {
                                         dealingWithOpeningAPdf(
-                                          fileDetails.fileSecure_url
+                                          fileDetails.name
                                         );
                                       }}
                                     >
@@ -325,7 +326,7 @@ export const History = () => {
                                         color: "white",
                                         borderRadius: "50px",
                                         backgroundColor:
-                                          "rgba(83, 127, 231, 1)",
+                                          "#AF0D0D",
                                       }}
                                       onClick={() => {
                                         dealingWithDeleteAFile(
