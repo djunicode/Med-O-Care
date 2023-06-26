@@ -23,3 +23,5 @@ yarn-debug.log*
 yarn-error.log*
 
 .env
+
+/src/Pages/Untitled-1.js

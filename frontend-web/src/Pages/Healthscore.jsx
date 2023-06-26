@@ -27,7 +27,7 @@ export default function HealthScore() {
               borderRadius: '20px',
               p: '5% 10%'
             }}>
-              <Grid container justifyConteny='space-between'>
+              <Grid container>
                 <Grid item xs={12}>
                     <Typography sx={{ marginLeft: 2, fontSize: "large" }}>Name</Typography>
                     <TextField
