@@ -9,6 +9,9 @@ const router = express.Router();
 //add medicine
 router.post("/addmedicine", auth.verifyToken, medicineC.addMedicine)
 
+//get medicine
+router.get("/getMyMedicine", auth.verifyToken, medicineC.getMyMedicine)
+
 //delete medicine
 router.delete("/deleteMedicine", auth.verifyToken, medicineC.deleteMedicine)
 

@@ -75,8 +75,27 @@ const updateCount = async (req, res) => {
   }
 };
 
+//get my medicine
+const getMyMedicine = async(req,res) => {
+    try{
+        const userID = req.user._id
+        const medicines = await UserSchema.findById({_id: userID}).populate("medicines").select("medicines")
+
+        res.status(200).json({
+            success : true,
+            data : medicines
+        })
+    }catch(err){
+        res.status(500).json({
+            success: false,
+            message: err.message,
+          });
+    }
+}
+
 module.exports = {
   addMedicine,
   deleteMedicine,
-  updateCount
+  updateCount,
+  getMyMedicine
 };
