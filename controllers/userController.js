@@ -7,6 +7,7 @@ const multer = require("multer");
 const fs = require("fs");
 const axios = require("axios");
 const cloudinary = require("cloudinary");
+const MedicineSchema = require("../models/medicine");
 
 const cloudinaryConfig = cloudinary.config({
   cloud_name: process.env.CLOUDNAME,
@@ -397,9 +398,9 @@ const deleteMedical = async (req, res) => {
     );
 
     res.status(200).json({
-      success : true,
-      data : deleteDoc
-    })
+      success: true,
+      data: deleteDoc,
+    });
   } catch (err) {
     res.status(500).json({
       success: false,
@@ -420,9 +421,9 @@ const deleteInsurance = async (req, res) => {
     );
 
     res.status(200).json({
-      success : true,
-      data : deleteDoc
-    })
+      success: true,
+      data: deleteDoc,
+    });
   } catch (err) {
     res.status(500).json({
       success: false,
@@ -668,6 +669,7 @@ const medicineDosage = async (req, res) => {
   }
 };
 
+
 module.exports = {
   createUser,
   loginUser,
@@ -678,11 +680,11 @@ module.exports = {
   uploadMedical,
   uploadInsurance,
   periodTracker,
-  getCloudinarySignature, 
+  getCloudinarySignature,
   medicineDosage,
   getFiles,
   updateViewCount,
   getPeriodDates,
   deleteMedical,
-  deleteInsurance
+  deleteInsurance,
 };
