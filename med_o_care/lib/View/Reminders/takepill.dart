@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hive/hive.dart';
+import 'package:med_o_care/Constant/colors.dart';
 import 'package:med_o_care/View/Reminders/models/take.dart';
 
 const List<String> list = <String>[
@@ -188,7 +189,7 @@ class _TakePillState extends State<TakePill> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    const Text('Everyday?'),
+                    const Text('Everyday?',style: TextStyle(color: ResourceColors.colorPrimaryLightTheme),),
                     Checkbox(
                       value: checked,
                       onChanged: (bool? value) {
