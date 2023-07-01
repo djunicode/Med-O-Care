@@ -1,8 +1,9 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
-import 'package:med_o_care/Model/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../Model/user.dart';
 
 class AuthService {
   static const String baseUrl = 'https://med-o-care.onrender.com/user';
@@ -18,15 +19,13 @@ class AuthService {
     );
 
     if (response.statusCode == 200) {
-      
-
       final token = json.decode(response.body)['token'];
       currentUser = user.fromMap(json.decode(response.body)['data']);
       log(currentUser.toString());
+      log(token);
       await saveAuthToken(token);
       return true;
     } else {
-      
       log(response.body);
       return false;
     }
@@ -41,15 +40,12 @@ class AuthService {
     );
 
     if (response.statusCode == 201) {
-      
       final token = json.decode(response.body)['token'];
       currentUser = user.fromMap(json.decode(response.body)['data']);
-      
       log(token);
       await saveAuthToken(token);
       return true;
     } else {
-      
       return false;
     }
   }

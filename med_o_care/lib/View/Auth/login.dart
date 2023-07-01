@@ -6,7 +6,6 @@ import 'package:med_o_care/Constant/constants.dart';
 import 'package:med_o_care/View/Auth/forgot_password.dart';
 import 'package:med_o_care/View/Auth/services/auth_service.dart';
 import 'package:med_o_care/View/Auth/sign_up.dart';
-import 'package:med_o_care/View/Screens/home.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});

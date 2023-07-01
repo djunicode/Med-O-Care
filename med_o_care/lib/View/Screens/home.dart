@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:med_o_care/Constant/colors.dart';
 import 'package:med_o_care/View/Medicines/medicines_page.dart';
-import 'package:med_o_care/View/Profile/profile.dart';
-import 'package:med_o_care/View/Reminders/period.dart';
-import 'package:med_o_care/View/Reminders/reminder.dart';
+import 'package:med_o_care/View/Profile/myprofile.dart';
+import 'package:med_o_care/View/Screens/score_tracker.dart';
 import 'package:med_o_care/View/Upload/my_files.dart';
+
+import '../Reminders/reminder.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -20,8 +21,8 @@ class _HomeState extends State<Home> {
     const MedicinesPage(),
     const MyReminders(),
     const UploadFiles(),
-    const PeriodTracker(),
-    const ProfilePage(),
+    const ScoreTracker(),
+    const MyProfile()
   ];
 
   List<NavigationItem> items = [
@@ -56,7 +57,10 @@ class _HomeState extends State<Home> {
                   width: 65,
                 ),
                 IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => const MyProfile()));
+                    },
                     icon: SvgPicture.asset("assets/icons/icon _menu_.svg"))
               ],
             ),
