@@ -55,7 +55,28 @@ const deleteMedicine = async (req, res) => {
   }
 };
 
+const updateCount = async (req, res) => {
+  try {
+    const { medicineID, count } = req.body;
+    const updateCount = await MedicineSchema.findByIdAndUpdate(
+      { _id: medicineID },
+      { $inc: { countLeft: count } }
+    );
+
+    res.status(200).json({
+        success : true,
+        data : updateCount
+    })
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
+  }
+};
+
 module.exports = {
   addMedicine,
   deleteMedicine,
+  updateCount
 };
