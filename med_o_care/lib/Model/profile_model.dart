@@ -30,7 +30,7 @@ class Data {
     this.pfp,
     required this.email,
     required this.phone,
-    this.dob,
+    required this.dob,
     this.gender,
     required this.location,
     required this.password,
@@ -57,7 +57,7 @@ class Data {
   late final String? pfp;
   late final String email;
   late final int phone;
-  late final String? dob ;
+  late final String dob;
   late final String? gender;
   late final String? location;
   late final String password;

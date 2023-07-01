@@ -203,8 +203,8 @@ class _FinalHeathscoreState extends State<FinalHeathscore> {
                             fontWeight: FontWeight.w500,
                             color: Colors.black),
                       ),
-                      const SizedBox(
-                        width: 88,
+                      SizedBox(
+                        width: size.width * 0.228,
                       ),
                       Container(
                         height: size.height * 0.05625,

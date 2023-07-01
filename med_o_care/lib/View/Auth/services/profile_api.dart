@@ -57,7 +57,7 @@ class Profiles {
       "weight": "$weight",
       "email": "$email",
       "gender": "$gender",
-      "dob": "$dob"
+      // "dob": "$dob"
     });
     request.headers.addAll(headers);
 
