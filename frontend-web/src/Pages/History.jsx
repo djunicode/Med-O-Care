@@ -1,33 +1,212 @@
-import React, { useEffect, useMemo, useRef } from "react";
 import reminder from "../Assets/reminder.svg";
-import { ArrowBack } from "@mui/icons-material";
 import {
   Box,
   Button,
+  Card,
   FormControl,
-  IconButton,
+  Grid,
   InputLabel,
   MenuItem,
   Select,
+  Stack,
+  Typography,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress";
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
+import { format } from "date-fns";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 export const History = () => {
-  const renderCount = useRef(0);
-  const validTypesOfSorting = [
-    "All Documents",
+  const sortingOptions = [
+    "All documents",
     "Frequently visited",
-    "Latest uploaded",
-    "Medical Files",
-    "Insurance Files",
+    "Latest to oldest",
+    "Oldest to latest",
+    "Medical files",
+    "Insurance files",
   ];
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [typeOfSorting, setTypeOfSorting] = useState("");
   const [data, setData] = useState([]);
   const [sortedData, setSortedData] = useState([]);
+  const [fileViewCount, setFileViewCount] = useState([]);
 
-  const dealingWithDeleteAFile = async (delete_token) => {
+  const validTypes = (type) => sortingOptions.includes(type);
+
+  const getData = async (countDataFound) => {
+    const options = {
+      url: `${process.env.REACT_APP_API_ENDPOINT}/user/getFiles`,
+      method: "GET",
+    };
+    const response = await axios.request(options);
+
+    if (response.data.success) {
+      const dataArr = response.data.data.files;
+      setData([...dataArr]);
+      if (!countDataFound) {
+        setFileViewCount([...dataArr]);
+      }
+
+      return true;
+    } else {
+      alert("Data nahi aya!");
+    }
+    return false;
+  };
+
+  useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_API_ENDPOINT}/user/getFiles`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        setData(res.data.data.files);
+        setIsLoading(false);
+      });
+  }, []);
+
+  const performSorting = () => {
+    switch (typeOfSorting) {
+      case "All documents":
+        setSortedData(data);
+        break;
+
+      case "Frequently visited":
+        setSortedData([...data].sort((a, b) => b.viewCount - a.viewCount));
+        // setSortedData([...fileViewCount].sort((a, b) => b.viewCount - a.viewCount))
+
+        break;
+
+      case "Latest to oldest":
+        setSortedData(
+          [...data].sort(
+            (a, b) => new Date(b.dateOfUpload) - new Date(a.dateOfUpload)
+          )
+        );
+        break;
+
+      case "Oldest to latest":
+        setSortedData(
+          [...data].sort(
+            (a, b) => new Date(a.dateOfUpload) - new Date(b.dateOfUpload)
+          )
+        );
+        break;
+
+      case "Medical files":
+        setSortedData(data.filter((file) => file.type === "medical"));
+        break;
+
+      case "Insurance files":
+        setSortedData(data.filter((file) => file.type === "insurance"));
+        break;
+
+      default:
+        break;
+    }
+  };
+
+  const previousSortOption = () => {
+    const previousType = localStorage.getItem("typeOfDisplay");
+    if (previousType && validTypes(previousType)) {
+      setTypeOfSorting(previousType);
+    } else {
+      setTypeOfSorting("All documents");
+    }
+  };
+
+  const loadFileViewCount = () => {
+    const previousCount = localStorage.getItem("fileViewCount");
+    if (previousCount?.length !== 0) {
+      const previousCountArr = JSON.parse(previousCount);
+      setFileViewCount([...previousCountArr]);
+
+      return true;
+    }
+    return false;
+  };
+
+  const addNewCountData = () => {
+    const newFiles = [];
+    for (const file of data) {
+      const findFile = data.find(
+        (obj) => obj.fileSecure_url === file.fileSecure_url
+      );
+
+      if (!findFile) {
+        newFiles.push(file);
+      }
+    }
+    const finalData = [...fileViewCount, ...newFiles];
+    setFileViewCount(finalData);
+    // localStorage.setItem("fileViewCount", JSON.stringify(finalData));
+  };
+
+  const initializeData = async () => {
+    try {
+      setIsLoading(true);
+      const countDataFound = loadFileViewCount();
+      previousSortOption();
+      const response = await getData(countDataFound);
+      if (response) {
+        setIsLoading(false);
+      }
+    } catch (err) {
+      // Handle error
+    }
+  };
+
+  // useEffect(() => {
+  //     initializeData();
+  // }, []);
+
+  useEffect(() => {
+    performSorting();
+  }, [typeOfSorting]);
+
+  useEffect(() => {
+    // addNewCountData();
+    performSorting();
+  }, [isLoading]);
+
+  const handleSorting = (event) => {
+    setTypeOfSorting(event.target.value);
+    localStorage.setItem("typeOfDisplay", event.target.value);
+  };
+
+  const navigate = useNavigate();
+
+  const updateCount = (url) => {
+    const findFile = data.find((file) => file.fileSecure_url === url);
+    if (findFile) {
+      findFile.viewCount++;
+    }
+    const updatedFile = { ...findFile };
+
+    const filterOtherFiles = data.filter((file) => file.fileSecure_url !== url);
+    const finalData = [updatedFile, ...filterOtherFiles];
+
+    setFileViewCount(finalData);
+    localStorage.setItem("fileViewCount", JSON.stringify(finalData));
+  };
+
+  const deleteCount = (token) => {
+    const filterOtherFiles = data.filter((file) => file.delete_token !== token);
+
+    setFileViewCount(filterOtherFiles);
+    localStorage.setItem("fileViewCount", JSON.stringify(filterOtherFiles));
+  };
+
+  const handleViewFile = (url) => {
+    updateCount(url);
+    // navigate(`view`);
+  };
+
+  const handleDeleteFile = async (delete_token) => {
     try {
       const response = await axios.delete(
         `${process.env.REACT_APP_API_ENDPOINT}/user/deleteFile/${delete_token}`,
@@ -35,9 +214,10 @@ export const History = () => {
           delete_token,
         }
       );
-      // File deleted successfully, update the data
+
       if (response.success) {
-        getData();
+        deleteCount(delete_token);
+        getData(true);
       } else {
         throw new Error("oops");
       }
@@ -49,308 +229,155 @@ export const History = () => {
     }
   };
 
-  //!ye thoda sa gadbad vala h but thike isko rehne de mai dekhta hu
-  const performSorting = () => {
-    console.log("the data is being sorted");
-    if (typeOfSorting === "Frequently visited") {
-      setSortedData([...data].sort((a, b) => b.viewCount - a.viewCount));
-    } else if (typeOfSorting === "Latest uploaded") {
-      setSortedData(
-        [...data].sort(
-          (a, b) => new Date(b.dateOfUpload) - new Date(a.dateOfUpload)
-        )
-      );
-    } else if (typeOfSorting === "Medical Files") {
-      setSortedData([...data].filter((file) => file.type === "medical"));
-    } else if (typeOfSorting === "Insurance Files") {
-      setSortedData([...data].filter((file) => file.type === "insurance"));
-    } else {
-      setSortedData(data); // No additional sorting or filtering needed
-    }
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const formattedDate = format(date, "dd EEEE, MMMM");
+    return formattedDate;
   };
-
-  const dealingWithSorting = () => {
-    const previousType = localStorage.getItem("typeOfDisplay");
-    if (previousType && validTypes(previousType)) {
-      setTypeOfSorting(previousType);
-    } else {
-      setTypeOfSorting("Frequently visited");
-    }
-  };
-
-  //checking if the type i
-  const validTypes = (previousType) => {
-    return validTypesOfSorting.includes(previousType);
-  };
-
-  const [typeOfSorting, setTypeOfSorting] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const initializeData = async () => {
-      try {
-        setIsLoading(true);
-        dealingWithSorting();
-        await getData();
-        performSorting();
-      } catch (err) {
-        // Handle error
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    initializeData();
-  }, []);
-
-  useEffect(() => {
-    performSorting();
-    localStorage.setItem("typeOfDisplay", typeOfSorting);
-  }, [typeOfSorting]);
-
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (renderCount.current !== 0 || renderCount.current !== 1) {
-      console.log(sortedData);
-    }
-  }, [sortedData]);
-
-  const getData = async () => {
-    const options = {
-      url: `${process.env.REACT_APP_API_ENDPOINT}/user/getFiles`,
-      method: "GET",
-    };
-    const response = await axios.request(options);
-    if (response.data.success) {
-      setData(response.data.data.files);
-    } else {
-      alert("OH NOOOO 🫢");
-    }
-  };
-
-  const navigateToUploadRecords = () => {
-    navigate("/uploadrecords");
-  };
-
-  const dealingWithOpeningAPdf = (file) => {
-    const encodedFileName = encodeURIComponent(file.name);
-    navigate(`view/${encodedFileName}`, {
-      state: { fileData: file, fromHistoryPage: true },
-    });
-  };
-
   //TODO ye sabh html ko react me karde aur ek maine jo test vala state banaya hai osko map karde
-  //TODO aur responive bhi karna
-  //TODO br ye sabh hata de aur basically acha ui bana de phir mai karta baaki ka
+  //TODO aur responsive bhi karna
+  //TODO br ye sabh hata de aur basically acha ui bana de
   return (
-    <div>
-      <table>
-        <tr>
-          <td>
-            <div>
-              <Box
+    <Grid container>
+      <Grid item xs={0} md={2} sx={{ pl: '5%'}}>
+        <ArrowBackIcon
+          onClick={() => navigate("/uploadrecords")}
+          sx={{
+            fontSize: "36px",
+            color: "rgba(13, 13, 13, 0.75)",
+            cursor: "pointer",
+          }}
+        />
+      </Grid>
+      <Grid
+        item
+        xs={0}
+        mt="2%"
+        md={2}
+        sx={{
+          transform: "rotate(-12deg)",
+        }}
+      >
+        <img src={reminder} alt="reminder" height="166" width="185" />
+      </Grid>
+      <Grid item xs={12} md={5}>
+        <Box display={"flex"} justifyContent={"space-between"}>
+          <Typography variant="h6"
+            sx={{ color: "#537FE7", fontWeight: "bold", fontFamily: 'Poppins', ml:'1%' }}
+        >History</Typography>
+          {data[0]?.fileSecure_url && (
+            <FormControl
+              sx={{
+                mb: "1%",
+                p: 1,
+                minWidth: 120,
+              }}
+              size="small"
+            >
+              <InputLabel for="demo-select-small-label">
+                Sort / Filter by:
+              </InputLabel>
+              <Select
+                value={typeOfSorting}
+                label="Filter"
+                onChange={(e) => handleSorting(e)}
                 sx={{
-                  paddingLeft: "92px",
-                  paddingTop: "0px",
+                  width: "169px",
+                  height: "29px",
+                  backgroundColor: "rgba(192, 238, 242, 1)",
+                  color: "black",
+                  borderRadius: "50px",
                 }}
               >
-                <IconButton onClick={navigateToUploadRecords}>
-                  <ArrowBack
-                    sx={{
-                      color: "rgba(13, 13, 13, 0.75)",
-                      paddingTop: "0px",
-                    }}
-                  >
-                    {" "}
-                  </ArrowBack>
-                </IconButton>
-              </Box>
-              <Box
-                sx={{
-                  paddingLeft: "137px",
-                  transform: "rorate(180deg)",
-                }}
-              >
-                <img src={reminder} alt="reminder" height="166" width="185" />
-              </Box>
-            </div>
-          </td>
-
-          <td>
-            <div>
-              <table class="grid">
-                <tr>
-                  <td>
-                    <div class="one">
-                      <p
-                        style={{
-                          color: "rgba(83, 127, 231, 1)",
-                          textAlign: "left",
-                          fontFamily: "Poppins",
-                          fontWeight: "bold",
-                          fontSize: "18",
-                          paddingLeft: "71px",
-                        }}
-                      >
-                        History
-                      </p>
-                    </div>
-                  </td>
-
-                  {data[0]?.fileSecure_url && (
-                    <td>
-                      <div class="two" style={{ paddingLeft: "460px" }}>
-                        <FormControl
-                          sx={{
-                            m: 1,
-                            p: 1,
-                            minWidth: 120,
-                          }}
-                          size="small"
+                <MenuItem disabled>Select an option</MenuItem>
+                {sortingOptions.map((type, index) => (
+                  <MenuItem key={index} value={type}>
+                    {type}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          )}
+        </Box>
+        <Stack>
+          {!data[0]?.fileSecure_url ? (
+            <> No data </>
+          ) : (
+            <>
+              {!isLoading ? (
+                <>
+                  {sortedData.map((fileDetails) => {
+                    return (
+                      <Card sx={{ borderRadius: "10px", mb: "2%", boxShadow: "1px 1px 3px black" }}>
+                        <Grid
+                          container
+                          justifyContent={"center"}
+                          alignItems={"center"}
+                          sx={{ p: '2%'}}
                         >
-                          <InputLabel id="demo-select-small-label">
-                            All
-                          </InputLabel>
-                          <Select
-                            labelId="demo-select-small-label"
-                            id="demo-select-small"
-                            value={typeOfSorting}
-                            label="Filter"
-                            defaultValue="All Documents"
-                            onChange={(e) => {
-                              setTypeOfSorting(e.target.value);
+                          <Grid item md={7} xs={12}>
+                            <Typography
+                              variant="h6"
+                              sx={{ fontFamily: "Poppins" }}
+                            >
+                              {fileDetails?.name}
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary">
+                              {fileDetails?.type}
+                            </Typography>
+                            <Typography variant="body" color="text.secondary">
+                              {formatDate(fileDetails?.dateOfUpload)}
+                            </Typography>
+                          </Grid>
+                          <Grid item md={5} xs={12}>
+                            <Button
+                              variant="contained"
+                              sx={{
+                                borderRadius: "20px",
+                                mr: "3%",
+                                fontWeight: "bold",
+                              }}
+                              onClick={() => {
+                                handleViewFile(
+                                    fileDetails.fileSecure_url
+                                );
                             }}
-                            sx={{
-                              width: "169px",
-                              height: "29px",
-                              backgroundColor: "rgba(192, 238, 242, 1)",
-                              color: "black",
-                              borderRadius: "50px",
+                            >
+                              View
+                            </Button>
+                            <Button
+                              variant="contained"
+                              sx={{
+                                borderRadius: "20px",
+                                ml: "3%",
+                                fontWeight: "bold",
+                              }}
+                              color="error"
+                              onClick={() => {
+                                handleDeleteFile(
+                                    fileDetails.delete_token
+                                );
                             }}
-                          >
-                            <MenuItem value="" disabled>
-                              Select an option
-                            </MenuItem>
-                            {validTypesOfSorting.map((type, index) => {
-                              return <MenuItem key={index}>{type}</MenuItem>;
-                            })}
-                          </Select>
-                        </FormControl>
-                      </div>
-                    </td>
-                  )}
-                </tr>
-              </table>
-
-              {
-                //TODO yaha kuch acha ui bana de to display ki ab tak kuch upload nahi kiya hai
-                !data[0]?.fileSecure_url ? (
-                  <> No data </>
-                ) : (
-                  <div style={{ paddingLeft: "86px" }}>
-                    <table
-                      id="content"
-                      style={{
-                        borderRadius: "10px",
-                        backgroundColor: "#FFFFFF",
-                        width: "680px",
-                        height: "65px",
-                        boxShadow: "1px 1px 3px black",
-                      }}
-                    >
-                      {!isLoading ? (
-                        <>
-                          {data.map((fileDetails, index) => {
-                            console.log(fileDetails);
-                            return (
-                              <tr>
-                                <td>
-                                  <div style={{ paddingLeft: "33px" }}>
-                                    <span
-                                      style={{
-                                        color: "rgba(0, 0, 0, 1)",
-                                        textAlign: "left",
-                                        fontFamily: "Poppins",
-                                        fontWeight: "medium",
-                                        fontSize: "16",
-                                      }}
-                                    >
-                                      {/* //TODO yaha ek chiz yaad rakhna hi name wrap hona chahiye agar bada hai toh next line me jaise my accounts me kara tha vaise hi kuch */}
-                                      {fileDetails?.name}
-                                    </span>
-                                    <br></br>
-                                    <span
-                                      style={{
-                                        color: "rgba(0, 0, 0, 0.55)",
-                                        textAlign: "left",
-                                        fontFamily: "Poppins",
-                                        fontWeight: "medium",
-                                        fontSize: "13",
-                                      }}
-                                    >
-                                      {/* //TODO Yaha date- 12 Monday,June aise format me dikhana... agar jagah nhi mil rha toh ye math dikha chalega  */}
-                                      {fileDetails?.dateOfUpload}
-                                    </span>
-                                    <span
-                                      style={{
-                                        color: "rgba(0, 0, 0, 0.55)",
-                                        textAlign: "left",
-                                        fontFamily: "Poppins",
-                                        fontWeight: "medium",
-                                        fontSize: "13",
-                                      }}
-                                    >
-                                      {fileDetails?.type}
-                                    </span>
-                                    {/*//TODO yaha extenal vala icon */}
-                                  </div>
-                                </td>
-
-                                <td>
-                                  <div style={{ paddingLeft: "325px" }}>
-                                    <Button
-                                      sx={{ color: "black" }}
-                                      onClick={() => {
-                                        dealingWithOpeningAPdf(fileDetails);
-                                      }}
-                                    >
-                                      View in app
-                                    </Button>
-                                    <Button
-                                      variant="contained"
-                                      sx={{
-                                        color: "white",
-                                        borderRadius: "50px",
-                                        backgroundColor:
-                                          "rgba(83, 127, 231, 1)",
-                                      }}
-                                      onClick={() => {
-                                        dealingWithDeleteAFile(
-                                          fileDetails.delete_token
-                                        );
-                                      }}
-                                    >
-                                      Delete
-                                    </Button>
-                                  </div>
-                                </td>
-                              </tr>
-                            );
-                          })}
-                        </>
-                      ) : (
-                        <CircularProgress />
-                      )}
-                    </table>
-                  </div>
-                )
-              }
-            </div>
-          </td>
-        </tr>
-      </table>
-    </div>
+                            >
+                              Delete
+                            </Button>
+                            <Button>
+                                <OpenInNewIcon sx={{ fontSize: '32px', color: 'black'}}/>
+                            </Button>
+                          </Grid>
+                        </Grid>
+                      </Card>
+                    );
+                  })}
+                </>
+              ) : (
+                <CircularProgress />
+              )}
+            </>
+          )}
+        </Stack>
+      </Grid>
+    </Grid>
   );
 };
 
