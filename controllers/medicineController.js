@@ -1,13 +1,6 @@
 const UserSchema = require("../models/user");
-const signAccessToken = require("../middlewares/auth").signAccessToken;
-const bcrypt = require("bcrypt");
-const nodemailer = require("nodemailer");
-const otpGenerator = require("otp-generator");
-const multer = require("multer");
-const fs = require("fs");
-const axios = require("axios");
-const cloudinary = require("cloudinary");
 const MedicineSchema = require("../models/medicine");
+require("dotenv").config();
 
 //add medicine
 const addMedicine = async (req, res) => {
@@ -15,6 +8,7 @@ const addMedicine = async (req, res) => {
     const { medicineName, frequency, countLeft } = req.body;
     const user = req.user;
     const medicine = new MedicineSchema(req.body);
+    medicine.email = req.user.email
     const medicineSaved = await medicine.save();
 
     const updateUser = await UserSchema.findByIdAndUpdate(

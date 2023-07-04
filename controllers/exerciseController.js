@@ -1,11 +1,5 @@
-const UserSchema = require("../models/user");
-const signAccessToken = require("../middlewares/auth").signAccessToken;
-const bcrypt = require("bcrypt");
-const nodemailer = require("nodemailer");
-const otpGenerator = require("otp-generator");
-const multer = require("multer");
-const fs = require("fs");
 const axios = require("axios");
+require("dotenv").config();
 
 
 //all exercise list

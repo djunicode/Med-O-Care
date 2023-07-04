@@ -8,6 +8,7 @@ const fs = require("fs");
 const axios = require("axios");
 const cloudinary = require("cloudinary");
 const MedicineSchema = require("../models/medicine");
+require("dotenv").config();
 
 const cloudinaryConfig = cloudinary.config({
   cloud_name: process.env.CLOUDNAME,

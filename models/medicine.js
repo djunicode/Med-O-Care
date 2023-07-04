@@ -10,17 +10,21 @@ const medicineSchema = new Schema(
       type: String,
       required: true,
     },
-    frequency:{
-        type : String
+    frequency: {
+      type: String,
     },
-    countLeft : {
-        type : Number
-    }
+    startTime: {
+      type: String,
+    },
+    countLeft: {
+      type: Number,
+    },
+    email: {
+      type: String,
+    },
   },
   { timestamps: true }
 );
-
-
 
 const MedicineSchema = mongoose.model("medicine", medicineSchema);
 module.exports = MedicineSchema;
