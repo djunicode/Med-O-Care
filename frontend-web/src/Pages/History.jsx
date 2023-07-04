@@ -3,6 +3,7 @@ import reminder from '../Assets/reminder.svg';
 import { ArrowBack } from '@mui/icons-material';
 import { Box, Button, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { useState } from 'react';
+import './History.css';
 
 export const History = () => {
     const [all, setAll] = useState('');
@@ -25,7 +26,7 @@ export const History = () => {
     //     .catch(err => console.error(err));
 
     return (
-        <div>
+        <div className='responsive-container'>
             <table>
                 <tr>
                     <td>
@@ -64,7 +65,7 @@ export const History = () => {
                                         </div>
                                     </td>
                                     <td>
-                                        <div class='two' style={{ paddingLeft: '460px' }}>
+                                        <div class='two' style={{ paddingLeft: '420px' }}>
                                             <FormControl sx={{
                                                 m: 1,
                                                 p: 1,
@@ -121,7 +122,7 @@ export const History = () => {
                                             </div>
                                         </td>
                                         <td>
-                                            <div style={{ paddingLeft: '325px' }}>
+                                            <div id ='openedit'>
                                                 <Button sx={{ color: 'black' }}>Open</Button>
                                                 <Button variant='contained' sx={{
                                                     color: 'white',

@@ -57,9 +57,6 @@ const ForgotPasswordPage = () => {
     };
     return (
         <div class="grid-container">
-            <br></br>
-            <br></br>
-            <br></br>
             <div id="forgotpass">
                 <br></br>
                 <br></br>
@@ -86,8 +83,10 @@ const ForgotPasswordPage = () => {
                     id="email"
                     placeholder="Enter your email"
                     autoComplete="off"
+                    value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    sx={{ width: 440.08, height: 40, padding: 1, margin: 2 }}
+                    fullWidth
+                    sx={{ mb: "2rem", width: "440.08" }}
                     InputProps={{
                         style: {
                             border: "2px solid rgba(130, 170, 227, 1)",
@@ -96,11 +95,11 @@ const ForgotPasswordPage = () => {
                             color: "rgba(0, 0, 0, 1)",
                             backgroundColor: "#FFFFFF",
                             height: "70",
-                            width: "440.08",
+                            // width: "440.08",
                         },
                         startAdornment: (
                             <InputAdornment position="start">
-                                <EmailOutlined />
+                                <EmailOutlined sx={{ ml: "5px" }} />
                             </InputAdornment>
                         ),
                     }}
@@ -112,14 +111,23 @@ const ForgotPasswordPage = () => {
                     type="submit"
                     id="submit"
                     onClick={submitForm}
-                    sx={{ width: 440.08, height: 40, padding: 1, margin: 2 }}
+                    sx={{ width: 440.08, height: 55, padding: 1, margin: 2 }}
                 >
                     Send OTP
                 </Button>
+                {/* <Button
+                    variant="contained"
+                    type="submit"
+                    id="submit"
+                    fullWidth
+                    onClick={submitForm}
+                >
+                    Send OTP
+                </Button> */}
             </div>
-            <div id="image">
-                <img src={logo} alt="logo" height="310" width="395" />
-                <img src={doctor} alt="doctor" height="210" width="365" />
+            <div id="images">
+                <img id="image-logo" src={logo} alt="logo" height="310" width="395" />
+                <img id="image-doctor" src={doctor} alt="doctor" height="210" width="365" />
             </div>
         </div>
     );

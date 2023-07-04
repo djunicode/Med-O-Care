@@ -1,114 +1,203 @@
 body {
-    background-color: #e9f8f9;
-    color: rgba(0, 0, 0, 1);
-    font-size: 24;
+  background-color: #e9f8f9;
+  color: rgba(0, 0, 0, 1);
+  font-size: 24px;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
 }
 
-#error {
-    color: rgba(175, 13, 13, 0.65);
-}
+/* #error {
+  color: rgba(175, 13, 13, 0.65);
+} */
 
 .login-grid-container {
-    width: 70rem;
-    max-width: 80%;
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 5rem;
-    margin: 0 auto;
-    height: 40rem;
+  width: 70rem;
+  max-width: 100%;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  /* gap: 5rem; */
+  margin: 0 auto;
+  height: 40rem;
+
+  /* display: flex;
+    margin-left: 100px; 
+    margin-top: 30px; */
 }
 
-@media (max-width: 800px) {
-    .login-grid-container {
-        flex-direction: column;
-    }
+@media (max-width: 780px) {
+  .login-grid-container {
+    grid-template-columns: 1fr;
+    /* Change to a single column layout */
+    height: auto;
+    /* Remove fixed height */
+  }
 }
 
-.login-grid-container > div {
-    font-size: 24;
-    width: 100%;
+.login-grid-container>div {
+  font-size: 24px;
+  width: 100%;
 }
 
 #logininfo {
+  border-radius: 20px;
+  border: 2px solid #537fe7;
+  padding: 2.5rem 6rem;
+  width: 35rem;
+  background-color: rgba(130, 170, 227, 0.45);
+  font-size: medium;
+  margin: auto;
+
+  /* background-color: #82aae36d;
+    margin-top: 5px;
+    border: #537FE7 2px solid;
     border-radius: 20px;
-    border: 2px solid #537fe7;
-    padding: 2.5rem 6rem;
-    width: 35rem;
-    background-color: rgba(130, 170, 227, 0.45);
-    font-size: medium;
+    padding: 20px 10px 0px;
+    flex: 45%; */
+}
+
+.em{
+  margin-left: 32px;
+}
+
+@media (max-width: 780px) {
+  #logininfo {
+    width: 100%;
+    /* Adjust width to fill the container */
+    padding: 2.5rem;
+  }
+
+  .em{
+    margin-left: 0px;
+  }
 }
 
 .login-flex-btns {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
 }
 
-@media (max-width: 800px) {
-    .login-grid-container1 {
-        flex-direction: column;
-    }
+@media (max-width: 780px) {
+  .login-flex-btns {
+    grid-template-columns: 1fr;
+  }
+
+  #fp{
+    padding-left: 150px;
+  }
+
+  #rm{
+    width:100%;
+  }
 }
 
-.login-flex-btns > div {
-    text-align: center;
-    padding: 20px 0px;
-    font-size: 15px;
-    width: 100%;
-    margin-bottom: 1rem;
+.login-flex-btns>div {
+  text-align: center;
+  padding: 20px 0px;
+  font-size: 15px;
+  width: 100%;
+  margin-bottom: 1rem;
 }
 
 #submit {
-    font-size: 1.2rem;
-    font-weight: 500;
-    text-transform: capitalize;
-    border-radius: 50px;
-    padding: 0.8rem;
-    background-color: rgba(83, 127, 231, 1);
-    color: #ffffff;
+  font-size: 1.2rem;
+  font-weight: 500;
+  text-transform: capitalize;
+  border-radius: 50px;
+  padding: 0.8rem;
+  background-color: rgba(83, 127, 231, 1);
+  color: #ffffff;
 }
 
-#image {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
+/* #image {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+} */
+#logo-image {
+  height: 400px;
+  width: 400px;
+}
+
+#doctor-image {
+  height: 320px;
+  width: 400px;
+}
+
+/* #medicine-image {
+  height: 0;
+}
+
+#medocare-image {
+  height: 0;
+} */
+
+
+
+@media (max-width: 780px) {
+  #logo-image {
+    /* height:0px;
+    width:0px; */
+    display: none;
+    /* Hide the image container on small screens */
+  }
+
+  #doctor-image {
+    display: none;
+  }
+
+  /* #medicine-image {
+    height: 100px;
+    width: 100px;
+  }
+
+  #medocare-image {
+    height: 100px;
+    width: 160px;
+  } */
 }
 
 #google {
-    border-radius: 50px;
-    border: 2px solid rgba(83, 127, 231, 1);
-    padding: 0.8rem 1rem;
-    padding-left: 6.5rem;
-    color: rgba(0, 0, 0, 1);
-    background-color: rgba(255, 255, 255, 1);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 1.1rem;
-    margin-bottom: 4rem;
+  border-radius: 50px;
+  border: 2px solid rgba(83, 127, 231, 1);
+  padding: 0.6rem 1rem;
+  /* Adjust padding to make it smaller */
+  padding-left: 4rem;
+  /* Adjust padding-left to make it smaller */
+  color: rgba(0, 0, 0, 1);
+  background-color: rgba(255, 255, 255, 1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1rem;
+  /* Adjust font size to make it smaller */
+  margin-bottom: 2rem;
+  /* Adjust margin-bottom to reduce the spacing */
 }
 
+
 #rm {
-    height: 25;
-    width: 158;
-    font-size: medium;
-    color: rgba(0, 0, 0, 0.35);
+  height: 25px;
+  width: 158px;
+  font-size: medium;
+  color: rgba(0, 0, 0, 0.35);
 }
 
 #fp {
-    font-size: medium;
-    color: rgba(175, 13, 13, 0.65);
+  font-size: medium;
+  color: rgba(175, 13, 13, 0.65);
 }
 
 .login-checkbox {
-    margin-left: 5px;
+  margin-left: 5px;
 }
 
 .no-account {
-    width: 100%;
-    font-size: 1rem;
-    text-align: center;
+  width: 100%;
+  font-size: 1rem;
+  text-align: center;
 }

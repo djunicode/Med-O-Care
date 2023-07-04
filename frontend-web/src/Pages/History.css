@@ -1,0 +1,52 @@
+.responsive-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 100%;
+  padding: 0 20px;
+}
+
+#openedit {
+  padding-left: 325px;
+}
+
+@media (max-width: 780px) {
+  #openedit{
+    padding-left: 0px;
+  }
+
+  .responsive-container {
+    padding: 0;
+  }
+
+  .responsive-container table {
+    width: 100%;
+  }
+
+  .responsive-container .grid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0px;
+    width: 100%;
+    margin: auto;
+  }
+
+  .responsive-container .two {
+    padding-left: 0;
+  }
+
+  .responsive-container #content {
+    width: 100%;
+    max-width: 680px;
+  }
+
+  .responsive-container #content td {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .responsive-container #content div {
+    text-align: center;
+  }
+}
