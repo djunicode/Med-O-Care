@@ -1,5 +1,6 @@
 const express = require("express");
 require("./db.js");
+require("./CronJobs/cronJobs.js")
 require("dotenv").config();
 const cors = require("cors");
 const bodyParser = require("body-parser");
