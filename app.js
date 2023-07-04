@@ -1,6 +1,6 @@
 const express = require("express");
 require("./db.js");
-require("./CronJobs/cronJobs.js")
+const cronjobs = require("./CronJobs/cronJobs.js")
 require("dotenv").config();
 const cors = require("cors");
 const bodyParser = require("body-parser");
@@ -27,6 +27,8 @@ if (process.env.NODE_ENV === "development") {
 } else {
     app.use(cors(corsOptions));
 }
+
+cronjobs.startCronJobs()
 
 // user
 app.use("/user", userRoutes);

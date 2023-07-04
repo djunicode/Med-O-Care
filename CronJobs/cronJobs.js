@@ -49,6 +49,8 @@ function sendReminder(medicine, user) {
   });
 }
 
-fetchUsers();
-
-cron.start();
+module.exports = {
+    startCronJobs: async function () {
+      await fetchUsers();
+    },
+  };
