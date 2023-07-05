@@ -131,6 +131,10 @@ const userSchema = new Schema(
     OTP: {
       type: Number,
     },
+    medicines : [{
+      type : mongoose.Types.ObjectId,
+      ref : "medicine"
+    }]
   },
   { timestamps: true }
 );
