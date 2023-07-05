@@ -179,6 +179,8 @@ const verifyOTP = async (req, res) => {
     const user = await UserSchema.find({ email: email }).select(
       "-medicalFiles -medicalFileCount -insuranceFiles -insuranceFileCount -period_lastDay -period_how_long -period_mc_duration -OTP"
     );
+    console.log(user.OTP)
+    console.log(otp)
 
     if (user.OTP == otp) {
       await UserSchema.findOneAndUpdate(
