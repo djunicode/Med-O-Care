@@ -1,3 +1,5 @@
+// ignore_for_file: camel_case_types, avoid_unnecessary_containers
+
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -13,7 +15,7 @@ class healthscore_data extends StatefulWidget {
 }
 
 class _healthscore_dataState extends State<healthscore_data> {
-  final _formkey = GlobalKey<FormState>();
+  //final _formkey = GlobalKey<FormState>();
   TextEditingController weightcontroller = TextEditingController();
   TextEditingController heightcontroller = TextEditingController();
   TextEditingController convertcontroller = TextEditingController();
@@ -25,11 +27,11 @@ class _healthscore_dataState extends State<healthscore_data> {
 
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.all(0.5),
+        padding: const EdgeInsets.all(0.5),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            SizedBox(height: 13),
+            const SizedBox(height: 13),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -51,10 +53,10 @@ class _healthscore_dataState extends State<healthscore_data> {
                 IconButton(
                     onPressed: () {
                       Navigator.of(context).pop(MaterialPageRoute(
-                          builder: (context) => score_tracker()));
+                          builder: (context) => const ScoreTracker()));
                     },
-                    icon: Icon(Icons.arrow_back)),
-                SizedBox(width: 7.5),
+                    icon: const Icon(Icons.arrow_back)),
+                const SizedBox(width: 7.5),
                 Container(
                   child: Text('Calculate your Health score',
                       style: GoogleFonts.poppins(
@@ -75,7 +77,7 @@ class _healthscore_dataState extends State<healthscore_data> {
                 ),
               ],
             ),
-            SizedBox(height: 5),
+            const SizedBox(height: 5),
 
             Padding(
               padding: EdgeInsets.fromLTRB(
@@ -146,7 +148,7 @@ class _healthscore_dataState extends State<healthscore_data> {
                 ),
               ],
             ),
-            SizedBox(height: 5),
+            const SizedBox(height: 5),
 
             Padding(
               padding: EdgeInsets.fromLTRB(
@@ -213,7 +215,7 @@ class _healthscore_dataState extends State<healthscore_data> {
                 InkWell(
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => final_healthscore()));
+                        builder: (context) => const FinalHeathscore()));
                   },
                   child: Container(
                     height: size.height * 0.06875,

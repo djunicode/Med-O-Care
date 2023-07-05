@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:med_o_care/Constant/colors.dart';
 import 'package:med_o_care/View/Medicines/medicines_page.dart';
-import 'package:med_o_care/View/Profile/profile.dart';
 import 'package:med_o_care/View/Profile/myprofile.dart';
 import 'package:med_o_care/View/Screens/score_tracker.dart';
 import 'package:med_o_care/View/Upload/my_files.dart';
+
+import '../Reminders/reminder.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -18,9 +19,10 @@ class _HomeState extends State<Home> {
   int selectedIndex = 0;
   final List<Widget> _navigationScreens = [
     const MedicinesPage(),
+    const MyReminders(),
     const UploadFiles(),
-    score_tracker(),
-    MyProfile()
+    const ScoreTracker(),
+    const MyProfile()
   ];
 
   List<NavigationItem> items = [
@@ -57,14 +59,14 @@ class _HomeState extends State<Home> {
                 IconButton(
                     onPressed: () {
                       Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => MyProfile()));
+                          MaterialPageRoute(builder: (context) => const MyProfile()));
                     },
                     icon: SvgPicture.asset("assets/icons/icon _menu_.svg"))
               ],
             ),
           ),
           Expanded(
-            child: _navigationScreens[2],
+            child: _navigationScreens[selectedIndex],
           )
         ]),
       ),

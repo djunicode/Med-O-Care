@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:med_o_care/Constant/constants.dart';
 import 'package:med_o_care/View/Screens/healthscore1.dart';
 
-class score_tracker extends StatefulWidget {
-  const score_tracker({super.key});
+class ScoreTracker extends StatefulWidget {
+  const ScoreTracker({super.key});
 
   @override
-  State<score_tracker> createState() => _score_trackerState();
+  State<ScoreTracker> createState() => _ScoreTrackerState();
 }
 
-class _score_trackerState extends State<score_tracker> {
-  final _formkey = GlobalKey<FormState>();
+class _ScoreTrackerState extends State<ScoreTracker> {
+  //final _formkey = GlobalKey<FormState>();
   TextEditingController weightcontroller = TextEditingController();
   TextEditingController heightcontroller = TextEditingController();
   TextEditingController repasscontroller = TextEditingController();
@@ -22,7 +21,7 @@ class _score_trackerState extends State<score_tracker> {
 
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.all(0.5),
+        padding: const EdgeInsets.all(0.5),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -43,7 +42,7 @@ class _score_trackerState extends State<score_tracker> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
+                SizedBox(
                   height: size.height * 0.145,
                   width: size.width * 0.385,
                   child: Image.asset("assets/images/Information carousel.png"),
@@ -57,7 +56,7 @@ class _score_trackerState extends State<score_tracker> {
                     child: Center(
                       child: Container(
                         decoration: BoxDecoration(
-                            color: Color(0XFF82AAE3).withOpacity(0.55),
+                            color: const Color(0XFF82AAE3).withOpacity(0.55),
                             borderRadius: BorderRadius.circular(5)),
                         width: size.width * 0.75,
                         height: size.height * 0.5475,
@@ -71,7 +70,7 @@ class _score_trackerState extends State<score_tracker> {
                             InkWell(
                               onTap: () {
                                 Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => healthscore_data()));
+                                    builder: (context) => const healthscore_data()));
                               },
                               child: Container(
                                 height: size.height * 0.0625,

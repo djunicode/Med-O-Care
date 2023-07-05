@@ -12,10 +12,10 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 15),
+      padding: const EdgeInsets.symmetric(horizontal: 15),
       child: Center(
         child: ElevatedButton(
-          child: Text("Logout"),
+          child: const Text("Logout"),
           onPressed: () {
             AuthService().deleteAuthToken();
             Navigator.pushReplacementNamed(context, '/login');
