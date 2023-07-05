@@ -16,6 +16,8 @@ class _healthscore_dataState extends State<healthscore_data> {
   final _formkey = GlobalKey<FormState>();
   TextEditingController weightcontroller = TextEditingController();
   TextEditingController heightcontroller = TextEditingController();
+  TextEditingController convertcontroller = TextEditingController();
+  // TextEditingController heightcontroller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -246,44 +248,43 @@ class _healthscore_dataState extends State<healthscore_data> {
             SizedBox(
               height: size.height * 0.01,
             ),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.center,
-            //   children: [
-            //     Row(
-            //       mainAxisAlignment: MainAxisAlignment.start,
-            //       children: [
-            // SizedBox(width: 39),
-            // Container(
-            //   padding: EdgeInsets.only(left: 13),
-            //   height: size.height * 0.06875,
-            //   width: size.width * 0.31,
-            //   child: Column(
-            //     mainAxisAlignment: MainAxisAlignment.center,
-            //     children: [
-            //       Row(
-            //         children: [
-            //           Text(
-            //             'Enter value',
-            //             style: GoogleFonts.poppins(
-            //               fontSize: 10,
-            //               fontWeight: FontWeight.w500,
-            //               color: Colors.black.withOpacity(0.45),
-            //             ),
-            //           ),
-            //           IconButton(
-            //             onPressed: () {},
-            //             icon: Icon(Icons.arrow_downward_sharp),
-            //             iconSize: 20,
-            //           ),
-            //         ],
-            //       )
-            //     ],
-            //   ),
-            //   decoration: BoxDecoration(
-            //       border: Border.all(color: colorPrimary),
-            //       borderRadius: BorderRadius.circular(50),
-            //       color: Colors.white),
-            // ),
+
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                SizedBox(width: 39),
+                Container(
+                  padding: EdgeInsets.only(left: 13),
+                  height: size.height * 0.06875,
+                  width: size.width * 0.31,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            'Enter value',
+                            style: GoogleFonts.poppins(
+                              fontSize: 10,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black.withOpacity(0.45),
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () {},
+                            icon: Icon(Icons.arrow_downward_sharp),
+                            iconSize: 20,
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                  decoration: BoxDecoration(
+                      border: Border.all(color: colorPrimary),
+                      borderRadius: BorderRadius.circular(50),
+                      color: Colors.white),
+                ),
+              ])
+            ])
 
             //     Container(
             //       child: Padding(
@@ -371,6 +372,30 @@ class _healthscore_dataState extends State<healthscore_data> {
             //             ),
             //           ]),
             //     )
+            //   ],
+            // )
+
+            // Row(
+            //   children: [
+            //     Text('XYZ'),
+            //     SizedBox(
+            //       width: 10,
+            //     ),
+            //     // TextFormField(
+            //     //   keyboardType: TextInputType.emailAddress,
+            //     //   controller: convertcontroller,
+            //     //   decoration: const InputDecoration(
+            //     //     // labelText: "Height",
+            //     //     hintText: 'Enter your height',
+            //     //     border: OutlineInputBorder(
+            //     //         borderRadius: BorderRadius.all(Radius.circular(50))),
+            //     //     // prefixIcon: Icon(Icons.person),
+            //     //     fillColor: Colors.white,
+            //     //     filled: true,
+            //     //   ),
+            //     //   // validator: MultiValidator(
+            //     //   //     [RequiredValidator(errorText: "    " '*Required')]),
+            //     // ),
             //   ],
             // )
           ],

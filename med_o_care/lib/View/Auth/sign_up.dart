@@ -120,7 +120,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     Flexible(
                       flex: 2,
                       child: TextFormField(
-                        keyboardType: TextInputType.emailAddress,
+                        keyboardType: TextInputType.datetime,
                         controller: dobcontroller,
                         decoration: const InputDecoration(
                           label: Text("Date of Birth"),
@@ -143,7 +143,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                           if (pickedDate != null) {
                             String formattedDate =
-                                DateFormat('dd/MM/yyyy').format(pickedDate);
+                                DateFormat.yMMMMd().format(pickedDate);
 
                             setState(() {
                               dobString = pickedDate.toIso8601String();
