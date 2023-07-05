@@ -19,8 +19,8 @@ class _HomeState extends State<Home> {
   final List<Widget> _navigationScreens = [
     const MedicinesPage(),
     const UploadFiles(),
-    score_tracker(),
-    MyProfile()
+    const score_tracker(),
+    const MyProfile()
   ];
 
   List<NavigationItem> items = [
@@ -57,7 +57,7 @@ class _HomeState extends State<Home> {
                 IconButton(
                     onPressed: () {
                       Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => MyProfile()));
+                          MaterialPageRoute(builder: (context) => const MyProfile()));
                     },
                     icon: SvgPicture.asset("assets/icons/icon _menu_.svg"))
               ],

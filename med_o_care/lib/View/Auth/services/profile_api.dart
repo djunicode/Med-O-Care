@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'package:med_o_care/models/profile_model.dart';
-import 'package:med_o_care/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Profiles {
@@ -10,7 +9,7 @@ class Profiles {
   Data? _profileData;
   static const String authTokenKey = 'auth_token';
 
-  getProfileData() async {
+    getProfileData() async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString(authTokenKey);
     var headers = {'Authorization': 'Token $token'};

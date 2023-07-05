@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:med_o_care/Constant/constants.dart';
@@ -8,7 +6,6 @@ import 'package:med_o_care/View/Auth/services/profile_api.dart';
 import 'package:med_o_care/View/Profile/editProfile.dart';
 import 'package:med_o_care/View/Screens/home.dart';
 import 'package:med_o_care/models/profile_model.dart' as data;
-import 'package:med_o_care/models/user.dart';
 
 class MyProfile extends StatefulWidget {
   const MyProfile({super.key});
@@ -48,11 +45,15 @@ class _MyProfileState extends State<MyProfile> {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
+                      children: const [
                         Center(
                           child: CircularProgressIndicator(),
                         ),
                       ],
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Text(snapshot.error.toString()),
                     );
                   } else {
                     return SizedBox(
@@ -82,10 +83,11 @@ class _MyProfileState extends State<MyProfile> {
                                   onPressed: () {
                                     Navigator.of(context).pushReplacement(
                                         MaterialPageRoute(
-                                            builder: (context) => Home()));
+                                            builder: (context) =>
+                                                const Home()));
                                   },
-                                  icon: Icon(Icons.arrow_back)),
-                              SizedBox(width: 7.5),
+                                  icon: const Icon(Icons.arrow_back)),
+                              const SizedBox(width: 7.5),
                               Container(
                                 child: Text('My Profile',
                                     style: GoogleFonts.poppins(
@@ -119,8 +121,16 @@ class _MyProfileState extends State<MyProfile> {
                                         .push(MaterialPageRoute(
                                             builder: (context) => EditProfile(
                                                   name: _profile!.fName,
-                                                  weight: _profile!.weight,
-                                                  height: _profile!.weight,
+                                                  weight:
+                                                      _profile!.weight == null
+                                                          ? 0
+                                                          : _profile!.weight!
+                                                              .toInt(),
+                                                  height:
+                                                      _profile!.weight == null
+                                                          ? 0
+                                                          : _profile!.weight!
+                                                              .toInt(),
                                                   phone: _profile!.phone,
                                                   location: _profile!.location,
                                                   dob: _profile!.location,
@@ -168,74 +178,78 @@ class _MyProfileState extends State<MyProfile> {
                               ),
                             ],
                           ),
-                          SizedBox(height: 4),
-                          Container(
+                          const SizedBox(height: 4),
+                          SizedBox(
                             width: double.infinity,
                             child: Row(
                               children: [
                                 SizedBox(width: size.width * 0.115),
-                                Container(
+                                SizedBox(
                                   height: size.height * 0.02275,
                                   width: size.width * 0.145,
                                   child: Text('Gender',
                                       style: GoogleFonts.poppins(
                                         fontSize: 15,
-                                        color: Color.fromRGBO(0, 0, 0, 0.7),
+                                        color:
+                                            const Color.fromRGBO(0, 0, 0, 0.7),
                                         fontWeight: FontWeight.w500,
                                       )),
                                 ),
                                 SizedBox(width: size.width * 0.2525),
-                                Container(
+                                SizedBox(
                                   height: size.height * 0.0275,
                                   width: size.width * 0.2425,
                                   child: Text('Date of Birth',
                                       style: GoogleFonts.poppins(
                                         fontSize: 15,
-                                        color: Color.fromRGBO(0, 0, 0, 0.7),
+                                        color:
+                                            const Color.fromRGBO(0, 0, 0, 0.7),
                                         fontWeight: FontWeight.w500,
                                       )),
                                 ),
                               ],
                             ),
                           ),
-                          SizedBox(height: 4),
-                          Container(
+                          const SizedBox(height: 4),
+                          SizedBox(
                             width: double.infinity,
                             child: Row(
                               children: [
                                 SizedBox(width: size.width * 0.0575),
                                 Container(
+                                  height: size.height * 0.06875,
+                                  width: size.width * 0.375,
+                                  decoration: BoxDecoration(
+                                      border: Border.all(color: colorPrimary),
+                                      borderRadius: BorderRadius.circular(50),
+                                      color: Colors.white),
                                   child: Center(
                                     child: Text(_profile!.gender.toString(),
                                         style: GoogleFonts.poppins(
                                           fontSize: 15,
-                                          color: Color.fromRGBO(0, 0, 0, 0.7),
+                                          color: const Color.fromRGBO(
+                                              0, 0, 0, 0.7),
                                           fontWeight: FontWeight.w500,
                                         )),
                                   ),
-                                  height: size.height * 0.06875,
-                                  width: size.width * 0.375,
-                                  decoration: BoxDecoration(
-                                      border: Border.all(color: colorPrimary),
-                                      borderRadius: BorderRadius.circular(50),
-                                      color: Colors.white),
                                 ),
                                 SizedBox(width: size.width * 0.0325),
                                 Container(
-                                  child: Center(
-                                    child: Text(_profile!.dob,
-                                        style: GoogleFonts.poppins(
-                                          fontSize: 15,
-                                          color: Color.fromRGBO(0, 0, 0, 0.7),
-                                          fontWeight: FontWeight.w500,
-                                        )),
-                                  ),
                                   height: size.height * 0.06875,
                                   width: size.width * 0.375,
                                   decoration: BoxDecoration(
                                       border: Border.all(color: colorPrimary),
                                       borderRadius: BorderRadius.circular(50),
                                       color: Colors.white),
+                                  child: Center(
+                                    child: Text(_profile!.dob ?? '',
+                                        style: GoogleFonts.poppins(
+                                          fontSize: 15,
+                                          color: const Color.fromRGBO(
+                                              0, 0, 0, 0.7),
+                                          fontWeight: FontWeight.w500,
+                                        )),
+                                  ),
                                 ),
                               ],
                             ),
@@ -246,13 +260,14 @@ class _MyProfileState extends State<MyProfile> {
                               SizedBox(width: size.width * 0.115),
                               Flexible(
                                 flex: 2,
-                                child: Container(
+                                child: SizedBox(
                                   height: size.height * 0.0275,
                                   width: size.width * 0.145,
                                   child: Text('Weight',
                                       style: GoogleFonts.poppins(
                                         fontSize: 15,
-                                        color: Color.fromRGBO(0, 0, 0, 0.7),
+                                        color:
+                                            const Color.fromRGBO(0, 0, 0, 0.7),
                                         fontWeight: FontWeight.w500,
                                       )),
                                 ),
@@ -260,57 +275,60 @@ class _MyProfileState extends State<MyProfile> {
                               SizedBox(width: size.width * 0.24),
                               Flexible(
                                 flex: 2,
-                                child: Container(
+                                child: SizedBox(
                                   height: size.height * 0.0275,
                                   width: size.height * 0.2425,
                                   child: Text('Height',
                                       style: GoogleFonts.poppins(
                                         fontSize: 15,
-                                        color: Color.fromRGBO(0, 0, 0, 0.7),
+                                        color:
+                                            const Color.fromRGBO(0, 0, 0, 0.7),
                                         fontWeight: FontWeight.w500,
                                       )),
                                 ),
                               ),
                             ],
                           ),
-                          SizedBox(height: 4),
-                          Container(
+                          const SizedBox(height: 4),
+                          SizedBox(
                             width: double.infinity,
                             child: Row(
                               children: [
                                 SizedBox(width: size.width * 0.0575),
                                 Container(
+                                  height: size.height * 0.06875,
+                                  width: size.width * 0.375,
+                                  decoration: BoxDecoration(
+                                      border: Border.all(color: colorPrimary),
+                                      borderRadius: BorderRadius.circular(50),
+                                      color: Colors.white),
                                   child: Center(
                                     child: Text(_profile!.weight.toString(),
                                         style: GoogleFonts.poppins(
                                           fontSize: 15,
-                                          color: Color.fromRGBO(0, 0, 0, 0.7),
+                                          color: const Color.fromRGBO(
+                                              0, 0, 0, 0.7),
                                           fontWeight: FontWeight.w500,
                                         )),
                                   ),
+                                ),
+                                SizedBox(width: size.width * 0.0325),
+                                Container(
                                   height: size.height * 0.06875,
                                   width: size.width * 0.375,
                                   decoration: BoxDecoration(
                                       border: Border.all(color: colorPrimary),
                                       borderRadius: BorderRadius.circular(50),
                                       color: Colors.white),
-                                ),
-                                SizedBox(width: size.width * 0.0325),
-                                Container(
                                   child: Center(
                                     child: Text(_profile!.height.toString(),
                                         style: GoogleFonts.poppins(
                                           fontSize: 15,
-                                          color: Color.fromRGBO(0, 0, 0, 0.7),
+                                          color: const Color.fromRGBO(
+                                              0, 0, 0, 0.7),
                                           fontWeight: FontWeight.w500,
                                         )),
                                   ),
-                                  height: size.height * 0.06875,
-                                  width: size.width * 0.375,
-                                  decoration: BoxDecoration(
-                                      border: Border.all(color: colorPrimary),
-                                      borderRadius: BorderRadius.circular(50),
-                                      color: Colors.white),
                                 ),
                               ],
                             ),
@@ -337,7 +355,7 @@ class _MyProfileState extends State<MyProfile> {
                                       )),
                                 ),
                                 SizedBox(width: size.width * 0.275),
-                                Icon(Icons.arrow_forward_ios)
+                                const Icon(Icons.arrow_forward_ios)
                               ],
                             ),
                           ),

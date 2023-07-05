@@ -3,12 +3,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:med_o_care/Constant/constants.dart';
-import 'package:med_o_care/View/Auth/services/auth_service.dart';
 import 'package:med_o_care/View/Auth/services/profile_api.dart';
-import 'package:med_o_care/View/Profile/profile.dart';
-import 'package:med_o_care/View/Profile/myprofile.dart';
-import 'package:med_o_care/models/profile_model.dart' as data;
-import 'package:med_o_care/models/user.dart';
 
 import '../Screens/home.dart';
 
@@ -62,7 +57,7 @@ class _EditProfileState extends State<EditProfile> {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           child: Form(
             key: _formkey,
             autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -95,8 +90,8 @@ class _EditProfileState extends State<EditProfile> {
                               onPressed: () {
                                 Navigator.pop(context);
                               },
-                              icon: Icon(Icons.arrow_back)),
-                          SizedBox(width: 7.5),
+                              icon: const Icon(Icons.arrow_back)),
+                          const SizedBox(width: 7.5),
                           Container(
                             child: Text('Edit Profile',
                                 style: GoogleFonts.poppins(
@@ -123,7 +118,7 @@ class _EditProfileState extends State<EditProfile> {
                         validator: MultiValidator(
                             [RequiredValidator(errorText: "    " '*Required')]),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 30,
                       ),
                       TextFormField(
@@ -146,7 +141,7 @@ class _EditProfileState extends State<EditProfile> {
                           RequiredValidator(errorText: "    " '*Required')
                         ]),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 30,
                       ),
                       Row(
@@ -215,7 +210,7 @@ class _EditProfileState extends State<EditProfile> {
                           ),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 30,
                       ),
                       Row(
@@ -246,7 +241,7 @@ class _EditProfileState extends State<EditProfile> {
                                       errorText: 'Enter a valid number'),
                                 ])),
                           ),
-                          SizedBox(width: 10),
+                          const SizedBox(width: 10),
                           Flexible(
                             flex: 2,
                             child: TextFormField(
@@ -275,7 +270,7 @@ class _EditProfileState extends State<EditProfile> {
                           )
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 30,
                       ),
                       Row(
@@ -298,7 +293,7 @@ class _EditProfileState extends State<EditProfile> {
 
                               Navigator.of(context).pushReplacement(
                                   MaterialPageRoute(
-                                      builder: (context) => Home()));
+                                      builder: (context) => const Home()));
                             },
                           )
                         ],

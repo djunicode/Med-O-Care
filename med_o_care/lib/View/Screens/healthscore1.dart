@@ -23,11 +23,11 @@ class _healthscore_dataState extends State<healthscore_data> {
 
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.all(0.5),
+        padding: const EdgeInsets.all(0.5),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            SizedBox(height: 13),
+            const SizedBox(height: 13),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -49,10 +49,10 @@ class _healthscore_dataState extends State<healthscore_data> {
                 IconButton(
                     onPressed: () {
                       Navigator.of(context).pop(MaterialPageRoute(
-                          builder: (context) => score_tracker()));
+                          builder: (context) => const score_tracker()));
                     },
-                    icon: Icon(Icons.arrow_back)),
-                SizedBox(width: 7.5),
+                    icon: const Icon(Icons.arrow_back)),
+                const SizedBox(width: 7.5),
                 Container(
                   child: Text('Calculate your Health score',
                       style: GoogleFonts.poppins(
@@ -73,7 +73,7 @@ class _healthscore_dataState extends State<healthscore_data> {
                 ),
               ],
             ),
-            SizedBox(height: 5),
+            const SizedBox(height: 5),
 
             Padding(
               padding: EdgeInsets.fromLTRB(
@@ -144,7 +144,7 @@ class _healthscore_dataState extends State<healthscore_data> {
                 ),
               ],
             ),
-            SizedBox(height: 5),
+            const SizedBox(height: 5),
 
             Padding(
               padding: EdgeInsets.fromLTRB(
@@ -211,7 +211,7 @@ class _healthscore_dataState extends State<healthscore_data> {
                 InkWell(
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => final_healthscore()));
+                        builder: (context) => const final_healthscore()));
                   },
                   child: Container(
                     height: size.height * 0.06875,

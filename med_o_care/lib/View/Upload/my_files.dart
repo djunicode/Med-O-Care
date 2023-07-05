@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:med_o_care/Constant/colors.dart';
+import 'package:med_o_care/View/Auth/services/profile_api.dart';
+import 'package:med_o_care/View/Upload/models/docs_model.dart';
+import 'package:med_o_care/View/Upload/services/docs_services.dart';
 import 'package:med_o_care/View/Upload/widgets.dart';
+import 'package:med_o_care/models/profile_model.dart';
 
 class UploadFiles extends StatefulWidget {
   const UploadFiles({super.key});
@@ -18,25 +22,42 @@ class _UploadFilesState extends State<UploadFiles> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               "Uploads",
               style: TextStyle(fontSize: 22, fontWeight: FontWeight.w900),
             ),
-            Expanded(
-              child: SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
-                child: ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: 5,
-                    itemBuilder: (context, index) {
-                      return UploadFileWidget(
-                        title: "Title",
-                        type: "type",
-                      );
-                    }),
-              ),
-            )
+            FutureBuilder(
+                future: DocServices().getDocData(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text(snapshot.error.toString()),
+                    );
+                  }
+                  if (!snapshot.hasData) {
+                    return Text("No data");
+                  }
+                  return Expanded(
+                    child: SingleChildScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      child: ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: snapshot.data!.medicalFileCount,
+                          itemBuilder: (context, index) {
+                            return const UploadFileWidget(
+                              title: "Title",
+                              type: "type",
+                            );
+                          }),
+                    ),
+                  );
+                })
           ],
         ),
       ),
@@ -45,7 +66,7 @@ class _UploadFilesState extends State<UploadFiles> {
         onPressed: () {
           Navigator.pushNamed(context, '/add_files');
         },
-        child: Icon(
+        child: const Icon(
           Icons.add,
           color: Colors.white,
         ),

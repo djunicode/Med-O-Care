@@ -17,7 +17,7 @@ class _final_healthscoreState extends State<final_healthscore> {
 
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.all(0.5),
+        padding: const EdgeInsets.all(0.5),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -42,9 +42,9 @@ class _final_healthscoreState extends State<final_healthscore> {
                 IconButton(
                     onPressed: () {
                       Navigator.of(context).pop(MaterialPageRoute(
-                          builder: (context) => healthscore_data()));
+                          builder: (context) => const healthscore_data()));
                     },
-                    icon: Icon(Icons.arrow_back)),
+                    icon: const Icon(Icons.arrow_back)),
                 SizedBox(width: size.width * 0.01875),
                 Container(
                   child: Text('Your Score',
@@ -60,10 +60,10 @@ class _final_healthscoreState extends State<final_healthscore> {
               height: size.height * 0.20625,
               width: size.height * 0.20625,
               decoration: BoxDecoration(
-                color: Color(0XFF82AAE3),
+                color: const Color(0XFF82AAE3),
                 border: Border.all(color: colorPrimary, width: 3),
                 borderRadius: BorderRadius.circular(100),
-                boxShadow: [
+                boxShadow: const [
                   BoxShadow(
                       color: colorPrimary, //New
                       blurRadius: 10.0,
@@ -101,9 +101,9 @@ class _final_healthscoreState extends State<final_healthscore> {
                         height: size.height * 0.05625,
                         width: size.height * 0.05625,
                         decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 246, 242, 215),
+                          color: const Color.fromARGB(255, 246, 242, 215),
                           border: Border.all(
-                              color: Color.fromARGB(255, 249, 167, 43),
+                              color: const Color.fromARGB(255, 249, 167, 43),
                               width: 3),
                           borderRadius: BorderRadius.circular(100),
                         ),
@@ -128,9 +128,9 @@ class _final_healthscoreState extends State<final_healthscore> {
                         height: size.height * 0.05625,
                         width: size.height * 0.05625,
                         decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 237, 232, 206),
+                          color: const Color.fromARGB(255, 237, 232, 206),
                           border: Border.all(
-                              color: Color.fromARGB(255, 247, 232, 151),
+                              color: const Color.fromARGB(255, 247, 232, 151),
                               width: 3),
                           borderRadius: BorderRadius.circular(100),
                         ),
@@ -155,9 +155,9 @@ class _final_healthscoreState extends State<final_healthscore> {
                         height: size.height * 0.05625,
                         width: size.height * 0.05625,
                         decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 232, 177, 82),
+                          color: const Color.fromARGB(255, 232, 177, 82),
                           border: Border.all(
-                              color: Color.fromARGB(255, 221, 104, 8),
+                              color: const Color.fromARGB(255, 221, 104, 8),
                               width: 3),
                           borderRadius: BorderRadius.circular(100),
                         ),
@@ -182,9 +182,9 @@ class _final_healthscoreState extends State<final_healthscore> {
                         height: size.height * 0.05625,
                         width: size.height * 0.05625,
                         decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 156, 246, 134),
+                          color: const Color.fromARGB(255, 156, 246, 134),
                           border: Border.all(
-                              color: Color.fromARGB(255, 0, 147, 20), width: 3),
+                              color: const Color.fromARGB(255, 0, 147, 20), width: 3),
                           borderRadius: BorderRadius.circular(100),
                         ),
                       ),
@@ -201,16 +201,16 @@ class _final_healthscoreState extends State<final_healthscore> {
                             fontWeight: FontWeight.w500,
                             color: Colors.black),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 88,
                       ),
                       Container(
                         height: size.height * 0.05625,
                         width: size.height * 0.05625,
                         decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 236, 184, 236),
+                          color: const Color.fromARGB(255, 236, 184, 236),
                           border: Border.all(
-                              color: Color.fromARGB(255, 235, 0, 247),
+                              color: const Color.fromARGB(255, 235, 0, 247),
                               width: 3),
                           borderRadius: BorderRadius.circular(100),
                         ),

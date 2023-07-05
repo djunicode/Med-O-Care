@@ -9,9 +9,9 @@ import 'package:path/path.dart';
 class UploadServices {
   static const String baseUrl = 'https://med-o-care.onrender.com/user';
 
-  Future<bool> uploadFile(File file) async {
+  Future<bool> uploadFile(File file, String title) async {
     try {
-      final userEmail = 'test@gmail.com'; // replace with actual user email
+      const userEmail = 'test@gmail.com'; // replace with actual user email
       final bytes = await file.readAsBytes();
       final encodedFile = base64Encode(bytes);
       final prefs = await SharedPreferences.getInstance();
@@ -19,17 +19,19 @@ class UploadServices {
       final currentUser =
           user.fromMap(jsonDecode(prefs.getString('current user')!));
       Map<String, dynamic> body = {
-        'files': encodedFile,
+        'file': encodedFile,
         'user': currentUser,
+        'name': title,
       };
       var stream = http.ByteStream(file.openRead());
       stream.cast();
       var length = await file.length();
       var uri = Uri.parse('$baseUrl/uploadMedical');
       var request = http.MultipartRequest("POST", uri);
-      var multipartFile = http.MultipartFile("files", stream, length,
+      var multipartFile = http.MultipartFile("file", stream, length,
           filename: basename(file.path));
       request.fields['email'] = currentUser.email;
+      request.fields['name'] = title;
       request.headers["Authorization"] = "Token $token";
       request.files.add(multipartFile);
       var response = await request.send();

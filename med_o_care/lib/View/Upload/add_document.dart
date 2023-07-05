@@ -35,7 +35,7 @@ class _AddDocumentState extends State<AddDocument> {
   }
 
   Future<dynamic> addImages() async {
-    late final images;
+    late final XFile? images;
     try {
       final picker = ImagePicker();
       images = await picker.pickImage(source: ImageSource.gallery);
@@ -52,7 +52,7 @@ class _AddDocumentState extends State<AddDocument> {
     var size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "Add Document",
           style: TextStyle(
               color: ResourceColors.colorPrimaryLightTheme,
@@ -60,40 +60,39 @@ class _AddDocumentState extends State<AddDocument> {
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
-        iconTheme: IconThemeData(color: ResourceColors.colorPrimaryLightTheme),
+        iconTheme:
+            const IconThemeData(color: ResourceColors.colorPrimaryLightTheme),
       ),
       persistentFooterButtons: [
         GestureDetector(
           onTap: () async {
             showDialog(
                 context: context,
-                builder: (context) => Center(
+                builder: (context) => const Center(
                       child: CircularProgressIndicator(),
                     ));
-            final success = await UploadServices().uploadFile(document!);
+            final success = await UploadServices()
+                .uploadFile(document!, titleController.text.trim());
             Navigator.pop(context);
             if (success) {
               Navigator.pushReplacementNamed(context, '/navbar');
             } else {
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
+                const SnackBar(
                   content: Text('There seems to be an issue'),
                   duration: Duration(seconds: 3),
                 ),
               );
-
-
-             
             }
           },
           child: Container(
-            padding: EdgeInsets.symmetric(vertical: 15),
+            padding: const EdgeInsets.symmetric(vertical: 15),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(50),
               border: Border.all(color: colorPrimary),
               color: colorPrimary,
             ),
-            child: Center(
+            child: const Center(
               child: Text(
                 "Submit",
                 style: TextStyle(color: Colors.white),
@@ -107,11 +106,11 @@ class _AddDocumentState extends State<AddDocument> {
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(
+            const Text(
               'Title',
               style: TextStyle(fontSize: 20),
             ),
-            SizedBox(
+            const SizedBox(
               height: 12,
             ),
             TextFormField(
@@ -125,14 +124,14 @@ class _AddDocumentState extends State<AddDocument> {
                 filled: true,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 12,
             ),
-            Text(
+            const Text(
               'Upload Document',
               style: TextStyle(fontSize: 20),
             ),
-            SizedBox(
+            const SizedBox(
               height: 12,
             ),
             if (document == null)
@@ -145,13 +144,13 @@ class _AddDocumentState extends State<AddDocument> {
                   });
                 },
                 child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 15),
+                  padding: const EdgeInsets.symmetric(vertical: 15),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50),
                     border: Border.all(color: colorPrimary),
                     color: Colors.white,
                   ),
-                  child: Center(
+                  child: const Center(
                     child: Text(
                       "Upload Image",
                       style: TextStyle(color: colorPrimary),
@@ -166,7 +165,7 @@ class _AddDocumentState extends State<AddDocument> {
                   fit: BoxFit.cover,
                 ),
               ),
-            SizedBox(
+            const SizedBox(
               height: 60,
             ),
           ]),

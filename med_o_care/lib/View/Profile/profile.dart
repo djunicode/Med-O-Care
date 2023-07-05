@@ -14,7 +14,7 @@ class _ProfileTemporaryState extends State<ProfileTemporary> {
     return Scaffold(
       body: Center(
         child: ElevatedButton(
-          child: Text("Logout"),
+          child: const Text("Logout"),
           onPressed: () {
             AuthService().deleteAuthToken();
             Navigator.pushReplacementNamed(context, '/login');

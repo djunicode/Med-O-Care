@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
@@ -42,7 +41,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           child: Form(
             key: _formkey,
             autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -296,7 +295,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       );
                       showDialog(
                           context: context,
-                          builder: (context) => Center(
+                          builder: (context) => const Center(
                                 child: CircularProgressIndicator(),
                               ));
                       final success = await AuthService().signup(newUser);
