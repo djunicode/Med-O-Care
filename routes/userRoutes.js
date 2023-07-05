@@ -18,7 +18,7 @@ router.get("/profile", auth.verifyToken, userC.profile);
 router.post("/forgotPSWD", userC.forgotPSWD);
 
 //verify OTP
-router.post("/verifyOTP", auth.verifyToken, userC.verifyOTP); //then hit edit user api details to reset password
+router.post("/verifyOTP", userC.verifyOTP); //then hit edit user api details to reset password
 
 //edit user details
 router.put("/editUserInfo", auth.verifyToken, userC.updateUser);
