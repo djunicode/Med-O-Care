@@ -144,7 +144,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                           if (pickedDate != null) {
                             String formattedDate =
-                                DateFormat.yMMMMd().format(pickedDate);
+                                // DateFormat.yMMMMd().format(pickedDate);
+                                DateFormat('dd/MM/yyyy').format(pickedDate);
 
                             setState(() {
                               dobString = pickedDate.toIso8601String();

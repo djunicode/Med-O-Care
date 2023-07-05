@@ -18,18 +18,84 @@ class _healthscore_dataState extends State<healthscore_data> {
   TextEditingController heightcontroller = TextEditingController();
   TextEditingController convertcontroller = TextEditingController();
   // TextEditingController heightcontroller = TextEditingController();
+  late double bmi;
+  //  late int? height;
+  //  late int? weight;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  // double BMI() {
+  //   String? heightText = heightcontroller.text;
+  //   double? height = heightText != null ? double.tryParse(heightText) : 1;
+  //   String? weightText = weightcontroller.text;
+  //   double? weight = weightText != null ? double.tryParse(weightText) : 1;
+  //   late double bmi = ((weight!) / (height! * height));
+  //   return bmi;
+  // }
+  double BMI() {
+    String? heightText = heightcontroller.text;
+    double height = heightText != null ? double.tryParse(heightText) ?? 1 : 1;
+    String? weightText = weightcontroller.text;
+    double weight = weightText != null ? double.tryParse(weightText) ?? 1 : 1;
+    double bmi = (weight * 10000) / (height * height);
+    return double.parse(bmi.toStringAsFixed(2));
+  }
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
 
+    String getBMIStatus() {
+      double bmi = BMI();
+      if (bmi <= 10) {
+        return "Severely underweight";
+      } else if (bmi < 18.5 && bmi > 10) {
+        return "Underweight";
+      } else if (bmi >= 18.5 && bmi <= 24.9) {
+        return "Normal weight";
+      } else if (bmi >= 25 && bmi <= 29.9) {
+        return "Overweight";
+      } else if (bmi >= 30 && bmi <= 34.9) {
+        return "Obesity - Class I";
+      } else if (bmi >= 35 && bmi <= 39.9) {
+        return "Obesity - Class II";
+      } else if (bmi > 39.9) {
+        return "Obesity - Class III";
+      } else {
+        return "Invalid input";
+      }
+    }
+
+    String getBMITips() {
+      double bmi = BMI();
+      if (bmi > 10 && bmi <= 18.5) {
+        return "If you find yourself in the severely underweight category, it's important to consult a healthcare professional who can provide personalized guidance. Focus on consuming a balanced diet with nutrient-dense foods, including whole grains, lean proteins, fruits, and vegetables, and aim for frequent, smaller meals to increase calorie intake. Incorporate calorie-dense foods such as nuts, nut butter, avocados, and healthy oils into your diet. Engaging in regular strength training exercises can help build muscle mass. It's crucial to monitor your progress and regularly follow up with healthcare professionals to ensure you're on the right track and making healthy strides towards achieving a balanced weight.";
+      } else if (bmi < 18.5) {
+        return "Ensure you're consuming enough calories to meet your daily energy needs. Focus on nutrient-dense foods to support healthy weight gain. Consider incorporating resistance training exercises to build muscle mass.";
+      } else if (bmi >= 18.5 && bmi <= 24.9) {
+        return "Maintain a balanced and nutritious diet. Engage in regular physical activity to stay active and maintain overall health. Practice portion control and avoid excessive calorie intake.";
+      } else if (bmi >= 25 && bmi <= 29.9) {
+        return "Aim for gradual and sustainable weight loss through a combination of diet and exercise. Choose whole foods, lean proteins, fruits, vegetables, and whole grains. Increase your physical activity level, incorporating both cardiovascular exercises and strength training.";
+      } else if (bmi >= 30 && bmi <= 34.9) {
+        return "Seek guidance from a healthcare professional or a registered dietitian for personalized weight loss strategies. Focus on portion control and reducing calorie intake. Engage in regular exercise to promote weight loss and improve overall fitness.";
+      } else if (bmi >= 35 && bmi <= 39.9) {
+        return "Consult with a healthcare professional to develop a comprehensive weight loss plan. Consider medical interventions or weight loss surgery, depending on individual circumstances. Implement lifestyle changes, including diet modifications and increased physical activity, under professional supervision.";
+      } else {
+        return "Consult with a healthcare professional to develop a comprehensive weight loss plan. Consider medical interventions or weight loss surgery, depending on individual circumstances. Implement lifestyle changes, including diet modifications and increased physical activity, under professional supervision.";
+      }
+    }
+
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Padding(
-        padding: EdgeInsets.all(0.5),
+        padding: const EdgeInsets.all(0.5),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            SizedBox(height: 13),
+            const SizedBox(height: 13),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -51,10 +117,10 @@ class _healthscore_dataState extends State<healthscore_data> {
                 IconButton(
                     onPressed: () {
                       Navigator.of(context).pop(MaterialPageRoute(
-                          builder: (context) => score_tracker()));
+                          builder: (context) => const score_tracker()));
                     },
-                    icon: Icon(Icons.arrow_back)),
-                SizedBox(width: 7.5),
+                    icon: const Icon(Icons.arrow_back)),
+                const SizedBox(width: 7.5),
                 Container(
                   child: Text('Calculate your Health score',
                       style: GoogleFonts.poppins(
@@ -75,13 +141,13 @@ class _healthscore_dataState extends State<healthscore_data> {
                 ),
               ],
             ),
-            SizedBox(height: 5),
+            const SizedBox(height: 5),
 
             Padding(
               padding: EdgeInsets.fromLTRB(
                   size.width * 0.12, 0, size.width * 0.12, 0),
               child: TextFormField(
-                keyboardType: TextInputType.emailAddress,
+                keyboardType: TextInputType.number,
                 controller: weightcontroller,
                 decoration: const InputDecoration(
                   // labelText: "Weight",
@@ -146,13 +212,13 @@ class _healthscore_dataState extends State<healthscore_data> {
                 ),
               ],
             ),
-            SizedBox(height: 5),
+            const SizedBox(height: 5),
 
             Padding(
               padding: EdgeInsets.fromLTRB(
                   size.width * 0.12, 0, size.width * 0.12, 0),
               child: TextFormField(
-                keyboardType: TextInputType.emailAddress,
+                keyboardType: TextInputType.number,
                 controller: heightcontroller,
                 decoration: const InputDecoration(
                   // labelText: "Height",
@@ -213,7 +279,7 @@ class _healthscore_dataState extends State<healthscore_data> {
                 InkWell(
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => final_healthscore()));
+                        builder: (context) => const final_healthscore()));
                   },
                   child: Container(
                     height: size.height * 0.06875,
@@ -239,7 +305,7 @@ class _healthscore_dataState extends State<healthscore_data> {
               children: [
                 SizedBox(width: size.width * 0.0975),
                 Text(
-                  'Convert',
+                  'BMI Score',
                   style: GoogleFonts.poppins(
                       fontSize: 16, fontWeight: FontWeight.w500),
                 ),
@@ -250,41 +316,33 @@ class _healthscore_dataState extends State<healthscore_data> {
             ),
 
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                SizedBox(width: 39),
-                Container(
-                  padding: EdgeInsets.only(left: 13),
-                  height: size.height * 0.06875,
-                  width: size.width * 0.31,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Row(
-                        children: [
-                          Text(
-                            'Enter value',
-                            style: GoogleFonts.poppins(
-                              fontSize: 10,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.black.withOpacity(0.45),
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: () {},
-                            icon: Icon(Icons.arrow_downward_sharp),
-                            iconSize: 20,
-                          ),
-                        ],
-                      )
-                    ],
+              // const SizedBox(width: 39),
+              Container(
+                padding: const EdgeInsets.only(left: 0),
+                height: size.height * 0.06875,
+                width: size.width * 0.31,
+                decoration: BoxDecoration(
+                    border: Border.all(color: colorPrimary),
+                    borderRadius: BorderRadius.circular(50),
+                    color: Colors.white),
+                child: Center(
+                  child: Text(
+                    BMI().toString() == '10000.0'
+                        ? 'Enter values'
+                        : BMI().toString(),
+                    style: GoogleFonts.poppins(
+                      fontSize: 17,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black.withOpacity(0.45),
+                      // color: Colors.black
+                    ),
                   ),
-                  decoration: BoxDecoration(
-                      border: Border.all(color: colorPrimary),
-                      borderRadius: BorderRadius.circular(50),
-                      color: Colors.white),
                 ),
-              ])
-            ])
+              ),
+            ]),
+            Column(
+              children: [Text(getBMIStatus()), Text(getBMITips())],
+            )
 
             //     Container(
             //       child: Padding(

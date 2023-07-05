@@ -35,6 +35,15 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
+  late data.Data _profile;
+  String? fname;
+
+  Future getProfile() async {
+    // print('HELLO');
+    _profile = await Profiles().getProfileData();
+    // print(_profile);
+  }
+
   var items = [
     'Male',
     'Female',
@@ -55,6 +64,22 @@ class _EditProfileState extends State<EditProfile> {
   TextEditingController heightcontroller = TextEditingController();
 
   @override
+  void initState() {
+    getProfile().then((_) {
+      usercontroller.text = _profile.fName ?? '';
+      dobcontroller.text = _profile.dob ?? '';
+      emailcontroller.text = _profile.email ?? '';
+      gendercontroller.text = _profile.gender ?? '';
+      weightcontroller.text =
+          _profile.weight.toString() ?? ''; // Set the desired initial value
+      heightcontroller.text =
+          _profile.height.toString() ?? ''; // Set the desired initial value
+      // Set other text controller values...
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     double sizefont = size.width * 0.05;
@@ -63,7 +88,7 @@ class _EditProfileState extends State<EditProfile> {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
+          physics: NeverScrollableScrollPhysics(),
           child: Form(
             key: _formkey,
             autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -113,15 +138,15 @@ class _EditProfileState extends State<EditProfile> {
                         keyboardType: TextInputType.emailAddress,
                         controller: usercontroller,
                         decoration: const InputDecoration(
-                          labelText: "User Name",
-                          hintText: 'Enter your new username',
-                          border: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(50))),
-                          prefixIcon: Icon(Icons.person),
-                          fillColor: Colors.white,
-                          filled: true,
-                        ),
+                            labelText: "User Name",
+                            hintText: 'Enter your new username',
+                            border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(50))),
+                            prefixIcon: Icon(Icons.person),
+                            fillColor: Colors.white,
+                            filled: true,
+                            suffixIcon: Icon(Icons.edit)),
                         validator: MultiValidator(
                             [RequiredValidator(errorText: "    " '*Required')]),
                       ),
@@ -132,15 +157,15 @@ class _EditProfileState extends State<EditProfile> {
                         keyboardType: TextInputType.emailAddress,
                         controller: emailcontroller,
                         decoration: const InputDecoration(
-                          labelText: "Email",
-                          hintText: 'Enter your email',
-                          border: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(50))),
-                          prefixIcon: Icon(Icons.email),
-                          fillColor: Colors.white,
-                          filled: true,
-                        ),
+                            labelText: "Email",
+                            hintText: 'Enter your email',
+                            border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(50))),
+                            prefixIcon: Icon(Icons.email),
+                            fillColor: Colors.white,
+                            filled: true,
+                            suffixIcon: Icon(Icons.edit)),
                         validator: MultiValidator([
                           EmailValidator(
                               errorText:
@@ -167,6 +192,7 @@ class _EditProfileState extends State<EditProfile> {
                                         BorderRadius.all(Radius.circular(50))),
                                 fillColor: Colors.white,
                                 filled: true,
+                                // suffixIcon: Icon(Icons.edit)
                               ),
                               readOnly: true,
                               //set it true, so that user will not able to edit text
@@ -206,9 +232,12 @@ class _EditProfileState extends State<EditProfile> {
                                 border: OutlineInputBorder(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(50))),
-                                // prefixIcon: Icon(Icons.female),
+                                prefixIcon: Icon(
+                                  Icons.person,
+                                ),
                                 fillColor: Colors.white,
                                 filled: true,
+                                // suffixIcon: Icon(Icons.edit)
                               ),
                               validator: MultiValidator([
                                 RequiredValidator(errorText: "    " '*Required')
@@ -229,6 +258,7 @@ class _EditProfileState extends State<EditProfile> {
                                 controller: heightcontroller,
                                 decoration: const InputDecoration(
                                   labelText: "Height",
+                                  suffixIcon: Icon(Icons.edit),
                                   hintText: 'Enter your number',
                                   border: OutlineInputBorder(
                                       borderRadius: BorderRadius.all(
@@ -263,6 +293,7 @@ class _EditProfileState extends State<EditProfile> {
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(50))),
                                   prefixIcon: Icon(Icons.boy),
+                                  suffixIcon: Icon(Icons.edit),
                                   fillColor: Colors.white,
                                   filled: true,
                                 ),

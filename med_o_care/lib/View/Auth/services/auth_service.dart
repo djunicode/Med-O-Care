@@ -42,6 +42,7 @@ class AuthService {
     if (response.statusCode == 201) {
       final token = json.decode(response.body)['token'];
       currentUser = user.fromMap(json.decode(response.body)['data']);
+      print(response.statusCode);
       log(token);
       await saveAuthToken(token);
       return true;

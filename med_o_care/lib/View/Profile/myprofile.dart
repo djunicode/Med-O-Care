@@ -48,13 +48,8 @@ class _MyProfileState extends State<MyProfile> {
                 future: getProfile(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      ],
+                    return Center(
+                      child: CircularProgressIndicator(),
                     );
                   } else {
                     return SizedBox(
@@ -286,7 +281,7 @@ class _MyProfileState extends State<MyProfile> {
                                       borderRadius: BorderRadius.circular(50),
                                       color: Colors.white),
                                   child: Center(
-                                    child: Text(_profile!.weight.toString(),
+                                    child: Text("${_profile!.weight}  kg",
                                         style: GoogleFonts.poppins(
                                           // fontSize: 15,
                                           fontSize: sizefont * 0.85,
@@ -305,7 +300,7 @@ class _MyProfileState extends State<MyProfile> {
                                       borderRadius: BorderRadius.circular(50),
                                       color: Colors.white),
                                   child: Center(
-                                    child: Text(_profile!.height.toString(),
+                                    child: Text("${_profile!.height} cm",
                                         style: GoogleFonts.poppins(
                                           // fontSize: 15,
                                           fontSize: sizefont * 0.85,
