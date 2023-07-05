@@ -3,8 +3,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hive/hive.dart';
+import 'package:intl/intl.dart';
 import 'package:med_o_care/Constant/colors.dart';
 import 'package:med_o_care/View/Reminders/models/take.dart';
+
+import 'models/notification.dart';
 
 const List<String> list = <String>[
   'MONDAY',
@@ -15,7 +18,8 @@ const List<String> list = <String>[
   'SATURDAY',
   'SUNDAY'
 ];
-int _selectedindex=0;
+int _selectedindex = 0;
+
 class TakePill extends StatefulWidget {
   const TakePill({super.key});
 
@@ -63,165 +67,245 @@ class _TakePillState extends State<TakePill> {
         child: SafeArea(
           child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-              child:
-                  Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Image.asset(
-                      "assets/images/med-o-care.png",
-                      height: 65,
-                      width: 65,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Image.asset(
+                          "assets/images/med-o-care.png",
+                          height: 65,
+                          width: 65,
+                        ),
+                        IconButton(
+                            onPressed: () {},
+                            icon: SvgPicture.asset(
+                                "assets/icons/icon _menu_.svg"))
+                      ],
                     ),
-                    IconButton(
-                        onPressed: () {},
-                        icon: SvgPicture.asset("assets/icons/icon _menu_.svg"))
-                  ],
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                const Padding(
-                  padding: EdgeInsets.only(left: 38.0),
-                  child: Text(
-                    'Set Reminder',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                const SizedBox(
-                  height: 14,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: TextFormField(
-                    keyboardType: TextInputType.emailAddress,
-                    controller: title,
-                    decoration: const InputDecoration(
-                      labelText: "Title",
-                      hintText: 'Enter title ',
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(50))),
-                      prefixIcon: Icon(Icons.email),
-                      fillColor: Colors.white,
-                      filled: true,
+                    const SizedBox(
+                      height: 20,
                     ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 14,
-                ),
-                Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: GestureDetector(
-                      onTap: _show,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            "Timer",
-                            style: TextStyle(fontSize: 20, color: Colors.grey),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Row(
+                    Row(
+                      children: [
+                        IconButton(
+                            onPressed: Navigator.of(context).pop,
+                            icon: const Icon(Icons.arrow_back)),
+                        const Text(
+                          'Set Reminder',
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 14,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: TextFormField(
+                        keyboardType: TextInputType.emailAddress,
+                        controller: title,
+                        decoration: const InputDecoration(
+                          labelText: "Title",
+                          hintText: 'Enter title ',
+                          border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(50))),
+                          prefixIcon: Icon(Icons.email),
+                          fillColor: Colors.white,
+                          filled: true,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 14,
+                    ),
+                    Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: GestureDetector(
+                          onTap: _show,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Container(
-                                height: 80,
-                                width: 80,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    color: Colors.white),
-                                child: Center(
-                                  child: Text(
-                                    _selectedhour!,
-                                    style: const TextStyle(
-                                        fontSize: 40,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
+                              const Text(
+                                "Timer",
+                                style:
+                                    TextStyle(fontSize: 20, color: Colors.grey),
                               ),
                               const SizedBox(
-                                width: 15,
+                                height: 10,
                               ),
-                              Container(
-                                height: 80,
-                                width: 80,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    color: Colors.white),
-                                child: Center(
-                                  child: Text(
-                                    _selectedmin!,
-                                    style: const TextStyle(
-                                        fontSize: 40,
-                                        fontWeight: FontWeight.bold),
+                              Row(
+                                children: [
+                                  Container(
+                                    height: 80,
+                                    width: 80,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(20),
+                                        color: Colors.white),
+                                    child: Center(
+                                      child: Text(
+                                        _selectedhour!,
+                                        style: const TextStyle(
+                                            fontSize: 40,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 15,
-                              ),
-                              Container(
-                                height: 80,
-                                width: 80,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    color: Colors.white),
-                                child: Center(
-                                  child: Text(
-                                    _selectedphase!,
-                                    style: const TextStyle(
-                                        fontSize: 40,
-                                        fontWeight: FontWeight.bold),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Container(
+                                          height: 10,
+                                          width: 10,
+                                          decoration: BoxDecoration(
+                                              color: Colors.black,
+                                              borderRadius:
+                                                  BorderRadius.circular(5)),
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        Container(
+                                          height: 10,
+                                          width: 10,
+                                          decoration: BoxDecoration(
+                                              color: Colors.black,
+                                              borderRadius:
+                                                  BorderRadius.circular(5)),
+                                        )
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 15,
+                                  Container(
+                                    height: 80,
+                                    width: 80,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(20),
+                                        color: Colors.white),
+                                    child: Center(
+                                      child: Text(
+                                        _selectedmin!,
+                                        style: const TextStyle(
+                                            fontSize: 40,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 15,
+                                  ),
+                                  Container(
+                                    height: 80,
+                                    width: 80,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(20),
+                                        color: Colors.white),
+                                    child: Center(
+                                      child: Text(
+                                        _selectedphase!,
+                                        style: const TextStyle(
+                                            fontSize: 40,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 15,
+                                  ),
+                                ],
                               ),
                             ],
                           ),
-                        ],
-                      ),
-                    )),
-                const SizedBox(height: 15),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    const Text('Everyday?',style: TextStyle(color: ResourceColors.colorPrimaryLightTheme),),
-                    Checkbox(
-                      value: checked,
-                      onChanged: (bool? value) {
-                        setState(() {
-                          checked = value!;
-                        });
-                      },
-                      checkColor: Colors.blue,
+                        )),
+                    const SizedBox(height: 15),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          child: Text(
+                            DateFormat.yMMMMd()
+                                .format(DateTime.now())
+                                .toString(),
+                            style: TextStyle(
+                                color: Colors.grey[500], fontSize: 17),
+                          ),
+                        ),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              const Text(
+                                'Everyday?',
+                                style: TextStyle(
+                                    color:
+                                        ResourceColors.colorPrimaryLightTheme),
+                              ),
+                              Checkbox(
+                                value: checked,
+                                onChanged: (bool? value) {
+                                  setState(() {
+                                    checked = value!;
+                                  });
+                                },
+                                checkColor: Colors.blue,
+                              ),
+                            ])
+                      ],
                     ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                Container(
-                  height: 50,
-                  width: 340,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(40),
-                      color: const Color.fromARGB(255, 169, 202, 230)
-                          .withOpacity(0.6)),
-                  child: const Center(child: selectDay()),
-                ),
-                ElevatedButton(
-                    onPressed: () {
-                      TakeReminder reminder = TakeReminder(list.elementAt(_selectedindex),
-                          checked, convertTimeOfDayToDateTime(result!), title.text.toString());
-                      box.add(reminder);
-                      Navigator.pop(context);
-                    },
-                    child: const Text("ADD REMINDER"))
-              ])),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    Container(
+                      height: 50,
+                      width: 340,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(40),
+                          color: const Color.fromARGB(255, 169, 202, 230)
+                              .withOpacity(0.6)),
+                      child: const Center(child: selectDay()),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Center(
+                        child: InkWell(
+                            onTap: () {
+                              TakeReminder reminder = TakeReminder(
+                                  list.elementAt(_selectedindex),
+                                  checked,
+                                  convertTimeOfDayToDateTime(result!),
+                                  title.text.toString());
+                              box.add(reminder);
+                              //int id = box.get(reminder);
+                              int id = 0;
+                              createTakePillNotification(
+                                  title.text.toString(),
+                                  convertTimeOfDayToDateTime(result!),
+                                  list.elementAt(_selectedindex),
+                                  checked,
+                                  id);
+                              Navigator.pop(context);
+                            },
+                            child: Container(
+                                height: 45,
+                                width: 150,
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFF537FE7),
+                                  borderRadius: BorderRadius.circular(50),
+                                ),
+                                child: const Center(
+                                  child: Text("ADD REMINDER",
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 16)),
+                                ))),
+                      ),
+                    )
+                  ])),
         ),
       ),
     );
@@ -262,6 +346,7 @@ class _selectDayState extends State<selectDay> {
     );
   }
 }
+
 DateTime convertTimeOfDayToDateTime(TimeOfDay timeOfDay) {
   final now = DateTime.now();
   return DateTime(
