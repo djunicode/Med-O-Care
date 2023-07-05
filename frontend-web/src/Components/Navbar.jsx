@@ -15,13 +15,14 @@ import logo from "../Assets/logo.png";
 import { useNavigate } from "react-router-dom";
 import AccountPage from "../Pages/Home/AccountPage";
 import { useApp } from "../Context/app-context";
+import { AdvancedImage } from "@cloudinary/react";
+import CloudinaryImageTransformations from "./Cloudinary/CloudinaryImageTransformations";
 
 function Navbar() {
   const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [open, setOpen] = React.useState(false);
   const { currentUser } = useApp();
-  console.log(currentUser)
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -105,7 +106,12 @@ function Navbar() {
             </Typography>
 
             {/* when shrunk links */}
-            <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+            <Box
+              sx={{
+                flexGrow: 1,
+                display: { xs: "flex", md: "none" },
+              }}
+            >
               <IconButton
                 size="large"
                 aria-label="account of current user"
@@ -146,7 +152,7 @@ function Navbar() {
                 ))}
 
                 {currentUser?.email && (
-                  <>
+                  <div>
                     <MenuItem
                       onClick={() => {
                         handleCloseNavMenu("signup");
@@ -161,7 +167,7 @@ function Navbar() {
                     >
                       <Typography textAlign="center">Login </Typography>
                     </MenuItem>
-                  </>
+                  </div>
                 )}
               </Menu>
             </Box>
@@ -174,7 +180,12 @@ function Navbar() {
                   onClick={() => {
                     handleCloseNavMenu(page);
                   }}
-                  sx={{ my: 2, display: "block", color: "black", mr: 4 }}
+                  sx={{
+                    my: 2,
+                    display: "block",
+                    color: "black",
+                    mr: 4,
+                  }}
                 >
                   {page}
                 </Button>
@@ -195,7 +206,10 @@ function Navbar() {
                     }}
                   >
                     <Button
-                      sx={{ display: "block", color: "white" }}
+                      sx={{
+                        display: "block",
+                        color: "white",
+                      }}
                       onClick={() => {
                         handleCloseNavMenu("signup");
                       }}
@@ -226,14 +240,25 @@ function Navbar() {
             {currentUser?.email && (
               <Tooltip title="My accounts">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="avatar" src="/static/images/avatar/2.jpg" />
+                  <Avatar size={"sm"}>
+                    <AdvancedImage
+                      cldImg={CloudinaryImageTransformations(
+                        currentUser.pfpPublicID,
+                        "profilePic",
+                        50,
+                        50
+                      )}
+                    />
+                  </Avatar>
                 </IconButton>
               </Tooltip>
             )}
           </Toolbar>
         </Container>
       </AppBar>
-      {open && <AccountPage open={open} close={handleCloseUserMenu} />}
+      {currentUser && open && (
+        <AccountPage open={open} close={handleCloseUserMenu} />
+      )}
     </>
   );
 }

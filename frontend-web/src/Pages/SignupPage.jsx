@@ -1,22 +1,23 @@
-import React, { useEffect, useState } from 'react'
-import { Grid, TextField, Typography, Button } from '@mui/material';
-import logo from '../Assets/logo.png';
-import doctor from '../Assets/doctor.png';
-import medicine from '../Assets/medicine.png';
-import medocare from '../Assets/medocare.png';
-import InputAdornment from '@mui/material/InputAdornment';
-import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
-import MailOutlineIcon from '@mui/icons-material/MailOutline';
-import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import MenuItem from '@mui/material/MenuItem';
-import IconButton from '@mui/material/IconButton';
+import React, { useEffect, useState } from "react";
+import { Grid, TextField, Typography, Button } from "@mui/material";
+import logo from "../Assets/logo.png";
+import doctor from "../Assets/doctor.png";
+import medicine from "../Assets/medicine.png";
+import medocare from "../Assets/medocare.png";
+import InputAdornment from "@mui/material/InputAdornment";
+import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
+import MailOutlineIcon from "@mui/icons-material/MailOutline";
+import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import MenuItem from "@mui/material/MenuItem";
+import IconButton from "@mui/material/IconButton";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { setupAuthHeaderForNetworkCalls } from "../Services/SetupAuthHeaders";
 import { useApp } from "../Context/app-context";
-import './SignUpPage.css';
+import "./SignUpPage.css";
+import { FilePondComponent } from "../Components/FilePond/FilePondUploadComponent";
 
 const genders = ["Male", "Female", "Other"];
 
@@ -41,20 +42,48 @@ const initialState = {
 };
 
 const SignupPage = () => {
-
-    
+    const [
+        isPictureOnlySelectedAndNotUploaded,
+        setIsPictureOnlySelectedAndNotUploaded,
+    ] = useState(false);
+    const [files, setFiles] = useState([]);
     const [formData, setFormData] = useState(initialState);
-
     const [emailErr, setEmailErr] = useState(false);
     const [pwdError, setPwdError] = useState(false);
     const [phoneError, setPhoneError] = useState(false);
     const [confirmPasswordError, setConfirmPasswordError] = useState(false);
     const [showPwd, setShowPwd] = useState(false);
+    const [profilePic, setProfilePic] = useState({
+        public_id: "",
+        signature: "",
+        version: "",
+    });
+
+    useEffect(() => {
+        console.log(profilePic);
+    }, [profilePic]);
 
     const handleClickShowPassword = () => setShowPwd((show) => !show);
 
     const navigate = useNavigate();
     const { setCurrentUser, setUserToken } = useApp();
+
+    const setProfilePicLogic = (cloudinaryObject) => {
+        setProfilePic({
+            ...profilePic,
+            public_id: cloudinaryObject.public_id,
+            signature: cloudinaryObject.signature,
+            version: cloudinaryObject.version,
+        });
+    };
+
+    const deleteProfilePicLogic = () => {
+        setProfilePic({
+            public_id: "",
+            signature: "",
+            version: "",
+        });
+    };
 
     useEffect(() => {
         if (localStorage.getItem("isAuthorized")) {
@@ -90,32 +119,41 @@ const SignupPage = () => {
             !confirmPasswordError
         ) {
             try {
-                const {
-                    data: { token, data, success },
-                } = await axios.post(
-                    `${process.env.REACT_APP_API_ENDPOINT}/user/signup`,
-                    {
-                        email: formData.email,
-                        fName: formData.name.split(" ")[0],
-                        lName: formData.name.split(" ")[1],
-                        phone: formData.phone,
-                        dob: formData.dob,
-                        gender: formData.gender,
-                        location: formData.location,
-                        password: formData.password,
-                    },
-                    { withCredentials: true }
-                );
+                if (isPictureOnlySelectedAndNotUploaded) {
+                    console.log("1");
+                    alert("Please upload!!!");
+                } else {
+                    const {
+                        data: { token, data, success },
+                    } = await axios.post(
+                        `${process.env.REACT_APP_API_ENDPOINT}/user/signup`,
+                        {
+                            email: formData.email,
+                            fName: formData.name.split(" ")[0],
+                            lName: formData.name.split(" ")[1],
+                            phone: formData.phone,
+                            dob: formData.dob,
+                            gender: formData.gender,
+                            location: formData.location,
+                            password: formData.password,
+                            pfpPublicID: profilePic.public_id,
+                        },
+                        { withCredentials: true }
+                    );
 
-                if (success) {
-                    setupAuthHeaderForNetworkCalls(token);
-                    setUserToken(token);
-                    localStorage.setItem("userToken", token);
-                    setCurrentUser(data);
-                    localStorage.setItem("currentUser", JSON.stringify(data));
-                    localStorage.setItem("isAuthorized", true);
-                    navigate("/");
-                    // add toasts and feedback for backend errors
+                    if (success) {
+                        setupAuthHeaderForNetworkCalls(token);
+                        setUserToken(token);
+                        localStorage.setItem("userToken", token);
+                        setCurrentUser(data);
+                        localStorage.setItem(
+                            "currentUser",
+                            JSON.stringify(data)
+                        );
+                        localStorage.setItem("isAuthorized", true);
+                        navigate("/");
+                        // add toasts and feedback for backend errors
+                    }
                 }
             } catch (error) {
                 console.log(error.response?.data.error);
@@ -124,9 +162,9 @@ const SignupPage = () => {
     };
 
     return (
-        <div class='signup-container'>
-            <div class='signup-box'>
-                <div class='signup-div'>
+        <div class="signup-container">
+            <div class="signup-box">
+                <div class="signup-div">
                     <Typography sx={{ marginLeft: 2, fontSize: "large" }}>
                         Email
                     </Typography>
@@ -164,7 +202,7 @@ const SignupPage = () => {
                     )}
                 </div>
 
-                <div class='signup-div'>
+                <div class="signup-div">
                     <Typography sx={{ marginLeft: 2, fontSize: "large" }}>
                         Name
                     </Typography>
@@ -191,7 +229,7 @@ const SignupPage = () => {
                         }}
                     />
                 </div>
-                <div class='signup-div'>
+                <div class="signup-div">
                     <Typography sx={{ marginLeft: 2, fontSize: "large" }}>
                         Phone number
                     </Typography>
@@ -226,8 +264,8 @@ const SignupPage = () => {
                         </Typography>
                     )}
                 </div>
-                <div class='dob-gender-grid'>
-                    <div id='signup-dob'>
+                <div class="dob-gender-grid">
+                    <div id="signup-dob">
                         <Typography sx={{ marginLeft: 2, fontSize: "large" }}>
                             Date of Birth
                         </Typography>
@@ -251,7 +289,7 @@ const SignupPage = () => {
                             }}
                         />
                     </div>
-                    <div id='signup-gender'>
+                    <div id="signup-gender">
                         <Typography sx={{ marginLeft: 2, fontSize: "large" }}>
                             Gender
                         </Typography>
@@ -283,7 +321,7 @@ const SignupPage = () => {
                         </TextField>
                     </div>
                 </div>
-                <div class='signup-div'>
+                <div class="signup-div">
                     <Typography sx={{ marginLeft: 2, fontSize: "large" }}>
                         Location
                     </Typography>
@@ -314,7 +352,7 @@ const SignupPage = () => {
                         ))}
                     </TextField>
                 </div>
-                <div class='signup-div'>
+                <div class="signup-div">
                     <Typography sx={{ marginLeft: 2, fontSize: "large" }}>
                         Password
                     </Typography>
@@ -363,7 +401,7 @@ const SignupPage = () => {
                         </Typography>
                     )}
                 </div>
-                <div class='signup-div'>
+                <div class="signup-div">
                     <Typography sx={{ marginLeft: 2, fontSize: "large" }}>
                         Confirm Password
                     </Typography>
@@ -412,30 +450,51 @@ const SignupPage = () => {
                         </Typography>
                     )}
                 </div>
-                <Grid container justifyContent='center'>
-                        <Button id='signup-btn'
-                        variant='contained'
-                            onClick={handleSubmit}
-                        >
-                            Signup
-                        </Button>
+                <div className="signupPageFilePondDiv">
+                    <FilePondComponent
+                        publicIdOfFileToBeUploaded={profilePic}
+                        setpublicIdOfFileToBeUploaded={setProfilePicLogic}
+                        deleteLogic={deleteProfilePicLogic}
+                        doYouWantCustomPublicId={false}
+                        setIsFileOnlySelectedAndNotUploaded={
+                            setIsPictureOnlySelectedAndNotUploaded
+                        }
+                        files={files}
+                        setFiles={setFiles}
+                        acceptedFileType={["image/*"]}
+                        allowMultiple={false}
+                    />
+                </div>
+                <Grid container justifyContent="center">
+                    <Button
+                        id="signup-btn"
+                        variant="contained"
+                        onClick={handleSubmit}
+                    >
+                        Signup
+                    </Button>
                 </Grid>
-                <Grid container justifyContent='center'>
-                    <Typography>Already have an account?<Button onClick={() => navigate='/login'}>LogIn</Button></Typography>
+                <Grid container justifyContent="center">
+                    <Typography>
+                        Already have an account?
+                        <Button onClick={() => navigate("/login")}>
+                            LogIn
+                        </Button>
+                    </Typography>
                 </Grid>
             </div>
-            <div class='signup-images'>
+            <div class="signup-images">
                 <div>
-                    <img id='logo-image' src={logo} alt="" />
+                    <img id="logo-image" src={logo} alt="" />
                 </div>
                 <div>
-                    <img id='doctor-image' src={doctor} alt="" />
+                    <img id="doctor-image" src={doctor} alt="" />
                 </div>
                 <div>
-                    <img id='medicine-image' src={medicine} alt="" />
+                    <img id="medicine-image" src={medicine} alt="" />
                 </div>
                 <div>
-                    <img id='medocare-image' src={medocare} alt="" />
+                    <img id="medocare-image" src={medocare} alt="" />
                 </div>
             </div>
         </div>

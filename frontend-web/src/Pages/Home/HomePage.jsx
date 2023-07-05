@@ -2,20 +2,17 @@ import { Grid, Typography, Card, Box } from "@mui/material";
 import YouTube from "react-youtube";
 import "./Home.css";
 import CircularProgress from "@mui/material/CircularProgress";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useApp } from "../../Context/app-context";
-// var getYouTubeID = require("get-youtube-id");
+import CardCarousel from "./CardCarousel";
 
 export default function HomePage() {
-  const { currentUser } = useApp();
+  const { exerciseData } = useApp();
   const [isLoading, setIsLoading] = useState(true);
-  const [isLoadingExcersise,setIsLoadingExcersise] = useState(true)
+  const [isLoadingExcersise, setIsLoadingExcersise] = useState(true);
   const [excercise, setExcercise] = useState([]);
   const opts = {
-    height: "300",
-    width: "400",
     playerVars: {
-      // https://developers.google.com/youtube/player_parameters
       autoplay: 0,
     },
   };
@@ -23,32 +20,14 @@ export default function HomePage() {
     setIsLoading(false);
   };
 
-  const gettingExerciseData = async () => {
-    const resp = await fetch(
-      `${process.env.REACT_APP_API_ENDPOINT}/exercise/allExercises`,
-      {
-        method: "GET",
-      }
-    );
-    if(resp.status===200){
-      const respINJSON = await resp.json();
-      setIsLoadingExcersise(false)
-      setExcercise(respINJSON.data);
-    }
-  };
-
-  useEffect(() => {
-    gettingExerciseData();
-  }, []);
-
   const getRandomIndex = () => {
     return Math.floor(Math.random() * 1325);
   };
 
   return (
     <div>
-      <div style={{ marginBottom: "20px" }}>
-        <div sx={{ marginLeft: 5 }}>
+      <div class="buy-med-container">
+        <div id="buy-title">
           <Typography
             variant="h6"
             sx={{ color: "#537FE7", fontWeight: "bold" }}
@@ -56,38 +35,42 @@ export default function HomePage() {
             Buy medicines from..
           </Typography>
         </div>
-        <div sx={{ margin: 5 }}>{/* <CardCarousel/> */}</div>
+        <div id="medicine-carousel">
+          <CardCarousel />
+        </div>
       </div>
 
-      <Typography
-        variant="h6"
-        sx={{
-          color: "#537FE7",
-          fontWeight: "bold",
-          marginBottom: 3,
-          textAlign: "center",
-        }}
-      >
-        Mindful exercise:
-      </Typography>
+      <div class="buy-med-container">
+        <Typography
+          variant="h6"
+          sx={{
+            color: "#537FE7",
+            fontWeight: "bold",
+            // marginBottom: 3,
+            // textAlign: "center",
+          }}
+        >
+          Mindful exercise:
+        </Typography>
 
-      <div style={{ display: "flex", justifyContent: "center" }}>
-        {isLoading && <CircularProgress />}
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          {isLoading && <CircularProgress />}
+        </div>
       </div>
-
       <Grid container justifyContent="center">
         <YouTube
           height="100%"
           width="100%"
-          videoId="4A0-aTZpR8M"
+          videoId="7KSNmziMqog"
           opts={opts}
+          iframeClassName="youtube-exercise"
           onReady={(e) => {
             dealingWithYoutubeVideo(e);
           }}
         />
       </Grid>
 
-      <div style={{ display: "flex", justifyContent: "center" }}>
+      <div class="exercise-container">
         <Grid
           container
           spacing={{ xs: 2, md: 3 }}
@@ -95,7 +78,7 @@ export default function HomePage() {
           justifyContent="space-around"
           sx={{ pt: 3, pr: 5, pl: 5 }}
         >
-          {!isLoadingExcersise &&
+          {isLoadingExcersise &&
             Array.from(Array(6)).map((_, index) => {
               let i = getRandomIndex();
               return (
@@ -106,12 +89,18 @@ export default function HomePage() {
                       border: 2,
                       minWidth: "250px",
                       maxWidth: "350px",
-                      height: "480px",
+                      height: `${
+                        exerciseData[0]?.gifUrl ? `21rem` : `6.25rem`
+                      }`,
                     }}
                   >
                     <Box width={"100%"}>
-                      <Box top={0} left={0} bottom={0} right={0}>
-                        <img src={excercise[i]?.gifUrl} alt="excersise gif" />
+                      <Box top={0} left={0} bottom={0} right={0} sx={{ pl: 5 }}>
+                        <img
+                          src={exerciseData[i]?.gifUrl}
+                          alt="excersise gif"
+                          id="exercise-gif"
+                        />
                       </Box>
                     </Box>
 
@@ -122,21 +111,22 @@ export default function HomePage() {
                           fontWeight={"bold"}
                           display={"inline-block"}
                         >
-                          Body Part invloved:
+                          Body Part involved:
                         </Typography>
-                        {excercise[i]?.bodyPart}
+                        {exerciseData[i]?.bodyPart}
                       </Typography>
                     </Box>
 
                     <Box pl={3}>
                       <Typography>
-                        The excercise is called {excercise[i]?.name} & requires{" "}
+                        The exercise is called {exerciseData[i]?.name} &
+                        requires{" "}
                         <Typography
                           component={"span"}
                           fontStyle={"italic"}
                           display={"inline-block"}
                         >
-                          {excercise[i]?.equipment + "."}
+                          {exerciseData[i]?.equipment + "."}
                         </Typography>{" "}
                         It targets the{" "}
                         <Typography
@@ -144,7 +134,7 @@ export default function HomePage() {
                           fontStyle={"italic"}
                           display={"inline-block"}
                         >
-                          {excercise[i]?.target}
+                          {exerciseData[i]?.target}
                         </Typography>
                       </Typography>
                     </Box>
