@@ -144,8 +144,6 @@ const forgotPSWD = async (req, res) => {
       });
     }
 
-    const token = await signAccessToken(user._id);
-
     const otp = otpGenerator.generate(6, {
       lowerCaseAlphabets: false,
       upperCaseAlphabets: false,
@@ -162,8 +160,7 @@ const forgotPSWD = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      message: "OTP sent via mail",
-      token: token,
+      message: "OTP sent via mail"
     });
   } catch (err) {
     res.status(500).json({
@@ -177,12 +174,13 @@ const forgotPSWD = async (req, res) => {
 
 const verifyOTP = async (req, res) => {
   try {
+    const email = req.body.email
     const otp = req.body.otp;
     // const user = await UserSchema.find({ email: req.user.email });
 
     if (req.user.OTP == otp) {
       await UserSchema.findOneAndUpdate(
-        { email: req.user.email },
+        { email: email },
         { $set: { OTP: null } }
       );
 
