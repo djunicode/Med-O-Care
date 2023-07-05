@@ -160,7 +160,7 @@ const forgotPSWD = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      message: "OTP sent via mail"
+      message: "OTP sent via mail",
     });
   } catch (err) {
     res.status(500).json({
@@ -174,26 +174,29 @@ const forgotPSWD = async (req, res) => {
 
 const verifyOTP = async (req, res) => {
   try {
-    const email = req.body.email
+    const email = req.body.email;
     const otp = req.body.otp;
-    // const user = await UserSchema.find({ email: req.user.email });
+    const user = await UserSchema.findOne({ email: email }).select(
+      "-medicalFiles -medicalFileCount -insuranceFiles -insuranceFileCount -period_lastDay -period_how_long -period_mc_duration"
+    );
 
-    if (req.user.OTP == otp) {
+    if (user.OTP == otp) {
       await UserSchema.findOneAndUpdate(
         { email: email },
         { $set: { OTP: null } }
       );
 
-      const token = await signAccessToken(req.user._id);
+      const token = await signAccessToken(user._id);
 
       res.status(200).json({
         success: true,
         message: "OTP verified",
         token: token,
+        data: user,
       });
     } else {
       res.status(400).json({
-        success: true,
+        success: false,
         message: "Wrong OTP entered",
       });
     }
@@ -208,54 +211,53 @@ const verifyOTP = async (req, res) => {
 //edit user info
 
 const updateUser = async (req, res) => {
-  let email = req.user.email;
-  const updates = Object.keys(req.body);
-  const allowedUpdates = [
-    "fName",
-    "lName",
-    "location",
-    "dob",
-    "phone",
-    "gender",
-    "password",
-    "email",
-    "height",
-    "weight",
-    "health_score",
-    "period_dates",
-    "period_how_long",
-    "period_mc_duration",
-    "pill_reminder",
-  ];
-
-  const isValidOperation = updates.every((update) =>
-    allowedUpdates.includes(update)
-  );
-
-  if (!isValidOperation) {
-    return res.status(400).json({ message: "Invalid Updates!" });
-  }
-
-  // let user = await UserSchema.findOne({ email: email });
-
   try {
+    let email = req.user.email;
+    const updates = Object.keys(req.body);
+    const allowedUpdates = [
+      "fName",
+      "lName",
+      "location",
+      "dob",
+      "phone",
+      "gender",
+      "password",
+      "email",
+      "height",
+      "weight",
+      "health_score",
+      "period_dates",
+      "period_how_long",
+      "period_mc_duration",
+      "pill_reminder",
+    ];
+
+    const isValidOperation = updates.every((update) =>
+      allowedUpdates.includes(update)
+    );
+
+    if (!isValidOperation) {
+      return res.status(400).json({ message: "Invalid Updates!" });
+    }
+
+    // let user = await UserSchema.findOne({ email: email });
+
     await UserSchema.findOneAndUpdate({ email: email }, { $set: req.body });
-    let newPswd;
     if (req.body.password) {
-      const salt = await bcrypt.genSalt();
-      const hashedPassword = await bcrypt.hash(req.body.password, salt);
-      newPswd = await UserSchema.findOneAndUpdate(
+      const hashedPassword = bcrypt.hash(req.body.password, process.env.SALT);
+      await UserSchema.findOneAndUpdate(
         { email: email },
         { password: hashedPassword }
-      ).select(
-        "-medicalFiles -medicalFileCount -insuranceFiles -insuranceFileCount -period_lastDay -period_how_long -period_mc_duration -OTP"
-      );
+      )
     }
-    newPswd.password = null;
+
+    const withoutPSWD = await UserSchema.findOne({email :email}).select(
+      "-medicalFiles -medicalFileCount -insuranceFiles -insuranceFileCount -period_lastDay -period_how_long -period_mc_duration -OTP password"
+    );
 
     res.status(201).json({
       success: true,
-      data: pass,
+      data: withoutPSWD,
     });
   } catch (err) {
     res.status(500).json({
@@ -667,7 +669,6 @@ const medicineDosage = async (req, res) => {
     });
   }
 };
-
 
 module.exports = {
   createUser,
