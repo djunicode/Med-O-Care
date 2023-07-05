@@ -49,11 +49,11 @@ const OTPPage = () => {
                     {
                         otp: Number(
                             otpValues.first +
-                                otpValues.second +
-                                otpValues.third +
-                                otpValues.fourth +
-                                otpValues.fifth +
-                                otpValues.sixth
+                            otpValues.second +
+                            otpValues.third +
+                            otpValues.fourth +
+                            otpValues.fifth +
+                            otpValues.sixth
                         ),
                     },
                     { withCredentials: true }
@@ -93,12 +93,10 @@ const OTPPage = () => {
                 <br></br>
                 Enter the OTP received on your email address.
                 <br></br>
-                <div class="otp-grid-container1">
-                    <div id="eotp" style={{ marginLeft: "8rem" }}>
-                        <label>
-                            <b>Enter OTP</b>
-                        </label>
-                    </div>
+                <div id="eotp" >
+                    <label class="label">
+                        <b>Enter OTP</b>
+                    </label>
                 </div>
                 <div id="box" style={{ marginBottom: "1rem" }}>
                     <TextField
@@ -106,6 +104,7 @@ const OTPPage = () => {
                             width: 65,
                             height: 50,
                             padding: 0.3,
+                            marginBottom: '40px',
                         }}
                         type="number"
                         onChange={(e) =>
@@ -130,6 +129,7 @@ const OTPPage = () => {
                             width: 65,
                             height: 50,
                             padding: 0.3,
+                            marginBottom: '40px',
                         }}
                         type="number"
                         onChange={(e) =>
@@ -154,6 +154,7 @@ const OTPPage = () => {
                             width: 65,
                             height: 50,
                             padding: 0.3,
+                            marginBottom: '40px',
                         }}
                         type="number"
                         onChange={(e) =>
@@ -178,6 +179,7 @@ const OTPPage = () => {
                             width: 65,
                             height: 50,
                             padding: 0.3,
+                            marginBottom: '20px',
                         }}
                         type="number"
                         onChange={(e) =>
@@ -202,6 +204,7 @@ const OTPPage = () => {
                             width: 65,
                             height: 50,
                             padding: 0.3,
+                            marginBottom: '20px',
                         }}
                         type="number"
                         onChange={(e) =>
@@ -226,6 +229,7 @@ const OTPPage = () => {
                             width: 65,
                             height: 50,
                             padding: 0.3,
+                            marginBottom: '20px',
                         }}
                         type="number"
                         onChange={(e) =>
@@ -253,10 +257,9 @@ const OTPPage = () => {
                             style={{
                                 color: "rgba(0, 0, 0, 0.35)",
                                 textDecoration: "none",
-                                marginLeft: "12rem",
                             }}
                         >
-                            Resend OTP
+                            <label class="label">Resend OTP</label>
                         </Link>
                     </div>
                 </div>
@@ -271,8 +274,8 @@ const OTPPage = () => {
                 </Button>
             </div>
             <div id="image">
-                <img src={logo} alt="logo" height="310" width="395" />
-                <img src={doctor} alt="doctor" height="210" width="365" />
+                <img id="logo-img" src={logo} alt="logo" />
+                <img id="doc-img" src={doctor} alt="doctor" />
             </div>
         </div>
     );

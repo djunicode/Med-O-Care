@@ -59,13 +59,15 @@ export const PeriodTracker2 = () => {
             <br></br>
             <Grid
                 container
-                spacing={0}
-                sx={{
-                    paddingLeft: "140px",
-                }}
+                justifyContent={'space-evenly'}
+                spacing={3}
+                rowGap={3}
+                mt={'1%'}
             >
-                <Grid>
-                    <Grid
+                {/* <Grid item> */}
+                    <Grid item
+                        // xs={12} md={4}
+                        // width={'300px'}
                         sx={{
                             backgroundColor: "white",
                             borderRadius: "5px",
@@ -78,13 +80,14 @@ export const PeriodTracker2 = () => {
                         />
                         </LocalizationProvider>
                     </Grid>
-                </Grid>
-                <Grid
+                {/* </Grid> */}
+                {/* <Grid item
                     sx={{
                         paddingLeft: "20px",
                     }}
-                >
-                    <Grid
+                > */}
+                    <Grid item
+                        // xs={12} md={4}
                         sx={{
                             backgroundColor: "white",
                             borderRadius: "5px",
@@ -97,13 +100,14 @@ export const PeriodTracker2 = () => {
                             />
                         </LocalizationProvider>
                     </Grid>
-                </Grid>
-                <Grid
+                {/* </Grid> */}
+                {/* <Grid
                     sx={{
                         paddingLeft: "20px",
                     }}
-                >
-                    <Grid
+                > */}
+                    <Grid item
+                        // xs={12} md={4}
                         sx={{
                             backgroundColor: "white",
                             borderRadius: "5px",
@@ -116,18 +120,16 @@ export const PeriodTracker2 = () => {
                             />
                         </LocalizationProvider>
                     </Grid>
-                </Grid>
+                {/* </Grid> */}
             </Grid>
             <br></br>
             <br></br>
             <Grid
                 container
+                justifyContent={'space-between'}
                 spacing={2}
-                sx={{
-                    paddingLeft: "50px",
-                }}
             >
-                <Grid>
+                <Grid item xs={12} md={3} align={'center'}>
                     <Link to="/period-tracker">
                         <Button
                             variant="contained"
@@ -149,11 +151,7 @@ export const PeriodTracker2 = () => {
                         </Button>
                     </Link>
                 </Grid>
-                <Grid
-                    sx={{
-                        paddingLeft: "250px",
-                    }}
-                >
+                <Grid item xs={12} md={3} align={'center'}>
                     <Button
                         variant="contained"
                         fullWidth
@@ -172,11 +170,7 @@ export const PeriodTracker2 = () => {
                         Send reminder through mail
                     </Button>
                 </Grid>
-                <Grid
-                    sx={{
-                        paddingLeft: "150px",
-                    }}
-                >
+                <Grid item xs={12} md={3} align={'center'}>
                     <br></br>
                     <img
                         src={calendar}

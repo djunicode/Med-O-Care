@@ -13,9 +13,50 @@ body {
     text-align: center;
 }
 
+#logo-img{
+    height: 310px;
+    width: 395px;
+}
+
+#doc-img{
+    height: 210px;
+    width: 365px;
+}
+
+#eotp{
+    margin-left: 2rem;
+}
+
+#resend{
+    margin-left: 12rem;
+    padding-left: 175px;
+}
+
 @media (max-width: 800px) {
     .otp-grid-container {
         flex-direction: column;
+        text-align: center;
+        gap: 0px;
+        padding: 20px;
+    }
+
+    #eotp{
+        margin-left: 0px;
+        padding-left: 10px;
+    }
+
+    #resend{
+        padding-left: 75px;
+    }
+
+    #logo-img{
+        height: 0px;
+        width: 0px;
+    }
+    
+    #doc-img{
+        height: 0px;
+        width: 0px;
     }
 }
 
@@ -64,3 +105,4 @@ body {
     width: 100%;
     margin: auto;
 }
+
