@@ -1,3 +1,5 @@
+// ignore_for_file: camel_case_types, avoid_unnecessary_containers
+
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -13,7 +15,7 @@ class healthscore_data extends StatefulWidget {
 }
 
 class _healthscore_dataState extends State<healthscore_data> {
-  final _formkey = GlobalKey<FormState>();
+  //final _formkey = GlobalKey<FormState>();
   TextEditingController weightcontroller = TextEditingController();
   TextEditingController heightcontroller = TextEditingController();
   TextEditingController convertcontroller = TextEditingController();
@@ -51,7 +53,7 @@ class _healthscore_dataState extends State<healthscore_data> {
                 IconButton(
                     onPressed: () {
                       Navigator.of(context).pop(MaterialPageRoute(
-                          builder: (context) => const score_tracker()));
+                          builder: (context) => const ScoreTracker()));
                     },
                     icon: const Icon(Icons.arrow_back)),
                 const SizedBox(width: 7.5),
@@ -213,7 +215,7 @@ class _healthscore_dataState extends State<healthscore_data> {
                 InkWell(
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const final_healthscore()));
+                        builder: (context) => const FinalHeathscore()));
                   },
                   child: Container(
                     height: size.height * 0.06875,

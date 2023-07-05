@@ -19,15 +19,15 @@ class MedicineWidget extends StatelessWidget {
         const SizedBox(
           width: 9,
         ),
-        Expanded(
+        const Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
+              Text(
                 "Dolo 650",
                 style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
               ),
-              const Text(
+              Text(
                 "Pharmeasy",
                 style: TextStyle(fontSize: 12),
               ),

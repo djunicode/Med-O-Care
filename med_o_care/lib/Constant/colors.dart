@@ -7,6 +7,6 @@ class ResourceColors {
   static const colorTertiaryLightTheme = Color(0xFFC0EEF2);
   static const colorBackgroundLightTheme = Color(0xFFE9F8F9);
 
-//DARK THEME COLORS
+//DARK THEME COLORS537FE7
   static const colorAccentDarkTheme = Color(0xFF06283D);
 }

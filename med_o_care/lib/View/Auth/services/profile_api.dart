@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
@@ -17,7 +19,6 @@ class Profiles {
         'GET', Uri.parse('https://med-o-care.onrender.com/user/profile'));
     request.body = '''''';
     request.headers.addAll(headers);
-
     http.StreamedResponse response = await request.send();
     http.Response streamResponse = await http.Response.fromStream(response);
 

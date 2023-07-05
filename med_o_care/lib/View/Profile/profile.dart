@@ -11,8 +11,9 @@ class ProfileTemporary extends StatefulWidget {
 class _ProfileTemporaryState extends State<ProfileTemporary> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15),
+      child: Center(
         child: ElevatedButton(
           child: const Text("Logout"),
           onPressed: () {

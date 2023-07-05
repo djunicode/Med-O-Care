@@ -1,9 +1,11 @@
+// ignore_for_file: avoid_unnecessary_containers, avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:med_o_care/Constant/constants.dart';
 import 'package:med_o_care/View/Auth/services/auth_service.dart';
 import 'package:med_o_care/View/Auth/services/profile_api.dart';
-import 'package:med_o_care/View/Profile/editProfile.dart';
+import 'package:med_o_care/View/Profile/edit_profile.dart';
 import 'package:med_o_care/View/Screens/home.dart';
 import 'package:med_o_care/models/profile_model.dart' as data;
 
@@ -27,7 +29,6 @@ class _MyProfileState extends State<MyProfile> {
   @override
   void initState() {
     getProfile();
-    // TODO: implement initState
     super.initState();
   }
 
@@ -45,7 +46,7 @@ class _MyProfileState extends State<MyProfile> {
                 future: getProfile(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Column(
+                    return const Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: const [
                         Center(
@@ -64,19 +65,6 @@ class _MyProfileState extends State<MyProfile> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           SizedBox(height: size.height * 0.01625),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              SizedBox(
-                                width: size.width * 0.045,
-                              ),
-                              Image.asset(
-                                logo,
-                                height: size.height * 0.08125,
-                                width: size.height * 0.08125,
-                              ),
-                            ],
-                          ),
                           SizedBox(height: size.height * 0.015),
                           Row(
                             children: [

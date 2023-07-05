@@ -1,16 +1,18 @@
+// ignore_for_file: avoid_unnecessary_containers
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:med_o_care/Constant/constants.dart';
 import 'package:med_o_care/View/Screens/healthscore1.dart';
 
-class final_healthscore extends StatefulWidget {
-  const final_healthscore({super.key});
+class FinalHeathscore extends StatefulWidget {
+  const FinalHeathscore({super.key});
 
   @override
-  State<final_healthscore> createState() => _final_healthscoreState();
+  State<FinalHeathscore> createState() => _FinalHeathscoreState();
 }
 
-class _final_healthscoreState extends State<final_healthscore> {
+class _FinalHeathscoreState extends State<FinalHeathscore> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;

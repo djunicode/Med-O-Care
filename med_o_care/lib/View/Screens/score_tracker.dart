@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:med_o_care/View/Screens/healthscore1.dart';
 
-class score_tracker extends StatefulWidget {
-  const score_tracker({super.key});
+class ScoreTracker extends StatefulWidget {
+  const ScoreTracker({super.key});
 
   @override
-  State<score_tracker> createState() => _score_trackerState();
+  State<ScoreTracker> createState() => _ScoreTrackerState();
 }
 
-class _score_trackerState extends State<score_tracker> {
-  final _formkey = GlobalKey<FormState>();
+class _ScoreTrackerState extends State<ScoreTracker> {
+  //final _formkey = GlobalKey<FormState>();
   TextEditingController weightcontroller = TextEditingController();
   TextEditingController heightcontroller = TextEditingController();
   TextEditingController repasscontroller = TextEditingController();
