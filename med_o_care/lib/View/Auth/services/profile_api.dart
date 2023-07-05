@@ -40,6 +40,8 @@ class Profiles {
     String? weight,
     String? email,
     String? location,
+    String? gender,
+    String? dob,
   ) async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString(authTokenKey);
@@ -53,7 +55,9 @@ class Profiles {
       "fName": "$fname",
       "height": "$height",
       "weight": "$weight",
-      "email": "$email"
+      "email": "$email",
+      "gender": "$gender",
+      // "dob": "$dob"
     });
     request.headers.addAll(headers);
 
@@ -62,7 +66,7 @@ class Profiles {
     if (response.statusCode == 200) {
       print(await response.stream.bytesToString());
     } else {
-      print(response.reasonPhrase);
+      print(response.statusCode);
     }
   }
 }
