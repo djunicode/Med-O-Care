@@ -176,24 +176,27 @@ const verifyOTP = async (req, res) => {
   try {
     const email = req.body.email
     const otp = req.body.otp;
-    // const user = await UserSchema.find({ email: req.user.email });
+    const user = await UserSchema.find({ email: email }).select(
+      "-medicalFiles -medicalFileCount -insuranceFiles -insuranceFileCount -period_lastDay -period_how_long -period_mc_duration -OTP"
+    );
 
-    if (req.user.OTP == otp) {
+    if (user.OTP == otp) {
       await UserSchema.findOneAndUpdate(
         { email: email },
         { $set: { OTP: null } }
       );
 
-      const token = await signAccessToken(req.user._id);
+      const token = await signAccessToken(user._id);
 
       res.status(200).json({
         success: true,
         message: "OTP verified",
         token: token,
+        data : user
       });
     } else {
       res.status(400).json({
-        success: true,
+        success: false,
         message: "Wrong OTP entered",
       });
     }
