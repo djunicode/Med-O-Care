@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 // // ignore_for_file: public_member_api_docs, sort_constructors_first
 // import 'dart:convert';
 // import 'dart:io';
@@ -13,15 +15,13 @@
 //     required this.file,
 //   });
 
-
 //   factory FileWithName.fromMap(Map<String, dynamic> map) {
-//     final tempFile = 
+//     final tempFile =
 //     return FileWithName(
 //       name: map['name'] as String,
 //       file: File.fromMap(map['file'] as Map<String,dynamic>),
 //     );
 //   }
-
 
 // }
 
@@ -70,3 +70,63 @@
 //     );
 //   }
 // }
+
+class DocsModel {
+  final String? name;
+  final int? viewCount;
+  final String? file;
+  DocsModel({
+    this.name,
+    this.viewCount,
+    this.file,
+  });
+
+  DocsModel copyWith({
+    String? name,
+    int? viewCount,
+    String? file,
+  }) {
+    return DocsModel(
+      name: name ?? this.name,
+      viewCount: viewCount ?? this.viewCount,
+      file: file ?? this.file,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'name': name,
+      'viewCount': viewCount,
+      'file': file,
+    };
+  }
+
+  factory DocsModel.fromMap(Map<String, dynamic> map) {
+    return DocsModel(
+      name: map['name'] != null ? map['name'] as String : null,
+      viewCount: map['viewCount'] != null ? map['viewCount'] as int : null,
+      file: map['file'] != null ? map['file'] as String : null,
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory DocsModel.fromJson(String source) =>
+      DocsModel.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  @override
+  String toString() =>
+      'DocsModel(name: $name, viewCount: $viewCount, file: $file)';
+
+  @override
+  bool operator ==(covariant DocsModel other) {
+    if (identical(this, other)) return true;
+
+    return other.name == name &&
+        other.viewCount == viewCount &&
+        other.file == file;
+  }
+
+  @override
+  int get hashCode => name.hashCode ^ viewCount.hashCode ^ file.hashCode;
+}

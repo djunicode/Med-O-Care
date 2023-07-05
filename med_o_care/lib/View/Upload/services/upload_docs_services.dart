@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-import 'package:med_o_care/models/user.dart';
+import '../../../Model/user.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:path/path.dart';
@@ -11,7 +11,6 @@ class UploadServices {
 
   Future<bool> uploadFile(File file, String title) async {
     try {
-      const userEmail = 'test@gmail.com'; // replace with actual user email
       final bytes = await file.readAsBytes();
       final encodedFile = base64Encode(bytes);
       final prefs = await SharedPreferences.getInstance();

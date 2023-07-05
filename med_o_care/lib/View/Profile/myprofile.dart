@@ -3,11 +3,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:med_o_care/Constant/constants.dart';
+import 'package:med_o_care/Model/profile_model.dart';
 import 'package:med_o_care/View/Auth/services/auth_service.dart';
 import 'package:med_o_care/View/Auth/services/profile_api.dart';
 import 'package:med_o_care/View/Profile/edit_profile.dart';
 import 'package:med_o_care/View/Screens/home.dart';
-import 'package:med_o_care/models/profile_model.dart' as data;
 
 class MyProfile extends StatefulWidget {
   const MyProfile({super.key});
@@ -17,7 +17,7 @@ class MyProfile extends StatefulWidget {
 }
 
 class _MyProfileState extends State<MyProfile> {
-  data.Data? _profile;
+  Data? _profile;
   String? fname;
 
   Future getProfile() async {
@@ -101,7 +101,7 @@ class _MyProfileState extends State<MyProfile> {
                                         fontWeight: FontWeight.w700,
                                       )),
                                 ),
-                                SizedBox(width: size.width * 0.57),
+                                SizedBox(width: size.width * 0.4),
                                 InkWell(
                                   child: Text('Edit',
                                       style: GoogleFonts.poppins(
@@ -213,6 +213,34 @@ class _MyProfileState extends State<MyProfile> {
                                 Container(
                                   child: Center(
                                     child: Text(_profile!.gender.toString(),
+                                        style: GoogleFonts.poppins(
+                                          fontSize: 15,
+                                          color: Color.fromRGBO(0, 0, 0, 0.7),
+                                          fontWeight: FontWeight.w500,
+                                        )),
+                                  ),
+                                  height: size.height * 0.06875,
+                                  width: size.width * 0.375,
+                                  decoration: BoxDecoration(
+                                      border: Border.all(color: colorPrimary),
+                                      borderRadius: BorderRadius.circular(50),
+                                      color: Colors.white),
+                                ),
+                                SizedBox(width: size.width * 0.08),
+                                Container(
+                                  child: Center(
+                                    child: Text(
+                                        DateTime.parse(_profile!.dob!)
+                                                .day
+                                                .toString() +
+                                            "/" +
+                                            DateTime.parse(_profile!.dob!)
+                                                .month
+                                                .toString() +
+                                            "/" +
+                                            DateTime.parse(_profile!.dob!)
+                                                .year
+                                                .toString(),
                                         style: GoogleFonts.poppins(
                                           fontSize: 15,
                                           color: Color.fromRGBO(0, 0, 0, 0.7),

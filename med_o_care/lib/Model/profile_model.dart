@@ -32,23 +32,23 @@ class Data {
     required this.phone,
     this.dob,
     this.gender,
-    required this.location,
-    required this.password,
-    required this.medicalFiles,
-    required this.medicalFileCount,
-    required this.insuranceFiles,
-    required this.insuranceFileCount,
+    this.location,
+    this.password,
+    this.medicalFiles,
+    this.medicalFileCount,
+    this.insuranceFiles,
+    this.insuranceFileCount,
     this.height,
     this.weight,
     this.healthScore,
     this.periodHowLong,
     this.periodMcDuration,
-    required this.periodDates,
+    this.periodDates,
     this.OTP,
-    required this.pillReminder,
+    this.pillReminder,
     required this.createdAt,
     required this.updatedAt,
-    required this.V,
+    this.V,
   });
   late final String id;
   late final String fName;
@@ -60,22 +60,22 @@ class Data {
   late final String? dob;
   late final String? gender;
   late final String? location;
-  late final String password;
-  late final List<dynamic> medicalFiles;
-  late final int medicalFileCount;
-  late final List<dynamic> insuranceFiles;
-  late final int insuranceFileCount;
+  late final String? password;
+  late final List<dynamic>? medicalFiles;
+  late final int? medicalFileCount;
+  late final List<dynamic>? insuranceFiles;
+  late final int? insuranceFileCount;
   late final int? height;
   late final int? weight;
   late final int? healthScore;
   late final int? periodHowLong;
   late final int? periodMcDuration;
-  late final List<dynamic> periodDates;
+  late final List<dynamic>? periodDates;
   late final int? OTP;
-  late final List<dynamic> pillReminder;
+  late final List<dynamic>? pillReminder;
   late final String createdAt;
   late final String updatedAt;
-  late final int V;
+  late final int? V;
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['_id'];

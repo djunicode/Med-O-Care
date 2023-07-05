@@ -26,6 +26,7 @@ dependencies:
   shared_preferences:
   file_picker:
   image_picker:
+  flutter_otp_text_field: ^1.1.1
 
   flutter_speed_dial:
   hive: ^2.1.0

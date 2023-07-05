@@ -4,7 +4,6 @@ import 'package:med_o_care/View/Auth/services/profile_api.dart';
 import 'package:med_o_care/View/Upload/models/docs_model.dart';
 import 'package:med_o_care/View/Upload/services/docs_services.dart';
 import 'package:med_o_care/View/Upload/widgets.dart';
-import 'package:med_o_care/models/profile_model.dart';
 
 class UploadFiles extends StatefulWidget {
   const UploadFiles({super.key});
@@ -26,7 +25,7 @@ class _UploadFilesState extends State<UploadFiles> {
               "Uploads",
               style: TextStyle(fontSize: 22, fontWeight: FontWeight.w900),
             ),
-            FutureBuilder(
+            FutureBuilder<List<DocsModel>?>(
                 future: DocServices().getDocData(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
@@ -48,11 +47,11 @@ class _UploadFilesState extends State<UploadFiles> {
                       child: ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
-                          itemCount: snapshot.data!.medicalFileCount,
+                          itemCount: snapshot.data!.length,
                           itemBuilder: (context, index) {
-                            return const UploadFileWidget(
-                              title: "Title",
-                              type: "type",
+                            return UploadFileWidget(
+                              title: snapshot.data![index].name!,
+                              base64String: snapshot.data![index].file!,
                             );
                           }),
                     ),

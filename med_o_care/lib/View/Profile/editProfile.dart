@@ -1,11 +1,10 @@
-// ignore_for_file: avoid_unnecessary_containers, must_be_immutable, unused_local_variable
-
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:med_o_care/Constant/constants.dart';
 import 'package:med_o_care/View/Auth/services/profile_api.dart';
+
 import '../Screens/home.dart';
 
 class EditProfile extends StatefulWidget {
@@ -53,6 +52,7 @@ class _EditProfileState extends State<EditProfile> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    double sizefont = size.width * 0.05;
 
     return Scaffold(
       body: Padding(
@@ -91,12 +91,13 @@ class _EditProfileState extends State<EditProfile> {
                               onPressed: () {
                                 Navigator.pop(context);
                               },
-                              icon: const Icon(Icons.arrow_back)),
-                          const SizedBox(width: 7.5),
+                              icon: Icon(Icons.arrow_back)),
+                          SizedBox(width: size.width * 0.03),
                           Container(
                             child: Text('Edit Profile',
                                 style: GoogleFonts.poppins(
-                                  fontSize: 16,
+                                  // fontSize: 16,
+                                  fontSize: sizefont,
                                   fontWeight: FontWeight.bold,
                                 )),
                           ),
@@ -119,8 +120,8 @@ class _EditProfileState extends State<EditProfile> {
                         validator: MultiValidator(
                             [RequiredValidator(errorText: "    " '*Required')]),
                       ),
-                      const SizedBox(
-                        height: 30,
+                      SizedBox(
+                        height: size.height * 0.04,
                       ),
                       TextFormField(
                         keyboardType: TextInputType.emailAddress,
@@ -142,15 +143,15 @@ class _EditProfileState extends State<EditProfile> {
                           RequiredValidator(errorText: "    " '*Required')
                         ]),
                       ),
-                      const SizedBox(
-                        height: 30,
+                      SizedBox(
+                        height: size.height * 0.04,
                       ),
                       Row(
                         children: [
                           Flexible(
                             flex: 2,
                             child: TextFormField(
-                              keyboardType: TextInputType.datetime,
+                              keyboardType: TextInputType.emailAddress,
                               controller: dobcontroller,
                               decoration: const InputDecoration(
                                 prefixIcon: Icon(Icons.calendar_month),
@@ -174,18 +175,19 @@ class _EditProfileState extends State<EditProfile> {
 
                                 if (pickedDate != null) {
                                   String formattedDate =
-                                      DateFormat.yMMMMd().format(pickedDate);
+                                      // DateFormat.yMMMMd().format(pickedDate);
+                                      DateFormat.yMMMd().format(pickedDate);
 
                                   setState(() {
-                                    dobString = pickedDate.toString();
+                                    dobString = pickedDate.day.toString();
                                     dobcontroller.text = formattedDate;
                                   });
                                 } else {}
                               },
                             ),
                           ),
-                          const SizedBox(
-                            width: 10,
+                          SizedBox(
+                            width: size.width * 0.05,
                           ),
                           Flexible(
                             flex: 2,
@@ -210,8 +212,8 @@ class _EditProfileState extends State<EditProfile> {
                           ),
                         ],
                       ),
-                      const SizedBox(
-                        height: 30,
+                      SizedBox(
+                        height: size.height * 0.04,
                       ),
                       Row(
                         children: [
@@ -241,7 +243,9 @@ class _EditProfileState extends State<EditProfile> {
                                       errorText: 'Enter a valid number'),
                                 ])),
                           ),
-                          const SizedBox(width: 10),
+                          SizedBox(
+                            width: size.width * 0.05,
+                          ),
                           Flexible(
                             flex: 2,
                             child: TextFormField(
@@ -270,8 +274,8 @@ class _EditProfileState extends State<EditProfile> {
                           )
                         ],
                       ),
-                      const SizedBox(
-                        height: 30,
+                      SizedBox(
+                        height: size.height * 0.06,
                       ),
                       Row(
                         children: [
@@ -279,7 +283,8 @@ class _EditProfileState extends State<EditProfile> {
                           InkWell(
                             child: Text('Submit',
                                 style: GoogleFonts.poppins(
-                                    fontSize: 20,
+                                    // fontSize: 20,
+                                    fontSize: sizefont * 1.2,
                                     fontWeight: FontWeight.w700,
                                     color: colorPrimary)),
                             onTap: () {
@@ -292,7 +297,12 @@ class _EditProfileState extends State<EditProfile> {
                                   gendercontroller.text.trim(),
                                   dobcontroller.text.trim(),
                                   null);
-
+                              // showDialog(
+                              //     context: context,
+                              //     builder: (context) => Center(
+                              //           child: CircularProgressIndicator(),
+                              //         ));
+                              // Navigator.pop(context);
                               Navigator.of(context).pushReplacement(
                                   MaterialPageRoute(
                                       builder: (context) => const Home()));
