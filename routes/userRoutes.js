@@ -21,7 +21,7 @@ router.post("/forgotPSWD", userC.forgotPSWD);
 router.post("/verifyOTP", userC.verifyOTP); //then hit edit user api details to reset password
 
 //edit user details
-router.put("/editUserInfo", auth.verifyToken, userC.updateUser);
+router.patch("/editUserInfo", auth.verifyToken, userC.updateUser);
 
 //get cloudinary signature so that later on when we get pfps public id we can confirm that this is valid and not some scripted malicious link
 router.get("/getCloudinarySignature",userC.getCloudinarySignature)
