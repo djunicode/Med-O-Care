@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'package:med_o_care/Model/profile_model.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Profiles {
@@ -16,12 +17,12 @@ class Profiles {
     final token = prefs.getString(authTokenKey);
     var headers = {'Authorization': 'Token $token'};
     var request = http.Request(
-        'GET', Uri.parse('https://med-o-care.onrender.com/user/profile'));
+        'GET', Uri.parse('https://med-o-care-iedj.onrender.com/user/profile'));
     request.body = '''''';
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     http.Response streamResponse = await http.Response.fromStream(response);
-
+    log(streamResponse.body);
     if (response.statusCode == 200) {
       var data = jsonDecode(streamResponse.body);
       print(data);
@@ -34,15 +35,8 @@ class Profiles {
     }
   }
 
-  editProfileData(
-    String? fname,
-    String? height,
-    String? weight,
-    String? email,
-    String? location,
-    String? gender,
-    String? dob,
-  ) async {
+  editProfileData(String? fname, String? height, String? weight, String? email,
+      String? location, String? gender, String? dob, String? password) async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString(authTokenKey);
     var headers = {
@@ -58,6 +52,7 @@ class Profiles {
       "email": "$email",
       "gender": "$gender",
       // "dob": "$dob"
+      "password": password
     });
     request.headers.addAll(headers);
 

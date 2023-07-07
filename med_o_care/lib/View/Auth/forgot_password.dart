@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:med_o_care/View/Auth/otp.dart';
+import 'package:med_o_care/View/Auth/services/auth_service.dart';
+import 'package:provider/provider.dart';
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({super.key});
@@ -15,6 +17,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
 
   @override
   Widget build(BuildContext context) {
+    //final controller = Provider.of<AuthService>(context, listen: false);
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -64,8 +67,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 ),
                 InkWell(
                   onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => const Otp()));
+                    AuthService()
+                        .forgotPSWD(emailcontroller.text.trim(), context);
                   },
                   child: Container(
                     height: 50,
@@ -74,7 +77,10 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       borderRadius: BorderRadius.circular(50),
                     ),
                     child: const Center(
-                      child: Text("Send OTP",style: TextStyle(color: Colors.white,fontSize: 20),),
+                      child: Text(
+                        "Send OTP",
+                        style: TextStyle(color: Colors.white, fontSize: 20),
+                      ),
                     ),
                   ),
                 ),

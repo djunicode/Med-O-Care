@@ -95,7 +95,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   height: 30,
                 ),
                 TextFormField(
-                    keyboardType: TextInputType.emailAddress,
+                    keyboardType: TextInputType.phone,
                     controller: phonecontroller,
                     decoration: const InputDecoration(
                       labelText: "Phone No",
@@ -284,10 +284,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               ));
                       final success = await AuthService().signup(newUser);
                       Navigator.pop(context);
-                      //log("IS SUCCESS " + success.toString());
+
                       if (success) {
                         Navigator.pushReplacementNamed(context, '/navbar');
-                      } else {}
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text("An error occured")));
+                      }
                     }
                   },
                   child: Container(
