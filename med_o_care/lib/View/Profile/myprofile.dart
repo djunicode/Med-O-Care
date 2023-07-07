@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_unnecessary_containers, avoid_print
+// ignore_for_file: avoid_unnecessary_containers, avoid_print, sized_box_for_whitespace
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -76,12 +76,11 @@ class _MyProfileState extends State<MyProfile> {
                                             builder: (context) =>
                                                 const Home()));
                                   },
-                                  icon: Icon(Icons.arrow_back)),
+                                  icon: const Icon(Icons.arrow_back)),
                               SizedBox(width: size.width * 0.03),
                               Container(
                                 child: Text('My Profile',
                                     style: GoogleFonts.poppins(
-                                      // fontSize: 16,
                                       fontSize: sizefont,
                                       fontWeight: FontWeight.bold,
                                     )),
@@ -96,7 +95,6 @@ class _MyProfileState extends State<MyProfile> {
                                 Container(
                                   child: Text(_profile!.fName,
                                       style: GoogleFonts.poppins(
-                                        // fontSize: 20,
                                         fontSize: sizefont * 1.2,
                                         fontWeight: FontWeight.w700,
                                       )),
@@ -105,7 +103,6 @@ class _MyProfileState extends State<MyProfile> {
                                 InkWell(
                                   child: Text('Edit',
                                       style: GoogleFonts.poppins(
-                                          // fontSize: 16,
                                           fontSize: sizefont * 0.9,
                                           fontWeight: FontWeight.w700,
                                           color: colorPrimary)),
@@ -140,7 +137,6 @@ class _MyProfileState extends State<MyProfile> {
                               Container(
                                 child: Text(_profile!.phone.toString(),
                                     style: GoogleFonts.poppins(
-                                      // fontSize: 15,
                                       fontSize: sizefont * 0.85,
                                       fontWeight: FontWeight.w400,
                                     )),
@@ -153,7 +149,6 @@ class _MyProfileState extends State<MyProfile> {
                               Container(
                                 child: Text(_profile!.email,
                                     style: GoogleFonts.poppins(
-                                      // fontSize: 15,
                                       fontSize: sizefont * 0.85,
                                       fontWeight: FontWeight.w400,
                                     )),
@@ -167,7 +162,6 @@ class _MyProfileState extends State<MyProfile> {
                               Container(
                                 child: Text('About you',
                                     style: GoogleFonts.poppins(
-                                      // fontSize: 18,
                                       fontSize: sizefont * 0.95,
                                       fontWeight: FontWeight.w500,
                                     )),
@@ -180,6 +174,7 @@ class _MyProfileState extends State<MyProfile> {
                             child: Row(
                               children: [
                                 SizedBox(width: size.width * 0.115),
+
                                 Container(
                                   height: size.height * 0.02275,
                                   width: size.width * 0.145,
@@ -214,8 +209,10 @@ class _MyProfileState extends State<MyProfile> {
                                   child: Center(
                                     child: Text(_profile!.gender.toString(),
                                         style: GoogleFonts.poppins(
-                                          fontSize: 15,
-                                          color: Color.fromRGBO(0, 0, 0, 0.7),
+                                          fontSize: sizefont * 0.85,
+                                          color: const Color.fromRGBO(
+                                              0, 0, 0, 0.7),
+
                                           fontWeight: FontWeight.w500,
                                         )),
                                   ),
@@ -242,8 +239,11 @@ class _MyProfileState extends State<MyProfile> {
                                                 .year
                                                 .toString(),
                                         style: GoogleFonts.poppins(
-                                          fontSize: 15,
-                                          color: Color.fromRGBO(0, 0, 0, 0.7),
+
+                                          fontSize: sizefont * 0.85,
+                                          color: const Color.fromRGBO(
+                                              0, 0, 0, 0.7),
+
                                           fontWeight: FontWeight.w500,
                                         )),
                                   ),
@@ -263,6 +263,7 @@ class _MyProfileState extends State<MyProfile> {
                               SizedBox(width: size.width * 0.115),
                               Flexible(
                                 flex: 2,
+
                                 child: Container(
                                   height: size.height * 0.0275,
                                   width: size.width * 0.145,
@@ -273,10 +274,12 @@ class _MyProfileState extends State<MyProfile> {
                                         fontWeight: FontWeight.w500,
                                       )),
                                 ),
+
                               ),
                               SizedBox(width: size.width * 0.24),
                               Flexible(
                                 flex: 2,
+
                                 child: Container(
                                   height: size.height * 0.0275,
                                   width: size.height * 0.2425,
@@ -287,6 +290,7 @@ class _MyProfileState extends State<MyProfile> {
                                         fontWeight: FontWeight.w500,
                                       )),
                                 ),
+
                               ),
                             ],
                           ),
@@ -306,8 +310,11 @@ class _MyProfileState extends State<MyProfile> {
                                   child: Center(
                                     child: Text(_profile!.weight.toString(),
                                         style: GoogleFonts.poppins(
-                                          fontSize: 15,
-                                          color: Color.fromRGBO(0, 0, 0, 0.7),
+
+                                          fontSize: sizefont * 0.85,
+                                          color: const Color.fromRGBO(
+                                              0, 0, 0, 0.7),
+
                                           fontWeight: FontWeight.w500,
                                         )),
                                   ),
@@ -323,8 +330,9 @@ class _MyProfileState extends State<MyProfile> {
                                   child: Center(
                                     child: Text(_profile!.height.toString(),
                                         style: GoogleFonts.poppins(
-                                          fontSize: 15,
-                                          color: Color.fromRGBO(0, 0, 0, 0.7),
+                                          fontSize: sizefont * 0.85,
+                                          color: const Color.fromRGBO(
+                                              0, 0, 0, 0.7),
                                           fontWeight: FontWeight.w500,
                                         )),
                                   ),
@@ -333,6 +341,7 @@ class _MyProfileState extends State<MyProfile> {
                             ),
                           ),
                           SizedBox(height: size.height * 0.04625),
+
                           Container(
                             margin: EdgeInsets.only(
                                 left: size.width * 0.0575,
@@ -359,13 +368,13 @@ class _MyProfileState extends State<MyProfile> {
                             ),
                           ),
                           SizedBox(height: size.height * 0.10),
+
                           Row(
                             children: [
                               SizedBox(width: size.width * 0.0775),
                               InkWell(
                                 child: Text('Logout',
                                     style: GoogleFonts.poppins(
-                                        // fontSize: 20,
                                         fontSize: sizefont * 1.2,
                                         fontWeight: FontWeight.w700,
                                         color: colorPrimary)),

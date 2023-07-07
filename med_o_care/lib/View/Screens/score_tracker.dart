@@ -26,19 +26,6 @@ class _ScoreTrackerState extends State<ScoreTracker> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SizedBox(height: size.height * 0.01625),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.start,
-            //   children: [
-            //     SizedBox(
-            //       width: size.width * 0.045,
-            //     ),
-            //     Image.asset(
-            //       logo,
-            //       height: size.height * 0.08125,
-            //       width: size.height * 0.08125,
-            //     ),
-            //   ],
-            // ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

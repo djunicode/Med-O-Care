@@ -15,11 +15,9 @@ class healthscore_data extends StatefulWidget {
 }
 
 class _healthscore_dataState extends State<healthscore_data> {
-  //final _formkey = GlobalKey<FormState>();
   TextEditingController weightcontroller = TextEditingController();
   TextEditingController heightcontroller = TextEditingController();
   TextEditingController convertcontroller = TextEditingController();
-  // TextEditingController heightcontroller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -253,11 +251,15 @@ class _healthscore_dataState extends State<healthscore_data> {
 
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                SizedBox(width: 39),
+                const SizedBox(width: 39),
                 Container(
-                  padding: EdgeInsets.only(left: 13),
+                  padding: const EdgeInsets.only(left: 13),
                   height: size.height * 0.06875,
                   width: size.width * 0.31,
+                  decoration: BoxDecoration(
+                      border: Border.all(color: colorPrimary),
+                      borderRadius: BorderRadius.circular(50),
+                      color: Colors.white),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -273,17 +275,13 @@ class _healthscore_dataState extends State<healthscore_data> {
                           ),
                           IconButton(
                             onPressed: () {},
-                            icon: Icon(Icons.arrow_downward_sharp),
+                            icon: const Icon(Icons.arrow_downward_sharp),
                             iconSize: 20,
                           ),
                         ],
                       )
                     ],
                   ),
-                  decoration: BoxDecoration(
-                      border: Border.all(color: colorPrimary),
-                      borderRadius: BorderRadius.circular(50),
-                      color: Colors.white),
                 ),
               ])
             ])

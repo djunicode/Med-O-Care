@@ -159,22 +159,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                     Flexible(
                       flex: 2,
-                      // child: TextFormField(
-                      //   keyboardType: TextInputType.emailAddress,
-                      //   controller: gendercontroller,
-                      //   readOnly: true,
-                      //   decoration: const InputDecoration(
-                      //     labelText: "Gender",
-                      //     hintText: "Gender",
-                      //     border: OutlineInputBorder(
-                      //         borderRadius:
-                      //             BorderRadius.all(Radius.circular(50))),
-                      //     suffixIcon: Icon(Icons.arrow_downward_outlined),
-                      //     fillColor: Colors.white,
-                      //     filled: true,
-                      //   ),
-                      // ),
-
                       child: TextFormField(
                         keyboardType: TextInputType.emailAddress,
                         controller: gendercontroller,
@@ -184,7 +168,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           border: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(50))),
-                          // prefixIcon: Icon(Icons.person),Male
                           fillColor: Colors.white,
                           filled: true,
                         ),
