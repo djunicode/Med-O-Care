@@ -18,7 +18,7 @@ class _UploadFilesState extends State<UploadFiles> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               "Uploads",
               style: TextStyle(fontSize: 22, fontWeight: FontWeight.w900),
             ),
@@ -30,7 +30,7 @@ class _UploadFilesState extends State<UploadFiles> {
                     shrinkWrap: true,
                     itemCount: 5,
                     itemBuilder: (context, index) {
-                      return UploadFileWidget(
+                      return const UploadFileWidget(
                         title: "Title",
                         type: "type",
                       );
@@ -45,7 +45,7 @@ class _UploadFilesState extends State<UploadFiles> {
         onPressed: () {
           Navigator.pushNamed(context, '/add_files');
         },
-        child: Icon(
+        child: const Icon(
           Icons.add,
           color: Colors.white,
         ),

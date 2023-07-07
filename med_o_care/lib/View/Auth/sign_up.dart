@@ -1,11 +1,11 @@
-import 'dart:developer';
+// ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:intl/intl.dart';
 import 'package:med_o_care/Constant/constants.dart';
 import 'package:med_o_care/View/Auth/services/auth_service.dart';
-import 'package:med_o_care/models/user.dart';
+import 'package:med_o_care/Model/user.dart';
 import 'login.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -35,6 +35,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController phonecontroller = TextEditingController();
   TextEditingController locationcontroller = TextEditingController();
   TextEditingController gendercontroller = TextEditingController();
+  // String? selectedgender;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +43,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           child: Form(
             key: _formkey,
             autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -148,7 +149,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 DateFormat('dd/MM/yyyy').format(pickedDate);
 
                             setState(() {
-                              dobString = pickedDate.toIso8601String();
+                              dobString = pickedDate.toString();
                               dobcontroller.text = formattedDate;
                             });
                           } else {}
@@ -160,22 +161,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                     Flexible(
                       flex: 2,
-                      // child: TextFormField(
-                      //   keyboardType: TextInputType.emailAddress,
-                      //   controller: gendercontroller,
-                      //   readOnly: true,
-                      //   decoration: const InputDecoration(
-                      //     labelText: "Gender",
-                      //     hintText: "Gender",
-                      //     border: OutlineInputBorder(
-                      //         borderRadius:
-                      //             BorderRadius.all(Radius.circular(50))),
-                      //     suffixIcon: Icon(Icons.arrow_downward_outlined),
-                      //     fillColor: Colors.white,
-                      //     filled: true,
-                      //   ),
-                      // ),
-
                       child: TextFormField(
                         keyboardType: TextInputType.emailAddress,
                         controller: gendercontroller,
@@ -193,6 +178,39 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             [RequiredValidator(errorText: "    " '*Required')]),
                       ),
                     ),
+                    // Flexible(
+                    //   flex: 2,
+                    //   child: DropdownButtonFormField<String>(
+                    //     decoration: const InputDecoration(
+                    //       labelText: "Gender",
+                    //       hintText: "Select Gender",
+                    //       border: OutlineInputBorder(
+                    //         borderRadius: BorderRadius.all(Radius.circular(50)),
+                    //       ),
+                    //       suffixIcon: Icon(Icons.arrow_downward_outlined),
+                    //       fillColor: Colors.white,
+                    //       filled: true,
+                    //     ),
+                    //     items: items.map((String gender) {
+                    //       return DropdownMenuItem<String>(
+                    //         value: gender,
+                    //         child: Text(gender),
+                    //       );
+                    //     }).toList(),
+                    //     onChanged: (String? newValue) {
+                    //       setState(() {
+                    //         selectedgender = newValue;
+                    //       });
+                    //     },
+                    //     value: selectedgender,
+                    //     validator: (value) {
+                    //       if (value == null || value.isEmpty) {
+                    //         return 'Please select a gender';
+                    //       }
+                    //       return null;
+                    //     },
+                    //   ),
+                    // ),
                   ],
                 ),
                 const SizedBox(
@@ -209,7 +227,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       fillColor: Colors.white,
                       filled: true,
                       prefixIcon: Icon(Icons.location_on),
-                      suffixIcon: Icon(Icons.arrow_drop_down_sharp)),
+                      suffixIcon: Icon(Icons.keyboard_arrow_down)),
                 ),
                 const SizedBox(
                   height: 30,
@@ -297,7 +315,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       );
                       showDialog(
                           context: context,
-                          builder: (context) => Center(
+                          builder: (context) => const Center(
                                 child: CircularProgressIndicator(),
                               ));
                       final success = await AuthService().signup(newUser);

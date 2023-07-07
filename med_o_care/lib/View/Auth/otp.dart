@@ -44,9 +44,9 @@ class Otp extends StatelessWidget {
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10,),
-              Row(
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: const [
+                children: [
                   OtpFielf(),
                   OtpFielf(),
                   OtpFielf(),

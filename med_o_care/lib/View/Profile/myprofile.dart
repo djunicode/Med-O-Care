@@ -1,14 +1,13 @@
-import 'dart:math';
+// ignore_for_file: avoid_unnecessary_containers, avoid_print
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:med_o_care/Constant/constants.dart';
 import 'package:med_o_care/View/Auth/services/auth_service.dart';
 import 'package:med_o_care/View/Auth/services/profile_api.dart';
-import 'package:med_o_care/View/Profile/editProfile.dart';
+import 'package:med_o_care/View/Profile/edit_profile.dart';
 import 'package:med_o_care/View/Screens/home.dart';
-import 'package:med_o_care/models/profile_model.dart' as data;
-import 'package:med_o_care/models/user.dart';
+import 'package:med_o_care/Model/profile_model.dart' as data;
 
 class MyProfile extends StatefulWidget {
   const MyProfile({super.key});
@@ -30,7 +29,6 @@ class _MyProfileState extends State<MyProfile> {
   @override
   void initState() {
     getProfile();
-    // TODO: implement initState
     super.initState();
   }
 
@@ -42,14 +40,24 @@ class _MyProfileState extends State<MyProfile> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
+        physics: NeverScrollableScrollPhysics(),
         child: Column(
           children: [
             FutureBuilder(
                 future: getProfile(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      ],
+                    );
+                  } else if (snapshot.hasError) {
                     return Center(
-                      child: CircularProgressIndicator(),
+                      child: Text(snapshot.error.toString()),
                     );
                   } else {
                     return SizedBox(
@@ -57,21 +65,7 @@ class _MyProfileState extends State<MyProfile> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          SizedBox(height: size.height * 0.01625),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              SizedBox(
-                                width: size.width * 0.045,
-                              ),
-                              Image.asset(
-                                logo,
-                                height: size.height * 0.08125,
-                                width: size.height * 0.08125,
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: size.height * 0.015),
+                          SizedBox(height: size.height * 0.01),
                           Row(
                             children: [
                               SizedBox(width: size.width * 0.05),
@@ -79,7 +73,8 @@ class _MyProfileState extends State<MyProfile> {
                                   onPressed: () {
                                     Navigator.of(context).pushReplacement(
                                         MaterialPageRoute(
-                                            builder: (context) => Home()));
+                                            builder: (context) =>
+                                                const Home()));
                                   },
                                   icon: Icon(Icons.arrow_back)),
                               SizedBox(width: size.width * 0.03),
@@ -119,8 +114,16 @@ class _MyProfileState extends State<MyProfile> {
                                         .pushReplacement(MaterialPageRoute(
                                             builder: (context) => EditProfile(
                                                   name: _profile!.fName,
-                                                  weight: _profile!.weight,
-                                                  height: _profile!.weight,
+                                                  weight:
+                                                      _profile!.weight == null
+                                                          ? 0
+                                                          : _profile!.weight!
+                                                              .toInt(),
+                                                  height:
+                                                      _profile!.weight == null
+                                                          ? 0
+                                                          : _profile!.weight!
+                                                              .toInt(),
                                                   phone: _profile!.phone,
                                                   location: _profile!.location,
                                                   dob: _profile!.location,
@@ -281,7 +284,10 @@ class _MyProfileState extends State<MyProfile> {
                                       borderRadius: BorderRadius.circular(50),
                                       color: Colors.white),
                                   child: Center(
-                                    child: Text("${_profile!.weight}  kg",
+                                    child: Text(
+                                        _profile!.weight == 'null'
+                                            ? ' '
+                                            : "${_profile!.weight} kg",
                                         style: GoogleFonts.poppins(
                                           // fontSize: 15,
                                           fontSize: sizefont * 0.85,
@@ -300,7 +306,10 @@ class _MyProfileState extends State<MyProfile> {
                                       borderRadius: BorderRadius.circular(50),
                                       color: Colors.white),
                                   child: Center(
-                                    child: Text("${_profile!.height} cm",
+                                    child: Text(
+                                        _profile!.height == 'null'
+                                            ? ' '
+                                            : "${_profile!.height} cm",
                                         style: GoogleFonts.poppins(
                                           // fontSize: 15,
                                           fontSize: sizefont * 0.85,

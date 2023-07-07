@@ -1,7 +1,11 @@
+// ignore_for_file: camel_case_types, avoid_unnecessary_containers
+
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:med_o_care/Constant/constants.dart';
+import 'package:med_o_care/View/Screens/bmi.dart';
 import 'package:med_o_care/View/Screens/healthscore2.dart';
 import 'package:med_o_care/View/Screens/score_tracker.dart';
 
@@ -13,7 +17,7 @@ class healthscore_data extends StatefulWidget {
 }
 
 class _healthscore_dataState extends State<healthscore_data> {
-  final _formkey = GlobalKey<FormState>();
+  //final _formkey = GlobalKey<FormState>();
   TextEditingController weightcontroller = TextEditingController();
   TextEditingController heightcontroller = TextEditingController();
   TextEditingController convertcontroller = TextEditingController();
@@ -88,6 +92,16 @@ class _healthscore_dataState extends State<healthscore_data> {
       }
     }
 
+    void showToast(String message) {
+      Fluttertoast.showToast(
+        msg: message,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        backgroundColor: Colors.grey[700],
+        timeInSecForIosWeb: 1,
+      );
+    }
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Padding(
@@ -117,7 +131,7 @@ class _healthscore_dataState extends State<healthscore_data> {
                 IconButton(
                     onPressed: () {
                       Navigator.of(context).pop(MaterialPageRoute(
-                          builder: (context) => const score_tracker()));
+                          builder: (context) => const ScoreTracker()));
                     },
                     icon: const Icon(Icons.arrow_back)),
                 const SizedBox(width: 7.5),
@@ -135,7 +149,7 @@ class _healthscore_dataState extends State<healthscore_data> {
               children: [
                 SizedBox(width: size.width * 0.1675),
                 Text(
-                  'Weight',
+                  'Weight   (in kg)',
                   style: GoogleFonts.poppins(
                       fontSize: 13, fontWeight: FontWeight.w500),
                 ),
@@ -206,7 +220,7 @@ class _healthscore_dataState extends State<healthscore_data> {
               children: [
                 SizedBox(width: size.width * 0.1675),
                 Text(
-                  'Height',
+                  'Height   (in cm)',
                   style: GoogleFonts.poppins(
                       fontSize: 13, fontWeight: FontWeight.w500),
                 ),
@@ -279,7 +293,7 @@ class _healthscore_dataState extends State<healthscore_data> {
                 InkWell(
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const final_healthscore()));
+                        builder: (context) => const FinalHeathscore()));
                   },
                   child: Container(
                     height: size.height * 0.06875,
@@ -300,162 +314,51 @@ class _healthscore_dataState extends State<healthscore_data> {
                 ),
               ],
             ),
-            SizedBox(height: size.height * 0.0625),
+            SizedBox(height: size.height * 0.015),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(width: size.width * 0.0975),
-                Text(
-                  'BMI Score',
-                  style: GoogleFonts.poppins(
-                      fontSize: 16, fontWeight: FontWeight.w500),
+                InkWell(
+                  onTap: () {
+                    double height = heightcontroller.text != null
+                        ? double.tryParse(heightcontroller.text) ?? 1
+                        : 1;
+                    double weight = weightcontroller.text != null
+                        ? double.tryParse(weightcontroller.text) ?? 1
+                        : 1;
+                    double bmi = (weight * 10000) / (height * height);
+                    if (height == 1 && weight == 1) {
+                      showToast("Enter input");
+                    } else if (bmi > 50 || bmi < 5) {
+                      showToast("Enter valid values");
+                    } else {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => BMI_screen(
+                                bmi: BMI().toString() == '10000.00'
+                                    ? 'Enter values'
+                                    : BMI().toString(),
+                              )));
+                    }
+                  },
+                  child: Container(
+                    height: size.height * 0.06875,
+                    width: size.width * 0.6875,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF537FE7),
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    child: Center(
+                        child: Text(
+                      "BMI",
+                      style: GoogleFonts.poppins(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white),
+                    )),
+                  ),
                 ),
               ],
             ),
-            SizedBox(
-              height: size.height * 0.01,
-            ),
-
-            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              // const SizedBox(width: 39),
-              Container(
-                padding: const EdgeInsets.only(left: 0),
-                height: size.height * 0.06875,
-                width: size.width * 0.31,
-                decoration: BoxDecoration(
-                    border: Border.all(color: colorPrimary),
-                    borderRadius: BorderRadius.circular(50),
-                    color: Colors.white),
-                child: Center(
-                  child: Text(
-                    BMI().toString() == '10000.0'
-                        ? 'Enter values'
-                        : BMI().toString(),
-                    style: GoogleFonts.poppins(
-                      fontSize: 17,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black.withOpacity(0.45),
-                      // color: Colors.black
-                    ),
-                  ),
-                ),
-              ),
-            ]),
-            Column(
-              children: [Text(getBMIStatus()), Text(getBMITips())],
-            )
-
-            //     Container(
-            //       child: Padding(
-            //         padding: EdgeInsets.fromLTRB(
-            //             size.width * 0.16, 0, size.width * 0.16, 0),
-            //         child: TextFormField(
-            //           keyboardType: TextInputType.emailAddress,
-            //           controller: weightcontroller,
-            //           decoration: const InputDecoration(
-            //             // labelText: "Weight",
-            //             hintText: 'Enter value',
-            //             border: OutlineInputBorder(
-            //                 borderRadius:
-            //                     BorderRadius.all(Radius.circular(50))),
-            //             // prefixIcon: Icon(Icons.person),
-            //             fillColor: Colors.white,
-            //             filled: true,
-            //           ),
-            //           validator: MultiValidator([
-            //             RequiredValidator(errorText: "    " '*Required')
-            //           ]),
-            //         ),
-            //       ),
-            //     ),
-
-            //     SizedBox(width: size.width * 0.05),
-            //     Icon(
-            //       Icons.compare_arrows,
-            //       size: 40,
-            //     ),
-            //     SizedBox(width: size.width * 0.05),
-            //     Container(
-            //       padding: EdgeInsets.only(right: 5),
-            //       height: size.height * 0.06875,
-            //       width: size.width * 0.3,
-            //       child: Column(
-            //         mainAxisAlignment: MainAxisAlignment.center,
-            //         children: [
-            //           Row(
-            //             mainAxisAlignment: MainAxisAlignment.end,
-            //             children: [
-            //               IconButton(
-            //                 onPressed: () {},
-            //                 icon: Icon(Icons.arrow_downward_sharp),
-            //                 iconSize: 20,
-            //               ),
-            //             ],
-            //           )
-            //         ],
-            //       ),
-            //       decoration: BoxDecoration(
-            //           border: Border.all(color: colorPrimary),
-            //           borderRadius: BorderRadius.circular(50),
-            //           color: Colors.white),
-            // ),
-            // ],
-            // ),
-            // ],
-            // )
-
-            // Row(
-            //   children: [
-            //     Container(
-            //       margin: EdgeInsets.fromLTRB(
-            //           size.width * 0.12, 0, size.width * 0.12, 0),
-            //       child: Row(
-            //           mainAxisAlignment: MainAxisAlignment.start,
-            //           children: [
-            //             TextFormField(
-            //               keyboardType: TextInputType.emailAddress,
-            //               controller: heightcontroller,
-            //               decoration: const InputDecoration(
-            //                 labelText: "User Name",
-            //                 hintText: 'Enter your name',
-            //                 border: OutlineInputBorder(
-            //                     borderRadius:
-            //                         BorderRadius.all(Radius.circular(50))),
-            //                 prefixIcon: Icon(Icons.person),
-            //                 fillColor: Colors.white,
-            //                 filled: true,
-            //               ),
-            //               validator: MultiValidator([
-            //                 RequiredValidator(errorText: "    " '*Required')
-            //               ]),
-            //             ),
-            //           ]),
-            //     )
-            //   ],
-            // )
-
-            // Row(
-            //   children: [
-            //     Text('XYZ'),
-            //     SizedBox(
-            //       width: 10,
-            //     ),
-            //     // TextFormField(
-            //     //   keyboardType: TextInputType.emailAddress,
-            //     //   controller: convertcontroller,
-            //     //   decoration: const InputDecoration(
-            //     //     // labelText: "Height",
-            //     //     hintText: 'Enter your height',
-            //     //     border: OutlineInputBorder(
-            //     //         borderRadius: BorderRadius.all(Radius.circular(50))),
-            //     //     // prefixIcon: Icon(Icons.person),
-            //     //     fillColor: Colors.white,
-            //     //     filled: true,
-            //     //   ),
-            //     //   // validator: MultiValidator(
-            //     //   //     [RequiredValidator(errorText: "    " '*Required')]),
-            //     // ),
-            //   ],
-            // )
           ],
         ),
       ),

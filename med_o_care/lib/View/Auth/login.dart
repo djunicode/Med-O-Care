@@ -1,10 +1,11 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:med_o_care/Constant/constants.dart';
 import 'package:med_o_care/View/Auth/forgot_password.dart';
 import 'package:med_o_care/View/Auth/services/auth_service.dart';
 import 'package:med_o_care/View/Auth/sign_up.dart';
-import 'package:med_o_care/View/Screens/home.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -127,7 +128,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     if (_formkey.currentState!.validate()) {
                       showDialog(
                           context: context,
-                          builder: (context) => Center(
+                          builder: (context) => const Center(
                                 child: CircularProgressIndicator(),
                               ));
                       final success = await AuthService().login(
@@ -138,7 +139,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         Navigator.pushReplacementNamed(context, '/navbar');
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
+                          const SnackBar(
                             content: Text('There seems to be an issue'),
                             duration: Duration(seconds: 3),
                           ),
