@@ -17,3 +17,5 @@ router.delete("/deleteMedicine", auth.verifyToken, medicineC.deleteMedicine)
 
 //update medicine 
 router.patch("/updateMedicine", auth.verifyToken, medicineC.updateCount)
+
+module.exports = router;
