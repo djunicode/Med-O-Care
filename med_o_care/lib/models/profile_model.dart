@@ -1,5 +1,3 @@
-// ignore_for_file: no_leading_underscores_for_local_identifiers, non_constant_identifier_names
-
 class Profile {
   Profile({
     required this.success,
@@ -30,25 +28,25 @@ class Data {
     this.pfp,
     required this.email,
     required this.phone,
-    this.dob,
+    required this.dob,
     this.gender,
-    this.location,
-    this.password,
-    this.medicalFiles,
-    this.medicalFileCount,
-    this.insuranceFiles,
-    this.insuranceFileCount,
+    required this.location,
+    required this.password,
+    required this.medicalFiles,
+    required this.medicalFileCount,
+    required this.insuranceFiles,
+    required this.insuranceFileCount,
     this.height,
     this.weight,
     this.healthScore,
     this.periodHowLong,
     this.periodMcDuration,
-    this.periodDates,
+    required this.periodDates,
     this.OTP,
-    this.pillReminder,
+    required this.pillReminder,
     required this.createdAt,
     required this.updatedAt,
-    this.V,
+    required this.V,
   });
   late final String id;
   late final String fName;
@@ -57,25 +55,25 @@ class Data {
   late final String? pfp;
   late final String email;
   late final int phone;
-  late final String? dob;
+  late final String dob;
   late final String? gender;
   late final String? location;
-  late final String? password;
-  late final List<dynamic>? medicalFiles;
-  late final int? medicalFileCount;
-  late final List<dynamic>? insuranceFiles;
-  late final int? insuranceFileCount;
+  late final String password;
+  late final List<dynamic> medicalFiles;
+  late final int medicalFileCount;
+  late final List<dynamic> insuranceFiles;
+  late final int insuranceFileCount;
   late final int? height;
   late final int? weight;
   late final int? healthScore;
   late final int? periodHowLong;
   late final int? periodMcDuration;
-  late final List<dynamic>? periodDates;
+  late final List<dynamic> periodDates;
   late final int? OTP;
-  late final List<dynamic>? pillReminder;
+  late final List<dynamic> pillReminder;
   late final String createdAt;
   late final String updatedAt;
-  late final int? V;
+  late final int V;
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['_id'];

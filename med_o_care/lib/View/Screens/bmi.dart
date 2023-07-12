@@ -203,51 +203,54 @@ class _BMI_screenState extends State<BMI_screen> {
                   SizedBox(height: size.height * 0.04),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Text('Category :',
-                                style: GoogleFonts.poppins(
-                                  fontSize: 20,
-                                  color: Colors.blue[900],
-                                  fontWeight: FontWeight.normal,
-                                )),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                            Flexible(
-                              child: Text(
-                                getBMIStatus(),
-                                style: GoogleFonts.poppins(
-                                  fontSize: 18,
-                                  // letterSpacing: 0,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                overflow: TextOverflow.visible,
+                    child: SingleChildScrollView(
+                      physics: BouncingScrollPhysics(),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Text('Category :',
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 20,
+                                    color: Colors.blue[900],
+                                    fontWeight: FontWeight.normal,
+                                  )),
+                              const SizedBox(
+                                width: 20,
                               ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Text('Tips :',
-                            style: GoogleFonts.poppins(
-                              fontSize: 20,
-                              color: Colors.blue[900],
-                              fontWeight: FontWeight.normal,
-                            )),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Text(getBMITips(),
-                            style: GoogleFonts.notoSans(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            )),
-                      ],
+                              Flexible(
+                                child: Text(
+                                  getBMIStatus(),
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 18,
+                                    // letterSpacing: 0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  overflow: TextOverflow.visible,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Text('Tips :',
+                              style: GoogleFonts.poppins(
+                                fontSize: 20,
+                                color: Colors.blue[900],
+                                fontWeight: FontWeight.normal,
+                              )),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Text(getBMITips(),
+                              style: GoogleFonts.notoSans(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                              )),
+                        ],
+                      ),
                     ),
                   )
                 ],

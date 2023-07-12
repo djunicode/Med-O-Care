@@ -1,10 +1,13 @@
+import 'dart:convert';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:med_o_care/Constant/colors.dart';
 
 class UploadFileWidget extends StatefulWidget {
   final String title;
-  final String type;
-  const UploadFileWidget({super.key, required this.title, required this.type});
+  final String? base64String;
+  const UploadFileWidget({super.key, required this.title, this.base64String});
 
   @override
   State<UploadFileWidget> createState() => _UploadFileWidgetState();
@@ -13,6 +16,11 @@ class UploadFileWidget extends StatefulWidget {
 class _UploadFileWidgetState extends State<UploadFileWidget> {
   @override
   Widget build(BuildContext context) {
+    Uint8List? bytes;
+    if (widget.base64String != null) {
+      bytes = base64Decode(widget.base64String!);
+    }
+
     return Container(
       //height: MediaQuery.of(context).size.height * 0.14,
       margin: const EdgeInsets.only(top: 20),
@@ -21,31 +29,15 @@ class _UploadFileWidgetState extends State<UploadFileWidget> {
           color: Colors.white,
           border: Border.all(color: ResourceColors.colorTertiaryLightTheme)),
       padding: const EdgeInsets.all(19),
-      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Column(
-          children: [
-            Text(
-              widget.title,
-              style: const TextStyle(fontSize: 18),
-            ),
-            Text(
-              widget.type,
-              style: const TextStyle(color: Colors.grey),
-            )
-          ],
-        ),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          decoration: BoxDecoration(
-              color: ResourceColors.colorPrimaryLightTheme,
-              borderRadius: BorderRadius.circular(30)),
-          child: const Center(
-              child: Text(
-            "Edit",
-            style: TextStyle(color: Colors.white),
-          )),
-        )
-      ]),
+      child: Column(
+        children: [
+          if (bytes != null) Image.memory(bytes),
+          Text(
+            widget.title,
+            style: const TextStyle(fontSize: 18),
+          ),
+        ],
+      ),
     );
   }
 }

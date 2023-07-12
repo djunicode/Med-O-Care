@@ -16,12 +16,19 @@ void main() async {
     null,
     [
       NotificationChannel(
-          channelKey: 'scheduled_channel',
-          channelName: 'Scheduled Notifications',
-          defaultColor: Colors.teal,
-          locked: true,
-          importance: NotificationImportance.High,
-),
+        channelKey: 'scheduled_channel',
+        channelName: 'Scheduled Notifications',
+        defaultColor: Colors.teal,
+        locked: true,
+        importance: NotificationImportance.High,
+      ),
+      NotificationChannel(
+        channelKey: 'basic_channel',
+        channelName: 'Basic Notifications',
+        defaultColor: Colors.teal,
+        importance: NotificationImportance.High,
+        channelShowBadge: true,
+      ),
     ],
   );
   final appDocumentDir = await path_provider.getApplicationDocumentsDirectory();

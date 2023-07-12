@@ -5,9 +5,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hive/hive.dart';
 
 import 'models/buy.dart';
+import 'models/notification.dart';
 
 const List<int> list = <int>[1, 2, 5, 7, 14, 28, 45, 60];
-int _selectedindex=0;
+int _selectedindex = 0;
+
 class BuyPill extends StatefulWidget {
   const BuyPill({super.key});
 
@@ -35,6 +37,7 @@ class _BuyPillState extends State<BuyPill> {
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -53,13 +56,17 @@ class _BuyPillState extends State<BuyPill> {
                     const SizedBox(
                       height: 20,
                     ),
-                    const Padding(
-                      padding: EdgeInsets.only(left: 38.0),
-                      child: Text(
-                        'Set Reminder',
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
-                      ),
+                    Row(
+                      children: [
+                        IconButton(
+                            onPressed: Navigator.of(context).pop,
+                            icon: const Icon(Icons.arrow_back)),
+                        const Text(
+                          'Set Reminder',
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                      ],
                     ),
                     const SizedBox(
                       height: 14,
@@ -84,24 +91,53 @@ class _BuyPillState extends State<BuyPill> {
                     const SizedBox(
                       height: 15,
                     ),
-                    Container(
-                      height: 50,
-                      width: 340,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(40),
-                          color: const Color.fromARGB(255, 169, 202, 230)
-                              .withOpacity(0.6)),
-                      child: const Center(
-                          child: selectInterval()),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 25, bottom: 5),
+                      child: Text(
+                        "Interval",
+                        style: TextStyle(fontSize: 20, color: Colors.black),
+                      ),
                     ),
-                    ElevatedButton(
-                        onPressed: () {
-                          BuyReminder reminder = BuyReminder(
-                              title.text.toString(), list.elementAt(_selectedindex));
-                          box.add(reminder);
-                          Navigator.pop(context);
-                        },
-                        child: const Text("ADD REMINDER"))
+                    Center(
+                      child: Container(
+                        height: 50,
+                        width: 300,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(40),
+                            color: const Color.fromARGB(255, 169, 202, 230)
+                                .withOpacity(0.6)),
+                        child: const Center(child: selectInterval()),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Center(
+                        child: InkWell(
+                            onTap: () {
+                              BuyReminder reminder = BuyReminder(
+                                  title.text.toString(),
+                                  list.elementAt(_selectedindex));
+                              box.add(reminder);
+                              //int id = box.get(reminder);
+                              int id=0;
+                              createBuyPillNotification(title.text.toString(),
+                                  list.elementAt(_selectedindex), id);
+                              Navigator.pop(context);
+                            },
+                            child: Container(
+                                height: 45,
+                                width: 150,
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFF537FE7),
+                                  borderRadius: BorderRadius.circular(50),
+                                ),
+                                child: const Center(
+                                  child: Text("ADD REMINDER",
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 16)),
+                                ))),
+                      ),
+                    ),
                   ])),
         ),
       ),
@@ -129,10 +165,11 @@ class _selectIntervalState extends State<selectInterval> {
       elevation: 16,
       style: const TextStyle(color: Color(0xff473D3A)),
       onChanged: (String? value) {
-    setState(() {
-       dropdown = value!;
-      _selectedindex = list.indexOf(int.parse(value));
-    });},
+        setState(() {
+          dropdown = value!;
+          _selectedindex = list.indexOf(int.parse(value));
+        });
+      },
       items: list.map<DropdownMenuItem<String>>((int value) {
         return DropdownMenuItem<String>(
           value: value.toString(),

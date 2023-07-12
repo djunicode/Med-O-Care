@@ -2,9 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:med_o_care/View/Reminders/buypill.dart';
 import 'package:med_o_care/View/Reminders/takepill.dart';
+import 'package:med_o_care/View/Screens/home.dart';
 import 'models/buy.dart';
 import 'models/take.dart';
 
@@ -33,8 +36,32 @@ class _MyRemindersState extends State<MyReminders> {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+    double sizefont = size.width * 0.05;
     return Scaffold(
       body: Column(children: [
+        Row(
+          children: [
+            SizedBox(width: size.width * 0.05),
+            IconButton(
+                onPressed: () {
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => const Home()));
+                },
+                icon: const Icon(Icons.arrow_back)),
+            SizedBox(width: size.width * 0.03),
+            Container(
+              child: Text('Reminder',
+                  style: GoogleFonts.poppins(
+                    fontSize: sizefont,
+                    fontWeight: FontWeight.bold,
+                  )),
+            ),
+          ],
+        ),
+        const SizedBox(
+          height: 14,
+        ),
         _buildListView(),
       ]),
       floatingActionButton: SpeedDial(
@@ -49,9 +76,7 @@ class _MyRemindersState extends State<MyReminders> {
               backgroundColor: Colors.blueAccent,
               onTap: () {
                 Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const TakePill()));
-                //TakeReminder('monday', true, DateTime.now(), 'heylo');
-               // _addinfo();
+                    MaterialPageRoute(builder: (context) => const TakePill()));
               },
             ),
             SpeedDialChild(
@@ -78,44 +103,101 @@ Widget _buildListView() {
         itemBuilder: (context, index) {
           final reminder = reminderBox.getAt(index);
           if (reminder is TakeReminder) {
-            return ListTile(
-              title: Text(reminder.title),
-              subtitle: Text(reminder.day.toString()),
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  IconButton(
-                    icon: const Icon(Icons.delete),
-                    onPressed: () {
-                      reminderBox.deleteAt(index);
-                    },
-                  )
-                ],
-              ),
-            );
-          } else {
-            return ListTile(
-              title: Text(reminder.title),
-              subtitle: Text(reminder.interval.toString()),
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  IconButton(
-                    icon: const Icon(Icons.refresh),
-                    onPressed: () {
-                      reminderBox.putAt(
-                        index,
-                        BuyReminder(reminder.title,reminder.interval),
-                      );
-                    },
+            return Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                    border:
+                        Border.all(color: const Color(0xFF537FE7), width: 0.8),
                   ),
-                  IconButton(
-                    icon: const Icon(Icons.delete),
-                    onPressed: () {
-                      reminderBox.deleteAt(index);
-                    },
-                  )
-                ],
+                  child: ListTile(
+                    title: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              reminder.title,
+                              style: const TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              DateFormat.Hm().format(reminder.timer).toString(),
+                            )
+                          ],
+                        ),
+                        Text(
+                          reminder.day.toString(),
+                          style: const TextStyle(fontSize: 14),
+                        )
+                      ],
+                    ),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.delete),
+                          onPressed: () {
+                            reminderBox.deleteAt(index);
+                          },
+                          color: Colors.red[300],
+                        )
+                      ],
+                    ),
+                  ),
+                ));
+          } else {
+            return Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  border:
+                      Border.all(color: const Color(0xFF537FE7), width: 0.8),
+                ),
+                child: ListTile(
+                  title: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        reminder.title,
+                        style: const TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        reminder.interval.toString(),
+                        style: TextStyle(color: Colors.grey[700]),
+                      )
+                    ],
+                  ),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      IconButton(
+                        icon: const Icon(Icons.refresh),
+                        onPressed: () {
+                          reminderBox.putAt(
+                            index,
+                            BuyReminder(reminder.title, reminder.interval),
+                          );
+                        },
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.delete),
+                        onPressed: () {
+                          reminderBox.deleteAt(index);
+                        },
+                        color: Colors.red[300],
+                      )
+                    ],
+                  ),
+                ),
               ),
             );
           }
