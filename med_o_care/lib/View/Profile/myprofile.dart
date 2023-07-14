@@ -172,25 +172,25 @@ class _MyProfileState extends State<MyProfile> {
                             width: double.infinity,
                             child: Row(
                               children: [
-                                SizedBox(width: size.width * 0.115),
+                                SizedBox(width: size.width * 0.1),
                                 Container(
-                                  height: size.height * 0.02275,
-                                  width: size.width * 0.145,
+                                  height: size.height * 0.03,
+                                  width: size.width * 0.2,
                                   child: Text('Gender',
                                       style: GoogleFonts.poppins(
-                                        fontSize: 15,
+                                        fontSize: size.width * 0.042,
                                         color:
                                             const Color.fromRGBO(0, 0, 0, 0.7),
                                         fontWeight: FontWeight.w500,
                                       )),
                                 ),
-                                SizedBox(width: size.width * 0.2525),
+                                SizedBox(width: size.width * 0.25),
                                 Container(
                                   height: size.height * 0.0275,
-                                  width: size.width * 0.2425,
+                                  width: size.width * 0.3,
                                   child: Text('Date of Birth',
                                       style: GoogleFonts.poppins(
-                                        fontSize: 15,
+                                        fontSize: size.width * 0.042,
                                         color:
                                             const Color.fromRGBO(0, 0, 0, 0.7),
                                         fontWeight: FontWeight.w500,
@@ -249,30 +249,30 @@ class _MyProfileState extends State<MyProfile> {
                           SizedBox(height: size.height * 0.03),
                           Row(
                             children: [
-                              SizedBox(width: size.width * 0.115),
+                              SizedBox(width: size.width * 0.1),
                               Flexible(
                                 flex: 2,
                                 child: Container(
-                                  height: size.height * 0.0275,
-                                  width: size.width * 0.145,
+                                  height: size.height * 0.03,
+                                  width: size.width * 0.16,
                                   child: Text('Weight',
                                       style: GoogleFonts.poppins(
-                                        fontSize: 15,
+                                        fontSize: size.width * 0.042,
                                         color:
                                             const Color.fromRGBO(0, 0, 0, 0.7),
                                         fontWeight: FontWeight.w500,
                                       )),
                                 ),
                               ),
-                              SizedBox(width: size.width * 0.24),
+                              SizedBox(width: size.width * 0.3),
                               Flexible(
                                 flex: 2,
                                 child: Container(
-                                  height: size.height * 0.0275,
-                                  width: size.height * 0.2425,
+                                  height: size.height * 0.03,
+                                  width: size.height * 0.2,
                                   child: Text('Height',
                                       style: GoogleFonts.poppins(
-                                        fontSize: 15,
+                                        fontSize: size.width * 0.042,
                                         color:
                                             const Color.fromRGBO(0, 0, 0, 0.7),
                                         fontWeight: FontWeight.w500,
@@ -304,7 +304,7 @@ class _MyProfileState extends State<MyProfile> {
                                         )),
                                   ),
                                 ),
-                                SizedBox(width: size.width * 0.0325),
+                                SizedBox(width: size.width * 0.085),
                                 Container(
                                   height: size.height * 0.06875,
                                   width: size.width * 0.375,
