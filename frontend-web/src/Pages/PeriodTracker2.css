@@ -1,0 +1,76 @@
+body {
+    background-color: #e9f8f9;
+}
+
+#heading{
+    color: rgba(83, 127, 231, 1);
+    padding-left: 90px;
+    padding-top: 149px;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: Poppins;
+}
+
+#two-buttons{
+    padding-left: 50px;
+}
+
+.calender-img {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 0px;
+}
+
+@media (max-width: 780px) {
+    .calender-img {
+        justify-content: center;
+        height: 200px;
+        width: 200px;
+    }
+
+    .period-container {
+        padding-left: 0px;
+    }
+
+    #cal1,
+    #cal2,
+    #cal3 {
+        padding-left: 0px;
+        margin-left: 0px;
+        margin-bottom: 60px;
+    }
+
+    div {
+        text-align: center;
+    }
+
+    #heading{
+        padding-left: 0px;
+        margin-left: auto;
+        margin-right: auto;
+        padding-top: 50px;
+    }
+
+    #sendrem{
+        display: flex;
+        justify-content: center;
+        padding-left: 0px;
+    }
+
+    #startover{
+        display: flex;
+        justify-content: center;
+        padding-left: 0px;
+        margin-left: 60px;
+    }
+
+    div>span {
+        padding: 0px;
+        display: block;
+        text-align: center;
+    }
+
+    #date {
+        padding-left: 30px;
+    }
+}

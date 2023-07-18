@@ -4,7 +4,6 @@ import {
   Route,
   createRoutesFromElements,
   RouterProvider,
-  useNavigate,
 } from "react-router-dom";
 import RootLayout from "./Layouts/RootLayout";
 import HomePage from "./Pages/Home/HomePage";
@@ -28,6 +27,7 @@ import { useApp } from "./Context/app-context";
 import ViewAPage from "./Pages/ViewAPage";
 import ErrorPage from "./Pages/ErrorPage";
 import Medicine from "./Pages/Medicine";
+import LayoutForViewPage from "./Layouts/LayoutForViewPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -42,12 +42,15 @@ const router = createBrowserRouter(
         <Route path="forgot-password" element={<ForgotPasswordPage />} />
         <Route path="otp" element={<OTPPage />} />
         <Route path="reset-password" element={<ResetPassword />} />
-        <Route path="history" element={<History />}>
-          <Route path="view" element={<ViewAPage />} />
-        </Route>
+
+        <Route path="history" element={<History />} />
+
         <Route path="periodtracker2" element={<PeriodTracker2 />} />
         <Route path="medicine" element={<Medicine/>} />
         <Route path="*" element={<ErrorPage />} />
+      </Route>
+      <Route element={<LayoutForViewPage />}>
+        <Route path="history/view/:fileName" element={<ViewAPage />} />
       </Route>
     </Route>
   )

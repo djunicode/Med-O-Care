@@ -1,23 +1,13 @@
-import reminder from "../Assets/reminder.svg";
-import {
-  Box,
-  Button,
-  Card,
-  FormControl,
-  Grid,
-  InputLabel,
-  MenuItem,
-  Select,
-  Stack,
-  Typography,
-} from "@mui/material";
+import React from 'react';
+import reminder from '../Assets/reminder.svg';
+import { ArrowBack } from '@mui/icons-material';
+import { Box, Button, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
 import axios from "axios";
-import CircularProgress from "@mui/material/CircularProgress";
-import OpenInNewIcon from "@mui/icons-material/OpenInNew";
-import { format } from "date-fns";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { useEffect } from "react";
+import './History.css';
+
 
 export const History = () => {
   const sortingOptions = [
@@ -34,6 +24,7 @@ export const History = () => {
   const [data, setData] = useState([]);
   const [sortedData, setSortedData] = useState([]);
   const [fileViewCount, setFileViewCount] = useState([]);
+  const [all, setAll] = useState('');
 
   const validTypes = (type) => sortingOptions.includes(type);
 
@@ -229,156 +220,106 @@ export const History = () => {
     }
   };
 
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const formattedDate = format(date, "dd EEEE, MMMM");
-    return formattedDate;
-  };
-  //TODO ye sabh html ko react me karde aur ek maine jo test vala state banaya hai osko map karde
-  //TODO aur responsive bhi karna
-  //TODO br ye sabh hata de aur basically acha ui bana de
   return (
-    <Grid container>
-      <Grid item xs={0} md={2} sx={{ pl: '5%'}}>
-        <ArrowBackIcon
-          onClick={() => navigate("/uploadrecords")}
-          sx={{
-            fontSize: "36px",
-            color: "rgba(13, 13, 13, 0.75)",
-            cursor: "pointer",
-          }}
-        />
-      </Grid>
-      <Grid
-        item
-        xs={0}
-        mt="2%"
-        md={2}
-        sx={{
-          transform: "rotate(-12deg)",
-        }}
-      >
-        <img src={reminder} alt="reminder" height="166" width="185" />
-      </Grid>
-      <Grid item xs={12} md={5}>
-        <Box display={"flex"} justifyContent={"space-between"}>
-          <Typography variant="h6"
-            sx={{ color: "#537FE7", fontWeight: "bold", fontFamily: 'Poppins', ml:'1%' }}
-        >History</Typography>
-          {data[0]?.fileSecure_url && (
-            <FormControl
-              sx={{
-                mb: "1%",
-                p: 1,
-                minWidth: 120,
-              }}
-              size="small"
-            >
-              <InputLabel for="demo-select-small-label">
-                Sort / Filter by:
-              </InputLabel>
-              <Select
-                value={typeOfSorting}
-                label="Filter"
-                onChange={(e) => handleSorting(e)}
-                sx={{
-                  width: "169px",
-                  height: "29px",
-                  backgroundColor: "rgba(192, 238, 242, 1)",
-                  color: "black",
-                  borderRadius: "50px",
-                }}
-              >
-                <MenuItem disabled>Select an option</MenuItem>
-                {sortingOptions.map((type, index) => (
-                  <MenuItem key={index} value={type}>
-                    {type}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          )}
-        </Box>
-        <Stack>
-          {!data[0]?.fileSecure_url ? (
-            <> No data </>
-          ) : (
-            <>
-              {!isLoading ? (
-                <>
-                  {sortedData.map((fileDetails) => {
-                    return (
-                      <Card sx={{ borderRadius: "10px", mb: "2%", boxShadow: "1px 1px 3px black" }}>
-                        <Grid
-                          container
-                          justifyContent={"center"}
-                          alignItems={"center"}
-                          sx={{ p: '2%'}}
+    <div>
+      <table id="main-table">
+        <tr>
+          <td>
+            <div>
+              <Box id="arrow-box" >
+                <ArrowBack sx={{
+                  color: 'rgba(13, 13, 13, 0.75)',
+                  paddingTop: '0px'
+                }}> </ArrowBack>
+              </Box>
+              <Box id="rem-pic">
+                <img id="rem-pc-img" src={reminder} alt="reminder" />
+              </Box>
+            </div>
+          </td>
+          <td>
+            <div>
+              <table class='grid'>
+                <tr>
+                  <td>
+                    <div class='one'>
+                      <p id="history-b" style={{
+                        color: 'rgba(83, 127, 231, 1)',
+                        textAlign: "left",
+                        fontFamily: "Poppins",
+                        fontWeight: "bold",
+                        fontSize: "18",
+                      }}>History</p>
+                    </div>
+                  </td>
+                  <td>
+                    <div class='two'>
+                      <FormControl
+                        id="form-control"
+                        size="small">
+                        <InputLabel id='demo-select-small-label' >All</InputLabel>
+                        <Select labelId='demo-select-small-label'
+                          id='demo-select-small'
+                          value={all}
+                          label='All'
+                          // onChange={handleChange}
+                          sx={{
+                            width: '169px',
+                            height: '29px',
+                            backgroundColor: 'rgba(192, 238, 242, 1)',
+                            color: 'black',
+                            borderRadius: '50px'
+                          }}
                         >
-                          <Grid item md={7} xs={12}>
-                            <Typography
-                              variant="h6"
-                              sx={{ fontFamily: "Poppins" }}
-                            >
-                              {fileDetails?.name}
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                              {fileDetails?.type}
-                            </Typography>
-                            <Typography variant="body" color="text.secondary">
-                              {formatDate(fileDetails?.dateOfUpload)}
-                            </Typography>
-                          </Grid>
-                          <Grid item md={5} xs={12}>
-                            <Button
-                              variant="contained"
-                              sx={{
-                                borderRadius: "20px",
-                                mr: "3%",
-                                fontWeight: "bold",
-                              }}
-                              onClick={() => {
-                                handleViewFile(
-                                    fileDetails.fileSecure_url
-                                );
-                            }}
-                            >
-                              View
-                            </Button>
-                            <Button
-                              variant="contained"
-                              sx={{
-                                borderRadius: "20px",
-                                ml: "3%",
-                                fontWeight: "bold",
-                              }}
-                              color="error"
-                              onClick={() => {
-                                handleDeleteFile(
-                                    fileDetails.delete_token
-                                );
-                            }}
-                            >
-                              Delete
-                            </Button>
-                            <Button>
-                                <OpenInNewIcon sx={{ fontSize: '32px', color: 'black'}}/>
-                            </Button>
-                          </Grid>
-                        </Grid>
-                      </Card>
-                    );
-                  })}
-                </>
-              ) : (
-                <CircularProgress />
-              )}
-            </>
-          )}
-        </Stack>
-      </Grid>
-    </Grid>
-  );
-};
+                          <MenuItem id='prescrition'>Prescription</MenuItem>
+                          <MenuItem id='insurance'>Insurance</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+              <div id="fetch-table">
+                <table id='content'>
+                  <tr>
+                    <td>
+                      <div id="tab-data">
+                        <span id="doc-presc" style={{
+                          color: 'rgba(0, 0, 0, 1)',
+                          textAlign: "left",
+                          fontFamily: "Poppins",
+                          fontWeight: "medium",
+                          fontSize: "16"
+                        }}>Doctor's presc</span>
+                        <br></br>
+                        <span id="presc-info" style={{
+                          color: 'rgba(0, 0, 0, 0.55)',
+                          textAlign: "left",
+                          fontFamily: "Poppins",
+                          fontWeight: "medium",
+                          fontSize: "13"
+                        }}>Prescription</span>
+                      </div>
+                    </td>
+                    <td>
+                      <div id="buttons-open-edit">
+                        <Button sx={{ color: 'black' }}>Open</Button>
+                        <Button variant='contained' sx={{
+                          color: 'white',
+                          borderRadius: '50px',
+                          backgroundColor: 'rgba(83, 127, 231, 1)'
+                        }}>Edit</Button>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div >
+  )
+}
 
 export default History;

@@ -6,7 +6,7 @@ import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 import { useState } from "react";
 
-export default function PdfViewerComponent(pdfURL) {
+export default function PdfViewerComponent(props) {
   const defaultLayoutPluginInstance = defaultLayoutPlugin();
   const [pdfFile, setPdfFile] = useState(null);
   const [pdfError, setPdfError] = useState("");
@@ -14,7 +14,7 @@ export default function PdfViewerComponent(pdfURL) {
 
   return (
     <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
-        <Viewer fileUrl={pdfURL} plugins={[defaultLayoutPluginInstance]}>
+        <Viewer fileUrl={props.fileSecure_url} plugins={[defaultLayoutPluginInstance]}>
         </Viewer>
     </Worker>
   );

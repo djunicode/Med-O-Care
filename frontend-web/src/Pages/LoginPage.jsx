@@ -1,5 +1,7 @@
 import doctor from "../Assets/doctor.png";
 import logo from "../Assets/logo.png";
+// import medicine from '../Assets/medicine.png';
+// import medocare from '../Assets/medocare.png';
 import { Link, useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import {
@@ -87,10 +89,12 @@ const LoginPage = () => {
     return (
         <div className="login-grid-container">
             <div id="logininfo">
-                <span hidden id="error">
+                {/* <span hidden id="error">
                     Invalid email or password!
-                </span>
-                <Typography fullWidth sx={{ marginLeft: 4, fontSize: "large" }}>
+                </span> */}
+                <Typography 
+                class="em"
+                fullWidth sx={{  fontSize: "large" }}>
                     Email
                 </Typography>
                 <TextField
@@ -118,7 +122,9 @@ const LoginPage = () => {
                         ),
                     }}
                 ></TextField>
-                <Typography fullWidth sx={{ marginLeft: 4, fontSize: "large" }}>
+                <Typography 
+                class="em"
+                fullWidth sx={{  fontSize: "large" }}>
                     Password
                 </Typography>
                 <TextField
@@ -160,6 +166,8 @@ const LoginPage = () => {
                         ),
                     }}
                 ></TextField>
+                <br></br>
+                <br></br>
                 <div clasName="login-flex-btns">
                     <div id="rm">
                         <input
@@ -176,6 +184,7 @@ const LoginPage = () => {
                         <Link to="/forgot-password">Forgot Password?</Link>
                     </div>
                 </div>
+                <br></br>
                 <Button
                     variant="contained"
                     type="submit"
@@ -212,11 +221,13 @@ const LoginPage = () => {
                         }}
                     />
                 </div>
+                <br></br>
                 <div id="google">
                     Login with Google&nbsp;
                     <Google />
                     {/* <Link to='' underline='none'></Link> */}
                 </div>
+                <br></br>
                 <div className="no-account">
                     Don't have an account?
                     <Link
@@ -230,6 +241,7 @@ const LoginPage = () => {
             </div>
             <div id="image">
                 <img
+                    id="logo-image"
                     src={logo}
                     alt="logo"
                     style={{
@@ -239,6 +251,7 @@ const LoginPage = () => {
                     }}
                 />
                 <img
+                    id="doctor-image"
                     src={doctor}
                     alt="doctor"
                     style={{
