@@ -24,6 +24,7 @@ export default function HomePage() {
     return Math.floor(Math.random() * 1325);
   };
 
+
   return (
     <div>
       <div class="buy-med-container">

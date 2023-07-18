@@ -26,6 +26,7 @@ import Box from "@mui/material/Box";
 import { useApp } from "./Context/app-context";
 import ViewAPage from "./Pages/ViewAPage";
 import ErrorPage from "./Pages/ErrorPage";
+import Medicine from "./Pages/Medicine";
 import LayoutForViewPage from "./Layouts/LayoutForViewPage";
 
 const router = createBrowserRouter(
@@ -45,6 +46,7 @@ const router = createBrowserRouter(
         <Route path="history" element={<History />} />
 
         <Route path="periodtracker2" element={<PeriodTracker2 />} />
+        <Route path="medicine" element={<Medicine/>} />
         <Route path="*" element={<ErrorPage />} />
       </Route>
       <Route element={<LayoutForViewPage />}>
