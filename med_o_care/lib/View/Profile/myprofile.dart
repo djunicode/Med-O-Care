@@ -40,6 +40,7 @@ class _MyProfileState extends State<MyProfile> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
+        physics: const NeverScrollableScrollPhysics(),
         child: Column(
           children: [
             FutureBuilder(
@@ -48,7 +49,7 @@ class _MyProfileState extends State<MyProfile> {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
+                      children: [
                         Center(
                           child: CircularProgressIndicator(),
                         ),
@@ -64,14 +65,12 @@ class _MyProfileState extends State<MyProfile> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          SizedBox(height: size.height * 0.01625),
-                          SizedBox(height: size.height * 0.015),
                           Row(
                             children: [
                               SizedBox(width: size.width * 0.05),
                               IconButton(
                                   onPressed: () {
-                                    Navigator.of(context).pushReplacement(
+                                    Navigator.of(context).push(
                                         MaterialPageRoute(
                                             builder: (context) =>
                                                 const Home()));
@@ -93,7 +92,7 @@ class _MyProfileState extends State<MyProfile> {
                               children: [
                                 SizedBox(width: size.width * 0.07),
                                 Container(
-                                  child: Text(_profile!.fName,
+                                  child: Text(_profile?.fName ?? '',
                                       style: GoogleFonts.poppins(
                                         fontSize: sizefont * 1.2,
                                         fontWeight: FontWeight.w700,
@@ -108,7 +107,7 @@ class _MyProfileState extends State<MyProfile> {
                                           color: colorPrimary)),
                                   onTap: () {
                                     Navigator.of(context)
-                                        .pushReplacement(MaterialPageRoute(
+                                        .push(MaterialPageRoute(
                                             builder: (context) => EditProfile(
                                                   name: _profile!.fName,
                                                   weight:
@@ -135,7 +134,7 @@ class _MyProfileState extends State<MyProfile> {
                             children: [
                               SizedBox(width: size.width * 0.07),
                               Container(
-                                child: Text(_profile!.phone.toString(),
+                                child: Text(_profile?.phone.toString() ?? '',
                                     style: GoogleFonts.poppins(
                                       fontSize: sizefont * 0.85,
                                       fontWeight: FontWeight.w400,
@@ -147,7 +146,7 @@ class _MyProfileState extends State<MyProfile> {
                             children: [
                               SizedBox(width: size.width * 0.07),
                               Container(
-                                child: Text(_profile!.email,
+                                child: Text(_profile?.email ?? '',
                                     style: GoogleFonts.poppins(
                                       fontSize: sizefont * 0.85,
                                       fontWeight: FontWeight.w400,
@@ -168,91 +167,81 @@ class _MyProfileState extends State<MyProfile> {
                               ),
                             ],
                           ),
-                          SizedBox(height: 4),
+                          const SizedBox(height: 4),
                           Container(
                             width: double.infinity,
                             child: Row(
                               children: [
-                                SizedBox(width: size.width * 0.115),
-
+                                SizedBox(width: size.width * 0.1),
                                 Container(
-                                  height: size.height * 0.02275,
-                                  width: size.width * 0.145,
+                                  height: size.height * 0.03,
+                                  width: size.width * 0.2,
                                   child: Text('Gender',
                                       style: GoogleFonts.poppins(
-                                        fontSize: 15,
-                                        color: Color.fromRGBO(0, 0, 0, 0.7),
+                                        fontSize: size.width * 0.042,
+                                        color:
+                                            const Color.fromRGBO(0, 0, 0, 0.7),
                                         fontWeight: FontWeight.w500,
                                       )),
                                 ),
-                                SizedBox(width: size.width * 0.2525),
+                                SizedBox(width: size.width * 0.25),
                                 Container(
                                   height: size.height * 0.0275,
-                                  width: size.width * 0.2425,
+                                  width: size.width * 0.3,
                                   child: Text('Date of Birth',
                                       style: GoogleFonts.poppins(
-                                        fontSize: 15,
-                                        color: Color.fromRGBO(0, 0, 0, 0.7),
+                                        fontSize: size.width * 0.042,
+                                        color:
+                                            const Color.fromRGBO(0, 0, 0, 0.7),
                                         fontWeight: FontWeight.w500,
                                       )),
                                 ),
                               ],
                             ),
                           ),
-                          SizedBox(height: 4),
+                          const SizedBox(height: 4),
                           Container(
                             width: double.infinity,
                             child: Row(
                               children: [
                                 SizedBox(width: size.width * 0.0575),
                                 Container(
-                                  child: Center(
-                                    child: Text(_profile!.gender.toString(),
-                                        style: GoogleFonts.poppins(
-                                          fontSize: sizefont * 0.85,
-                                          color: const Color.fromRGBO(
-                                              0, 0, 0, 0.7),
-
-                                          fontWeight: FontWeight.w500,
-                                        )),
-                                  ),
                                   height: size.height * 0.06875,
                                   width: size.width * 0.375,
                                   decoration: BoxDecoration(
                                       border: Border.all(color: colorPrimary),
                                       borderRadius: BorderRadius.circular(50),
                                       color: Colors.white),
+                                  child: Center(
+                                    child:
+                                        Text(_profile?.gender.toString() ?? ' ',
+                                            style: GoogleFonts.poppins(
+                                              fontSize: sizefont * 0.85,
+                                              color: const Color.fromRGBO(
+                                                  0, 0, 0, 0.7),
+                                              fontWeight: FontWeight.w500,
+                                            )),
+                                  ),
                                 ),
                                 SizedBox(width: size.width * 0.08),
                                 Container(
-                                  child: Center(
-                                    child: Text(
-                                        DateTime.parse(_profile!.dob!)
-                                                .day
-                                                .toString() +
-                                            "/" +
-                                            DateTime.parse(_profile!.dob!)
-                                                .month
-                                                .toString() +
-                                            "/" +
-                                            DateTime.parse(_profile!.dob!)
-                                                .year
-                                                .toString(),
-                                        style: GoogleFonts.poppins(
-
-                                          fontSize: sizefont * 0.85,
-                                          color: const Color.fromRGBO(
-                                              0, 0, 0, 0.7),
-
-                                          fontWeight: FontWeight.w500,
-                                        )),
-                                  ),
                                   height: size.height * 0.06875,
                                   width: size.width * 0.375,
                                   decoration: BoxDecoration(
                                       border: Border.all(color: colorPrimary),
                                       borderRadius: BorderRadius.circular(50),
                                       color: Colors.white),
+                                  child: Center(
+                                    child: Text(
+                                        "${DateTime.parse(_profile!.dob!).day}/${DateTime.parse(_profile!.dob!).month}/${DateTime.parse(_profile!.dob!).year}" ??
+                                            '',
+                                        style: GoogleFonts.poppins(
+                                          fontSize: sizefont * 0.85,
+                                          color: const Color.fromRGBO(
+                                              0, 0, 0, 0.7),
+                                          fontWeight: FontWeight.w500,
+                                        )),
+                                  ),
                                 ),
                               ],
                             ),
@@ -260,41 +249,39 @@ class _MyProfileState extends State<MyProfile> {
                           SizedBox(height: size.height * 0.03),
                           Row(
                             children: [
-                              SizedBox(width: size.width * 0.115),
+                              SizedBox(width: size.width * 0.1),
                               Flexible(
                                 flex: 2,
-
                                 child: Container(
-                                  height: size.height * 0.0275,
-                                  width: size.width * 0.145,
+                                  height: size.height * 0.03,
+                                  width: size.width * 0.16,
                                   child: Text('Weight',
                                       style: GoogleFonts.poppins(
-                                        fontSize: 15,
-                                        color: Color.fromRGBO(0, 0, 0, 0.7),
+                                        fontSize: size.width * 0.042,
+                                        color:
+                                            const Color.fromRGBO(0, 0, 0, 0.7),
                                         fontWeight: FontWeight.w500,
                                       )),
                                 ),
-
                               ),
-                              SizedBox(width: size.width * 0.24),
+                              SizedBox(width: size.width * 0.3),
                               Flexible(
                                 flex: 2,
-
                                 child: Container(
-                                  height: size.height * 0.0275,
-                                  width: size.height * 0.2425,
+                                  height: size.height * 0.03,
+                                  width: size.height * 0.2,
                                   child: Text('Height',
                                       style: GoogleFonts.poppins(
-                                        fontSize: 15,
-                                        color: Color.fromRGBO(0, 0, 0, 0.7),
+                                        fontSize: size.width * 0.042,
+                                        color:
+                                            const Color.fromRGBO(0, 0, 0, 0.7),
                                         fontWeight: FontWeight.w500,
                                       )),
                                 ),
-
                               ),
                             ],
                           ),
-                          SizedBox(height: 4),
+                          const SizedBox(height: 4),
                           Container(
                             width: double.infinity,
                             child: Row(
@@ -308,18 +295,16 @@ class _MyProfileState extends State<MyProfile> {
                                       borderRadius: BorderRadius.circular(50),
                                       color: Colors.white),
                                   child: Center(
-                                    child: Text(_profile!.weight.toString(),
+                                    child: Text("${_profile?.weight} kg" ?? '',
                                         style: GoogleFonts.poppins(
-
                                           fontSize: sizefont * 0.85,
                                           color: const Color.fromRGBO(
                                               0, 0, 0, 0.7),
-
                                           fontWeight: FontWeight.w500,
                                         )),
                                   ),
                                 ),
-                                SizedBox(width: size.width * 0.0325),
+                                SizedBox(width: size.width * 0.085),
                                 Container(
                                   height: size.height * 0.06875,
                                   width: size.width * 0.375,
@@ -328,7 +313,7 @@ class _MyProfileState extends State<MyProfile> {
                                       borderRadius: BorderRadius.circular(50),
                                       color: Colors.white),
                                   child: Center(
-                                    child: Text(_profile!.height.toString(),
+                                    child: Text("${_profile?.height} cm" ?? '',
                                         style: GoogleFonts.poppins(
                                           fontSize: sizefont * 0.85,
                                           color: const Color.fromRGBO(
@@ -341,7 +326,6 @@ class _MyProfileState extends State<MyProfile> {
                             ),
                           ),
                           SizedBox(height: size.height * 0.04625),
-
                           Container(
                             margin: EdgeInsets.only(
                                 left: size.width * 0.0575,
@@ -363,12 +347,11 @@ class _MyProfileState extends State<MyProfile> {
                                       )),
                                 ),
                                 SizedBox(width: size.width * 0.275),
-                                Icon(Icons.arrow_forward_ios)
+                                const Icon(Icons.arrow_forward_ios)
                               ],
                             ),
                           ),
-                          SizedBox(height: size.height * 0.10),
-
+                          SizedBox(height: size.height * 0.05),
                           Row(
                             children: [
                               SizedBox(width: size.width * 0.0775),

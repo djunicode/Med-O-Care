@@ -35,6 +35,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController phonecontroller = TextEditingController();
   TextEditingController locationcontroller = TextEditingController();
   TextEditingController gendercontroller = TextEditingController();
+  // String? selectedgender;
 
   @override
   Widget build(BuildContext context) {
@@ -144,7 +145,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                           if (pickedDate != null) {
                             String formattedDate =
-                                DateFormat.yMMMMd().format(pickedDate);
+                                // DateFormat.yMMMMd().format(pickedDate);
+                                DateFormat('dd/MM/yyyy').format(pickedDate);
 
                             setState(() {
                               dobString = pickedDate.toString();
@@ -175,6 +177,39 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             [RequiredValidator(errorText: "    " '*Required')]),
                       ),
                     ),
+                    // Flexible(
+                    //   flex: 2,
+                    //   child: DropdownButtonFormField<String>(
+                    //     decoration: const InputDecoration(
+                    //       labelText: "Gender",
+                    //       hintText: "Select Gender",
+                    //       border: OutlineInputBorder(
+                    //         borderRadius: BorderRadius.all(Radius.circular(50)),
+                    //       ),
+                    //       suffixIcon: Icon(Icons.arrow_downward_outlined),
+                    //       fillColor: Colors.white,
+                    //       filled: true,
+                    //     ),
+                    //     items: items.map((String gender) {
+                    //       return DropdownMenuItem<String>(
+                    //         value: gender,
+                    //         child: Text(gender),
+                    //       );
+                    //     }).toList(),
+                    //     onChanged: (String? newValue) {
+                    //       setState(() {
+                    //         selectedgender = newValue;
+                    //       });
+                    //     },
+                    //     value: selectedgender,
+                    //     validator: (value) {
+                    //       if (value == null || value.isEmpty) {
+                    //         return 'Please select a gender';
+                    //       }
+                    //       return null;
+                    //     },
+                    //   ),
+                    // ),
                   ],
                 ),
                 const SizedBox(

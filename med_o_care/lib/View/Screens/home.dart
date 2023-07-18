@@ -57,10 +57,7 @@ class _HomeState extends State<Home> {
                   width: 65,
                 ),
                 IconButton(
-                    onPressed: () {
-                      Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => const MyProfile()));
-                    },
+                    onPressed: () {},
                     icon: SvgPicture.asset("assets/icons/icon _menu_.svg"))
               ],
             ),

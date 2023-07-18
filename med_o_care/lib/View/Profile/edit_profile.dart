@@ -5,6 +5,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:med_o_care/Constant/constants.dart';
+import 'package:med_o_care/Model/profile_model.dart';
 import 'package:med_o_care/View/Auth/services/profile_api.dart';
 import '../Screens/home.dart';
 
@@ -31,6 +32,28 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
+  Data? _profile;
+
+  Future getProfile() async {
+    print('HELLO');
+    _profile = await Profiles().getProfileData();
+    print(_profile);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getProfile().then((_) {
+      usercontroller.text = _profile?.fName ?? '';
+      dobcontroller.text = _profile?.dob ?? '';
+      emailcontroller.text = _profile?.email ?? '';
+      gendercontroller.text = _profile?.gender ?? '';
+      heightcontroller.text = _profile?.height.toString() ?? '';
+      weightcontroller.text = _profile?.weight.toString() ?? '';
+      // Set other text controller values...
+    });
+  }
+
   var items = [
     'Male',
     'Female',
@@ -53,6 +76,7 @@ class _EditProfileState extends State<EditProfile> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    double sizefont = size.width * 0.05;
 
     return Scaffold(
       body: Padding(
@@ -86,17 +110,17 @@ class _EditProfileState extends State<EditProfile> {
                       SizedBox(height: size.height * 0.015),
                       Row(
                         children: [
-                          SizedBox(width: size.width * 0.05),
+                          SizedBox(width: size.width * 0.03),
                           IconButton(
                               onPressed: () {
                                 Navigator.pop(context);
                               },
                               icon: const Icon(Icons.arrow_back)),
-                          const SizedBox(width: 7.5),
+                          SizedBox(width: size.width * 0.03),
                           Container(
                             child: Text('Edit Profile',
                                 style: GoogleFonts.poppins(
-                                  fontSize: 16,
+                                  fontSize: sizefont,
                                   fontWeight: FontWeight.bold,
                                 )),
                           ),
@@ -107,15 +131,15 @@ class _EditProfileState extends State<EditProfile> {
                         keyboardType: TextInputType.emailAddress,
                         controller: usercontroller,
                         decoration: const InputDecoration(
-                          labelText: "User Name",
-                          hintText: 'Enter your new username',
-                          border: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(50))),
-                          prefixIcon: Icon(Icons.person),
-                          fillColor: Colors.white,
-                          filled: true,
-                        ),
+                            labelText: "User Name",
+                            hintText: 'Enter your new username',
+                            border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(50))),
+                            prefixIcon: Icon(Icons.person),
+                            fillColor: Colors.white,
+                            filled: true,
+                            suffixIcon: Icon(Icons.edit)),
                         validator: MultiValidator(
                             [RequiredValidator(errorText: "    " '*Required')]),
                       ),
@@ -132,6 +156,7 @@ class _EditProfileState extends State<EditProfile> {
                               borderRadius:
                                   BorderRadius.all(Radius.circular(50))),
                           prefixIcon: Icon(Icons.email),
+                          suffixIcon: Icon(Icons.edit),
                           fillColor: Colors.white,
                           filled: true,
                         ),
@@ -221,15 +246,15 @@ class _EditProfileState extends State<EditProfile> {
                                 keyboardType: TextInputType.phone,
                                 controller: heightcontroller,
                                 decoration: const InputDecoration(
-                                  labelText: "Height",
-                                  hintText: 'Enter your number',
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(50))),
-                                  prefixIcon: Icon(Icons.boy_rounded),
-                                  fillColor: Colors.white,
-                                  filled: true,
-                                ),
+                                    labelText: "Height",
+                                    hintText: 'Enter your number',
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(50))),
+                                    prefixIcon: Icon(Icons.boy_rounded),
+                                    fillColor: Colors.white,
+                                    filled: true,
+                                    suffixIcon: Icon(Icons.edit)),
                                 validator: MultiValidator([
                                   RequiredValidator(
                                       errorText: "   " '*Required'),
@@ -255,6 +280,7 @@ class _EditProfileState extends State<EditProfile> {
                                           Radius.circular(50))),
                                   prefixIcon: Icon(Icons.boy),
                                   fillColor: Colors.white,
+                                  suffixIcon: Icon(Icons.edit),
                                   filled: true,
                                 ),
                                 validator: MultiValidator([

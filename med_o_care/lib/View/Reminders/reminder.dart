@@ -2,10 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:med_o_care/View/Reminders/buypill.dart';
 import 'package:med_o_care/View/Reminders/takepill.dart';
+import 'package:med_o_care/View/Screens/home.dart';
 import 'models/buy.dart';
 import 'models/take.dart';
 
@@ -34,16 +36,26 @@ class _MyRemindersState extends State<MyReminders> {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+    double sizefont = size.width * 0.05;
     return Scaffold(
       body: Column(children: [
         Row(
           children: [
+            SizedBox(width: size.width * 0.05),
             IconButton(
-                onPressed: Navigator.of(context).pop,
+                onPressed: () {
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => const Home()));
+                },
                 icon: const Icon(Icons.arrow_back)),
-            const Text(
-              'Reminders',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            SizedBox(width: size.width * 0.03),
+            Container(
+              child: Text('Reminder',
+                  style: GoogleFonts.poppins(
+                    fontSize: sizefont,
+                    fontWeight: FontWeight.bold,
+                  )),
             ),
           ],
         ),

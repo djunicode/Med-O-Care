@@ -33,6 +33,7 @@ dependencies:
   hive_flutter: ^1.1.0
   path_provider: any
   awesome_notifications: ^0.0.6+10
+  fluttertoast: 
     
 dev_dependencies:
   flutter_test:
