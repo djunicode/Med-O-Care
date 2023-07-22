@@ -140,15 +140,16 @@ const userSchema = new Schema(
 );
 
 // Hashing the password
-userSchema.pre("save", async function (next) {
-  try {
-    const hashedPass = bcrypt.hash(this.password, process.env.SALT);
-    this.password = hashedPass;
-    next();
-  } catch (error) {
-    console.log(error);
+userSchema.pre("save", async function(next){
+  try{
+      const salt = await bcrypt.genSalt(10)
+      const hashedPassword = await bcrypt.hash(this.password, salt)
+      this.password = hashedPassword
+      next()
+  }catch(e){
+      console.log(e)
   }
-});
+})
 
 const UserSchema = mongoose.model("user", userSchema);
 module.exports = UserSchema;
